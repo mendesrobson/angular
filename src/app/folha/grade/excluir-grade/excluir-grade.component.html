@@ -1,0 +1,94 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor m-b-0 m-t-0">Cadastro Grade</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:void(0)">Folha</a>
+      </li>
+      <li class="breadcrumb-item active">Grade</li>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" [formGroup]="gradeForm">
+          <div class="form-body">
+            <div class="row p-t-20">
+
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label>Tipo Jornada</label>
+                  <select class="custom-select col-md-12" id="tipoJornadaId" name="tipoJornadaId" formControlName="tipoJornadaId">
+                    <option *ngFor="let tipoJornada of tipoJornadas" [ngValue]="tipoJornada.id">{{ tipoJornada.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.tipoJornadaId">
+                    <p [innerHTML]="displayMessage.tipoJornadaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                      <label class="control-label" for="totalHorasMes">Totat Horas Mes</label>
+                      <input type="text" id="totalHorasMes" name="totalHorasMes" class="form-control text-input" formControlName="totalHorasMes" />
+                      <span class="text-danger" *ngIf="displayMessage.totalHorasMes"><p [innerHTML]="displayMessage.totalHorasMes"></p></span>
+                  </div>
+              </div>
+              
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Turno</label>
+                  <select aria-placeholder="Selecione o Turno"  class="custom-select col-md-6" id="turno" name="turno" formControlName="turno">
+                    <!-- <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option> -->
+                    <option value="1">Diurno</option>
+                    <option value="2">Matutino</option> 
+                    <option value="3">Vespertino</option>
+                    <option value="4">Noturno</option>
+                    <option value="5">Integral</option> 
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.turno">
+                    <p [innerHTML]="displayMessage.turno"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                  <label class="control-label" for="descricao">Descrição</label>
+                  <input type="text" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                  <span class="text-danger" *ngIf="displayMessage.descricao">
+                    <p [innerHTML]="displayMessage.descricao"></p>
+                  </span>
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+        </form>
+      </div>
+    
+    </div>
+  </div>
+</div>
+

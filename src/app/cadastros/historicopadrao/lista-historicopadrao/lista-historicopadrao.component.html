@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="card col-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <div class="m-t-40">
+          <div class="d-flex">
+            <div class="col-md-3 align-content-lg-end">
+              <div class="row button-group">
+                <div class="">
+                  <button type="button" class="btn btn-success" (click)="cadastrarHistoricoPadrao()">
+                    <i class="fa fa-plus"></i> Cadastrar </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3" [formGroup]="historicoPadraoForm">
+              <div>
+                <dx-select-box placeholder="Selecione o Grupo" [items]="grupoEmpresas" displayExpr="pessoa.nome"
+                  valueExpr="id" [searchEnabled]="true" (ngModelChange)="ConsultaEmpresa($event)" formControlName="grupoEmpresaId">
+                </dx-select-box>
+              </div>
+            </div>
+
+            <div class="col-md-3" [formGroup]="historicoPadraoForm">
+              <div>
+                <dx-select-box placeholder="Selecione aEmpresa" [items]="empresas" displayExpr="pessoa.nome" valueExpr="id"
+                  [searchEnabled]="true" (ngModelChange)="ConsultaSelectEmpresa($event)" formControlName="empresaId">
+                </dx-select-box>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="btn-group float-right padd-left15">
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  <i class="fa fa-list"></i>
+                </button>
+                <div class="dropdown-menu animated flipInY">
+                  <a class="dropdown-item" (click)="gerarExcel(table,'tablehistoricopadrao');" ngbTooltip="Excel">
+                    <i class="fa fa-file-excel-o"> &nbsp;Excel</i>
+                  </a>
+                  <a class="dropdown-item" (click)="gerarPDF('tablehistoricopadrao');" ngbTooltip="PDF">
+                    <i class="fa fa-file-pdf-o">&nbsp;PDF</i>
+                  </a>
+                </div>
+              </div>
+
+              <div class="form-group float-right padd-left15">
+                <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..." class="form-control"
+                  autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+
+          <dx-tree-list #table id="tablehistoricopadrao" [dataSource]="data" keyExpr="id" parentIdExpr="historicoPadraoPaiId"
+            [showRowLines]="true" [showBorders]="true" [columnAutoWidth]="true" [expandedRowKeys]="[1]"
+            (onSelectionChanged)="oncellClick($event)" noDataText="Nenhum dado para exibir">
+            <dxo-selection mode="single"></dxo-selection>
+            <dxi-column dataField="codigo" caption="Código"></dxi-column>
+            <dxi-column dataField="sigla" caption="Sigla"></dxi-column>
+            <dxi-column dataField="descricao" caption="Descrição"></dxi-column>
+            <dxi-column dataField="excluido" cellTemplate="data" caption="Status"></dxi-column>
+            <div *dxTemplate="let excluido of 'data'">
+              <div *ngIf="excluido.value == 'N'" class="label label-table label-success">Ativo</div>
+              <div *ngIf="excluido.value == 'S'" class="label label-table label-danger">Inativo</div>
+            </div>
+            <dxo-paging [pageSize]="10"></dxo-paging>
+          </dx-tree-list>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

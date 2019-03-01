@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="card col-12 padd-left0 padd-right0">
+    <div class="card">
+
+      <div class="card-block">
+        <div class="m-t-40">
+          <div class="d-flex">
+            <div class="col-lg-4 col-md-10 align-content-lg-end">
+              <div class="row button-group">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+          <thead>
+            <tr>
+              <th>
+                <mfDefaultSorter by="cliente.pessoa.nome">Cliente</mfDefaultSorter>
+              </th>          
+              <th>
+                <mfDefaultSorter by="dataEmissao">Data de Emissão</mfDefaultSorter>
+              </th>    
+              <th>
+                <mfDefaultSorter by="dataVencimento">Data de Vencimento</mfDefaultSorter>
+              </th>    
+              <th>
+                <mfDefaultSorter by="valorDocumento">Vlr. Total</mfDefaultSorter>
+              </th>     
+              <th>
+                <mfDefaultSorter by="valorLiquido">Vlr. Líquido</mfDefaultSorter>
+              </th>                                                      
+              <th>
+                <mfDefaultSorter by="situacao">Situação</mfDefaultSorter>
+              </th>
+              <th>
+
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let faturamento of mf.data" style="cursor:pointer">                                       
+              <td>{{ faturamento.cliente.pessoa.nome }}</td>
+              <td>{{ faturamento.dataEmissao | date : 'dd/MM/yyyy' }}</td>
+              <td>{{ faturamento.dataVencimento | date : 'dd/MM/yyyy'}}</td>
+              <td>{{ faturamento.valorDocumento | currency:'BRL':true:'1.2-2' }}</td>
+              <td>{{ faturamento.valorLiquido | currency:'BRL':true:'1.2-2' }}</td>
+              <td>{{ faturamento.situacao }}</td>
+              <td><button class="btn btn-block btn-danger" type="button" (click)="removerFaturamento(faturamento.id)">
+                <i class="fa fa-trash-o"></i></button></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table> 
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

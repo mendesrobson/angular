@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <div class="table-responsive">
+          <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+            [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="documento">Documento</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="numero">Nro. Parcela</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="dataVencimento">Data Vencimento</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="valorBruto">Valor da Parcela</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="valorDesconto">Valor do Desconto</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="valorLiquido">Valor Líquido</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="descricaoContaCorrente">Conta</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="situacao">Situação</mfDefaultSorter>
+                </th>
+
+                <th>
+                  Ações
+                </th>
+
+              </tr>
+            </thead>
+            <tbody *ngIf="tituloComponent.Titulo.parcela != null">
+              <tr *ngFor="let parcela of tituloComponent.Titulo.parcela let i = index" [attr.data-index]="i" style="cursor:pointer" (click)="onChange_Parcela(i)">
+                <td>{{ parcela.documento }}</td>
+                <td>{{ parcela.numero }}/{{ parcela.quantidadeParcela }}</td>
+                <td>{{ parcela.dataVencimento | date:'dd/MM/yyyy' }}</td>
+                <td>{{ parcela.valorBruto | currency:'BRL':'symbol' }}</td>
+                <td>{{ parcela.valorDesconto | currency:'BRL':'symbol' }}</td>
+                <td>{{ parcela.valorLiquido | currency:'BRL':'symbol' }}</td>
+                <td>{{ parcela.descricaoContaCorrente }}</td>
+                <td>
+                  <div *ngIf="parcela.situacao == 'REMP'" class="label label-table label-info">Remessa</div>
+                  <div *ngIf="parcela.situacao == 'ABR'"  class="label label-table label-primary">Aberto</div>
+                  <div *ngIf="parcela.situacao == 'LIQ'"  class="label label-table label-success">Liquidado</div>
+                  <div *ngIf="parcela.situacao == 'LIQP'" class="label label-table label-warning">Liquidado Parcial</div>
+                  <div *ngIf="parcela.situacao == 'REN'"  class="label label-table label-danger">Renegociado</div>
+                  <div *ngIf="parcela.situacao == 'CAN'"  class="label label-table label-danger">Cancelado</div>
+                  <div *ngIf="parcela.situacao == 'DES'"  class="label label-table label-danger">Descontado</div>
+                  <div *ngIf="parcela.situacao == 'EMI'"  class="label label-table label-info">Emitido</div>
+                </td>
+                <td>
+                  <label (click)="editarParcela(parcela)" data-toggle="modal" data-target=".modal-parcela-edit">
+                    <i class="fa fa-pencil text-info" style="cursor:pointer; align-items: center"></i>
+                  </label>
+                  <span style="padding-right:2px"></span>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+
+        </div>
+
+        <!-- </div>-->
+        <div class="card padd-left0 padd-right0" style="width: 100%;">
+          <ul class="nav nav-tabs customtab2" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#parceladesconto" role="tab" aria-expanded="true">
+                <span class="hidden-sm-up">
+                  <i class="ti-home"></i>
+                </span>
+                <span class="hidden-xs-down">Descontos</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#parcelaapropriacao" role="tab" aria-expanded="true">
+                <span class="hidden-sm-up">
+                  <i class="ti-email"></i>
+                </span>
+                <span class="hidden-xs-down">Apropriações</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane active" id="parceladesconto" role="tabpanel" aria-expanded="true">
+              <div class="form-body">
+                <div class="col-md-12">
+                  <div class="p-t-20">
+                    <div class="form-group">
+                      <app-lista-tituloparceladesconto [ind]="index" (atualizaValorParcelaDesconto)="excluirValorParcelaDesconto($event)"></app-lista-tituloparceladesconto>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="parcelaapropriacao" role="tabpanel" aria-expanded="true">
+              <div class="form-body">
+                <div class="col-md-12">
+                  <div class="p-t-20">
+                    <div class="form-group">
+                      <app-lista-tituloparcelaapropriacao [ind]="index"></app-lista-tituloparcelaapropriacao>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-editar-tituloparcela *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-tituloparcela>

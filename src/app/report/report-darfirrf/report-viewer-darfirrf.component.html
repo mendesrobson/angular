@@ -1,0 +1,139 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Relatório DARF IRRF</h4>
+            </div>
+            <div class="card-block">
+                <form [formGroup]="filtroDarfirrfForm" novalidate (ngSubmit)="gerarRelatorioDarfIrrf()">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-12">
+                                <div class="row p-t-20">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group" [ngClass]="{'has-error': displayMessage.grupoEmpresaId }">
+                                            <label>Grupo</label>
+                                            <dx-select-box placeholder="Grupo" [items]="grupoEmpresas" displayExpr="pessoa.nome"
+                                                valueExpr="id" [searchEnabled]="true" formControlName="grupoEmpresaId"
+                                                (ngModelChange)="ConsultaEmpresa($event)">
+                                            </dx-select-box>
+                                            <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                                                <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group" [ngClass]="{'has-error': displayMessage.grupoEmpresaId }">
+                                            <label>Empresa</label>
+                                            <dx-select-box placeholder="Empresa" [items]="empresas" displayExpr="pessoa.nome"
+                                                valueExpr="id" [searchEnabled]="true" formControlName="empresaId"
+                                                (ngModelChange)="ConsultaSelectEmpresa($event)">
+                                            </dx-select-box>
+                                            <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                                <p [innerHTML]="displayMessage.empresaId"></p>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Cliente</label>
+                                            <dx-tag-box placeholder="Cliente" [items]="clientes"
+                                                [showSelectionControls]="true" displayExpr="pessoa.nome" valueExpr="id"
+                                                [searchEnabled]="true" formControlName="clienteId">
+                                            </dx-tag-box>
+                                        </div>
+                                    </div>
+
+                                    <!--<div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="dataCompetencia">Mês</label>
+                                            <dx-date-box  width="100%" maxZoomLevel="year" minZoomLevel="century"
+                                                format="date" displayFormat="MM/yyyy" formControlName="mes" style="margin-top: 10px;"></dx-date-box>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="vencimento">Vencimento</label>
+                                            <div class="input-group">
+                                                <dx-date-box type="date" width="100%" displayFormat="dd/MM/yyyy"
+                                                    formControlName="vencimento" style="margin-top: 10px;"></dx-date-box>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="codRecolhimento">Cód. Recolhimento</label>
+                                            <input type="number" autocomplete="off" min="0" id="codRecolhimento" name="codRecolhimento" onlyNumber="true" class="form-control text-input"
+                                                formControlName="codRecolhimento" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="multa">Multa</label>
+                                            <div class="input-group">
+                                                <input type="text" currencyMask autocomplete="off" min="0" id="multa"
+                                                    name="multa" class="form-control text-input" formControlName="multa" />
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="juros">Juros</label>
+                                            <div class="input-group">
+                                                <input type="text" currencyMask autocomplete="off" min="0" id="juros"
+                                                    name="juros" class="form-control text-input" formControlName="juros" />
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-md-4">
+                                        <label class="control-label">Opções</label>
+                                        <div class="card color-bordered-table info-bordered-table" style="border: 2px solid #ddd">
+                                            <div class="form-check" style="margin-top: 10px;">
+                                                <div class="col-6">
+                                                    <dx-check-box text="{{ opcoes[0] }}" [value]="sValorFiliais" layout="horizontal"
+                                                        formControlName="somaValorFiliais">
+                                                    </dx-check-box>
+                                                </div>
+                                                <div class="col-6">
+                                                    <dx-check-box text="{{ opcoes[1] }}" [value]="pTotalGeral" layout="horizontal"
+                                                        formControlName="preencherTotalGeral">
+                                                    </dx-check-box>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-12">
+                                        <div class="col-2">
+                                            <div class="">
+                                                <button type="submit" class="btn btn-block btn-success" ><!--[disabled]='!filtroDarfirrfForm.valid'-->
+                                                    <i class="fa fa-plus"></i> Gerar Relatório</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #scripts>
+</div>
+<div #control style="width:100%; height: 1000px">
+    <div data-bind="dxReportViewer: $data"></div>
+</div>

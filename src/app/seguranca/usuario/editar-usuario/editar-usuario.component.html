@@ -1,0 +1,143 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form novalidate (ngSubmit)="editarUsuario()" [formGroup]="usuarioForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.primeiroNome }">
+                  <label class="control-label" for="primeiroNome">Nome</label>
+                  <input type="text" id="primeiroNome" name="primeiroNome" class="form-control text-input" formControlName="primeiroNome" />
+                  <span class="text-danger" *ngIf="displayMessage.primeiroNome">
+                    <p [innerHTML]="displayMessage.primeiroNome"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.ultimoNome }">
+                  <label class="control-label" for="ultimoNome">Sobrenome</label>
+                  <input type="text" id="ultimoNome" name="ultimoNome" class="form-control text-input" formControlName="ultimoNome" />
+                  <span class="text-danger" *ngIf="displayMessage.ultimoNome">
+                    <p [innerHTML]="displayMessage.ultimoNome"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.usuarioNome }">
+                  <label class="control-label" for="usuarioNome">Usuário</label>
+                  <input type="text" id="usuarioNome" name="usuarioNome" class="form-control text-input" formControlName="usuarioNome" />
+                  <span class="text-danger" *ngIf="displayMessage.usuarioNome">
+                    <p [innerHTML]="displayMessage.usuarioNome"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.email }">
+                  <label class="control-label" for="email">E-mail</label>
+                  <input type="text" id="email" name="email" class="form-control text-input" formControlName="email" />
+                  <span class="text-danger" *ngIf="displayMessage.email">
+                    <p [innerHTML]="displayMessage.email"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.senha }">
+                  <label class="control-label" for="senha">Senha</label>
+                  <input type="password" id="senha" name="senha" class="form-control text-input" formControlName="senha" />
+                  <span class="text-danger" *ngIf="displayMessage.senha">
+                    <p [innerHTML]="displayMessage.senha"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.senhaConfirmacao }">
+                  <label class="control-label" for="senhaConfirmacao">Senha Confirmação</label>
+                  <input type="password" id="senhaConfirmacao" name="senhaConfirmacao" class="form-control text-input" formControlName="senhaConfirmacao"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.senhaConfirmacao">
+                    <p [innerHTML]="displayMessage.senhaConfirmacao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <!-- inicio -->
+              <div class="card" style="width: 100%;">
+                <ul class="nav nav-tabs customtab2" role="tablist">
+
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#papeis" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Papéis</span>
+                    </a>
+                  </li>
+
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="papel" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="col-md-12">
+                        <br>
+                        <div class="row p-t-10">
+
+                          <div class="tab-pane col-md-12" id="papel" role="tabpanel" aria-expanded="true">
+                            <app-lista-usuariotarefa *ngIf="visualizaLista"></app-lista-usuariotarefa>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <!-- fim -->
+
+
+              <div class="col-md-12">
+                <div class="row button-group">
+
+                  <div class="col-md-2 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-block btn-success">
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-block btn-block" (click)="redefinirSenha(usuario.usuarioId)">
+                      <i class="fa fa-retweet"></i> Redefinir Senha </button>
+                  </div>
+
+
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-block btn-danger" (click)="excluir(usuario.usuarioId)">
+                      <i class="fa fa-retweet"></i> Excluir </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+      <div class="card-block">
+
+        <div class="col-lg-4 col-md-10 align-content-lg-end">
+          <div class="row button-group">
+            <div class="">
+              <button type="button" class="btn btn-block btn-success" [disabled]="excluido" (click)="showModal('modalAdicionar')">
+                <i class="fa fa-plus"></i> Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="row p-t-5">
+            <div class="table-responsive">
+              <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+                [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                  <tr>
+                    <th>
+                      <mfDefaultSorter by="Descricao">Ano</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="capitalInicial">Capital Inicial</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="capitalFinal">Capital Final</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="percentual">Percentual</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="valor">Valor a adicionar</mfDefaultSorter>
+                    </th>
+                    <th>
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngFor="let row of contribuicaosindicalpatronalComponent.contribuicaoSindicalPatronal.contrSindPatCapitalSocial" style="cursor:pointer">
+                    <td>
+                      {{ row.ano }}
+                    </td>
+                    <td>
+                      {{ row.capitalInicial | currency:'BRL':'symbol' }}
+                    </td>
+                    <td>
+                      {{ row.capitalFinal | currency:'BRL':'symbol' }}
+                    </td>
+                    <td>
+                      {{ row.percentual }}%
+                    </td>
+                    <td>
+                      {{ row.valor | currency:'BRL':'symbol'}}
+                    </td>
+                    <td>
+                      <label (click)="editarContrSindPatCapitalSocial(row)" data-toggle="modal" data-target=".modal-numeroAlunos-edit">
+                        <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                      </label>
+                      <span style="padding-right:2px"></span>
+                      <label (click)="inativarContrSindPatCapitalSocial(row)" style="cursor:pointer" title="Inativar">
+                        <i class="fa fa-trash-o text-danger"></i>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-adicionar-contrsindpatcapitalsocial *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-contrsindpatcapitalsocial>
+<app-editar-contrsindpatcapitalsocial *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-contrsindpatcapitalsocial>

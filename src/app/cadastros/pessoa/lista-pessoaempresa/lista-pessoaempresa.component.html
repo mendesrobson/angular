@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-block" style="display: inline;">
+
+                <div class="col-12">
+                    <div class="row p-t-5">
+                        <div class="table-responsive">
+                            <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+                                [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <mfDefaultSorter by="codigo">Código</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="nome">Razão Social</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="fantasia">Nome Fantasia</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="status">Status</mfDefaultSorter>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr *ngFor="let row of pessoaComponent.empresa" style="cursor:pointer">
+                                        <td>{{ row.pessoa.codigo }}</td>
+                                        <td>{{ row.pessoa.nome }}</td>
+                                        <td>{{ row.pessoa.fantasia }}</td>
+                                        <td>
+                                            <div *ngIf="row.excluido == 'N'" class="label label-table label-success">Ativo</div>
+                                            <div *ngIf="row.excluido == 'S'" class="label label-table label-danger">Inativo</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <div class="card-block">
+
+          <div class="col-lg-4 col-md-10 align-content-lg-end">
+            <div class="row button-group">
+              <div class="">
+                <button type="button" class="btn btn-block btn-success" [disabled]="excluido" (click)="showModal('modalAdicionar')">
+                  <i class="fa fa-plus"></i> Adicionar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="row p-t-5">
+              <div class="table-responsive">
+                <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+                  [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                  <thead>
+                    <tr>
+                      <th>
+                        <mfDefaultSorter by="Percentual">Ano</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="receitaIncial">Receita Inicial </mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="receitaFinal">Receita Final</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="ValorAdicionar">Valor a adicionar</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="Percentual">Percentual</mfDefaultSorter>
+                      </th>
+
+                      <th>
+                        Ações
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of contribuicaosindicalpatronalComponent.contribuicaoSindicalPatronal.contrSindPatReceitaBruta" style="cursor:pointer">
+                      <td>{{ row.ano }}</td>
+                      <td> {{ row.receitaInicial | currency:'BRL':'symbol'}}</td>
+                      <td>{{ row.receitaFinal | currency:'BRL':'symbol' }}</td>
+                      <td>{{ row.valor | currency:'BRL':'symbol' }}</td>
+                      <td>{{ row.percentual | number:'1.2-2' }}%</td>
+
+                      <td>
+                        <label (click)="editarContrSindPatReceitaBruta(row)" data-toggle="modal" data-target=".modal-cargocbo-edit">
+                          <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                        </label>
+                        <span style="padding-right:2px"></span>
+                        <label (click)="inativarContrSindPatReceitaBruta(row)" style="cursor:pointer" title="Inativar">
+                          <i class="fa fa-trash-o text-danger"></i>
+                        </label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-adicionar-contrsindpatreceitabruta *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-contrsindpatreceitabruta>
+  <app-editar-contrsindpatreceitabruta *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-contrsindpatreceitabruta>

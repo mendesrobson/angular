@@ -1,0 +1,18 @@
+[
+    {
+        "id": "Emp",
+        "descricao": "Empregados"
+    },
+    {
+        "id": "Pat",
+        "descricao": "Patronal"
+    },
+    {
+        "id": "Assoc",
+        "descricao": "Associação de Classes"
+    },
+    {
+        "id": "Conse",
+        "descricao": "Conselho Regional"
+    }
+]

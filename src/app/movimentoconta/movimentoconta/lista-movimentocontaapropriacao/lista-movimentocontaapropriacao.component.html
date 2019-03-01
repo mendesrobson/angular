@@ -1,0 +1,108 @@
+<div class="row">
+        <div class="card col-12 padd-left0 padd-right0">
+          <div class="card">
+            <div class="card-block"> 
+      
+                <div class="row p-t-2">
+                 
+                  <div class="col-md-6">
+      
+                    <div class="table-responsive">
+                      <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                        [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <thead>
+                          <tr>
+                            <th>
+                              <mfDefaultSorter by="">Centro de Custo</mfDefaultSorter>
+                            </th>
+                            <th>
+                              <mfDefaultSorter by="">%</mfDefaultSorter>
+                            </th>
+                            <th>
+                              <mfDefaultSorter by="">R$</mfDefaultSorter>
+                            </th>
+      
+                          </tr>
+                        </thead>
+      
+                        <tbody *ngIf="this.movimentoContaComponent.MovimentoConta.apropriacaoCentro != null">
+                          <tr *ngFor="let apropriacaoCentro of this.movimentoContaComponent.MovimentoConta.apropriacaoCentro">
+      
+                            <td *ngIf="apropriacaoCentro.centroCusto != null">
+                              {{ apropriacaoCentro.centroCusto.descricao }}
+                            </td>
+                            <td *ngIf="apropriacaoCentro.centroCusto != null">
+                              {{ apropriacaoCentro.percentual }}
+                            </td>
+                            <td *ngIf="apropriacaoCentro.centroCusto != null">
+                              {{ apropriacaoCentro.valor | number:'1.2-2' }}
+                            </td>
+      
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="5">
+                              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+      
+                 <div></div>
+                  <div class="col-md-6">
+      
+      
+                    <div class="table-responsive">
+                      <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                        [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <thead>
+                          <tr>
+                            <th>
+                              <mfDefaultSorter by="">Centro de Resultado</mfDefaultSorter>
+                            </th>
+                            <th>
+                              <mfDefaultSorter by="">%</mfDefaultSorter>
+                            </th>
+                            <th>
+                              <mfDefaultSorter by="">R$</mfDefaultSorter>
+                            </th>
+      
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="this.movimentoContaComponent.MovimentoConta.apropriacaoCentro != null">
+                          <tr *ngFor="let apropriacaoCentro of this.movimentoContaComponent.MovimentoConta.apropriacaoCentro">
+      
+                            <td *ngIf="apropriacaoCentro.centroResultado != null">
+                              {{ apropriacaoCentro.centroResultado.descricao }}
+                            </td>
+                            <td *ngIf="apropriacaoCentro.centroResultado != null">
+                              {{ apropriacaoCentro.percentual }}
+                            </td>
+                            <td *ngIf="apropriacaoCentro.centroResultado != null">
+                              {{ apropriacaoCentro.valor | number:'1.2-2' }}
+                            </td>
+      
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="5">
+                              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+                 </div>
+              
+            </div>
+          </div>
+        </div>
+      </div> 
+       
+      
+      

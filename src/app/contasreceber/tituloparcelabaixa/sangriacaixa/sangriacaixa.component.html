@@ -1,0 +1,305 @@
+<div class="modal" data-backdrop="static">
+
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Sangria de Caixa</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card" class="col-12">
+      <form class="form-horizontal" novalidate (ngSubmit)="sangriaCaixa()" [formGroup]="dadosSangriaCaixaForm">
+        <div class="col-sm-4">
+
+          <div class="form-group">
+            <label>Caixa</label>
+            <select class="custom-select col-md-12" id="contaCorrenteUsuarioId" name="contaCorrenteUsuarioId" formControlName="contaCorrenteUsuarioId" (change)="obterTodosMovimentoContaSangria($event.target.value)">
+              <option *ngFor="let contaCorrente of contasCorrente" [value]="contaCorrente.id">{{ contaCorrente.descricao }}</option>
+            </select>
+
+          </div>
+
+        </div>
+        <ul class="nav nav-tabs customtab2" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#dinheiro" role="tab" aria-expanded="true">
+              <span class="hidden-sm-up">
+                <i class="ti-home"></i>
+              </span>
+              <span class="hidden-xs-down">Dinheiro</span>
+            </a>
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#cheque" role="tab" aria-expanded="true">
+              <span class="hidden-sm-up">
+                <i class="ti-email"></i>
+              </span>
+              <span class="hidden-xs-down">Cheque</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#cartao" role="tab" aria-expanded="true">
+              <span class="hidden-sm-up">
+                <i class="ti-email"></i>
+              </span>
+              <span class="hidden-xs-down">Cartão de Débito/Crédito</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active" id="dinheiro" role="tabpanel" aria-expanded="true">
+            <p></p>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label" for="saldoDinheiro">Saldo em Dinheiro</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="saldoDinheiro" name="saldoDinheiro" class="form-control text-input" />
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label" for="valorSangriaDinheiro">Sangria em Dinheiro</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="valorSangriaDinheiro" name="valorSangriaDinheiro" class="form-control text-input" formControlName="valorSangriaDinheiro"/>
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label>Caixa Destino</label>
+                  <select class="custom-select col-12" id="contaCorrenteDestinoId" name="contaCorrenteDestinoId" formControlName="contaCorrenteDestinoId">
+                    <option *ngFor="let contaCorrente of contasCorrente" [ngValue]="contaCorrente.id">{{ contaCorrente.descricao }}</option>
+                  </select>
+
+                </div>
+
+              </div>
+
+              <div class="col-12">
+
+                <div class="table-responsive">
+                  <table *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable"
+                    [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                    <thead>
+                      <tr>
+                        <th>
+                          <mfDefaultSorter by="contaCorrente">c/c</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="tipoOperacao">Operação</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="dataEmissao">Dt. Emissão</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="valor">Valor</mfDefaultSorter>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr *ngFor="let baixadinheiro of mf.data" style="cursor:pointer">
+                        <td>{{ baixadinheiro.contaCorrente }}</td>
+                        <td>{{ baixadinheiro.tipoOperacao }}</td>
+                        <td>{{ baixadinheiro.dataEmissao | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ baixadinheiro.valor | currency:'BRL':'symbol' }}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4">
+                          <mfBootstrapPaginator [rowsOnPageSet]="[]"></mfBootstrapPaginator>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="cheque" role="tabpanel" aria-expanded="true">
+            <p></p>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label" for="saldoCheque">Saldo em Cheque</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="saldoCheque" name="saldoCheque" class="form-control text-input" />
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label" for="sangriaCheque">Sangria em Cheque</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="sangriaCheque" name="sangriaCheque" class="form-control text-input" />
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-12">
+
+                <div class="table-responsive">
+                  <table *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable"
+                    [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                    <thead>
+                      <tr>
+                        <th>
+                          <mfRowSelectorHead></mfRowSelectorHead>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Banco</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Agência</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Conta</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Cheque</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Dt. Emissão</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Valor</mfDefaultSorter>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let baixacheque of mf.data">
+
+                        <td>
+                          <mfRowSelector [entity]="baixacheque" [checkboxId]="ndx"></mfRowSelector>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="5">
+                          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="cartao" role="tabpanel" aria-expanded="true">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label" for="saldoCartao">Saldo em Cartão</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="saldoCartao" name="saldoCartao" class="form-control text-input" />
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label" for="sangriaCartao">Sangria em Cartão</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="sangriaCartao" name="sangriaCartao" class="form-control text-input" />
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="col-12">
+
+                <div class="table-responsive">
+                  <table *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable"
+                    [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                    <thead>
+                      <tr>
+                        <th>
+                          <mfRowSelectorHead></mfRowSelectorHead>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">D/C</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Administradora</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Dt. Lançamento</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="">Valor</mfDefaultSorter>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let baixacartao of mf.data">
+
+                        <td>
+                          <mfRowSelector [entity]="baixacartao" [checkboxId]="ndx"></mfRowSelector>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="5">
+                          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row button-group">
+        <div class="col-lg-3 col-md-6 align-content-lg-end">
+          <button type="button" class="btn btn-block btn-secondary" (click)="close()">
+            <i class="fa fa-mail-reply"></i>Cancelar</button>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <button type="submit" (click)="sangriaCaixa()" class="btn btn-block btn-success">
+            <i class="fa fa-check"></i>Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>

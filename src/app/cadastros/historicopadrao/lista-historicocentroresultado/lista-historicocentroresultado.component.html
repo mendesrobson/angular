@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <div class="m-t-40">
+          <div class="d-flex">
+            <div class="col-md-4 col-md-10 align-content-lg-end">
+              <div class="row button-group">
+                <div class="">
+                  <button type="button" class="btn btn-block btn-success" (click)="showModal('modalAdicionar')">
+                    <i class="fa fa-plus"></i> Adicionar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+            [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="centroResultadoId">Centro de Resultado</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="percentual">Percentual</mfDefaultSorter>
+                </th>
+                <th>
+                  Ações
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngIf="historicoPadraoComponent.HistoricoPadrao != null || historicoPadraoComponent.HistoricoPadrao.historicoPadraoCentro != null">
+
+                <tr *ngFor="let centroResultado of historicoPadraoComponent.HistoricoPadrao.historicoPadraoCentro" style="cursor:pointer">
+                <td *ngIf="centroResultado.centroResultadoId != null">{{ centroResultado.centroResultado.codigo }} - {{ centroResultado.centroResultado.descricao }}</td>
+                <td *ngIf="centroResultado.centroResultadoId != null">{{ centroResultado.percentual }}%</td>
+                <td *ngIf="centroResultado.centroResultadoId != null">
+                  <label (click)="editarHistoricoPadraoResultado(centroResultado)" data-toggle="modal" data-target=".modal-desconto-edit">
+                    <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                  </label>
+                  <span style="padding-right:2px"></span>
+                  <label (click)="inativarHistoricoPadraoCentro(centroResultado)" style="cursor:pointer" title="Inativar">
+                    <i class="fa fa-trash-o text-danger"></i>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-adicionar-historicocentroresultado *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-historicocentroresultado>
+
+<app-editar-historicocentroresultado *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-historicocentroresultado>

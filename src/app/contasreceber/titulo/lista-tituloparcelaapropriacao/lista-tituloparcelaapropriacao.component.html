@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-block">
+
+          <div class="row p-t-5">
+            
+            <div class="col-md-6">
+
+              <div class="table-responsive">
+                <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                  [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                  <thead>
+                    <tr>
+                      <th>
+                        <mfDefaultSorter by="">Centro de Custo</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="">%</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="">R$</mfDefaultSorter>
+                      </th>
+
+                    </tr>
+                  </thead>
+
+                  <tbody *ngIf="this.tituloComponent.Titulo.parcela[this.ind] != null">
+                    <tr *ngFor="let parcelaapropriacao of this.tituloComponent.Titulo.parcela[this.ind].apropriacaoCentro">
+
+                      <td *ngIf="parcelaapropriacao.centroCusto != null">
+                        {{ parcelaapropriacao.centroCusto.descricao }}
+                      </td>
+                      <td *ngIf="parcelaapropriacao.centroCusto != null">
+                        {{ parcelaapropriacao.percentual }}
+                      </td>
+                      <td *ngIf="parcelaapropriacao.centroCusto != null">
+                        {{ parcelaapropriacao.valor | number:'1.2-2' }}
+                      </td>
+
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+           <div></div>
+            <div class="col-md-6">
+
+
+              <div class="table-responsive">
+                <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                  [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                  <thead>
+                    <tr>
+                      <th>
+                        <mfDefaultSorter by="">Centro de Resultado</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="">%</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="">R$</mfDefaultSorter>
+                      </th>
+
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="this.tituloComponent.Titulo.parcela[this.ind] != null">
+                    <tr *ngFor="let parcelaapropriacao of this.tituloComponent.Titulo.parcela[this.ind].apropriacaoCentro">
+
+                      <td *ngIf="parcelaapropriacao.centroResultado != null">
+                        {{ parcelaapropriacao.centroResultado.descricao }}
+                      </td>
+                      <td *ngIf="parcelaapropriacao.centroResultado != null">
+                        {{ parcelaapropriacao.percentual }}
+                      </td>
+                      <td *ngIf="parcelaapropriacao.centroResultado != null">
+                        {{ parcelaapropriacao.valor | number:'1.2-2' }}
+                      </td>
+
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+

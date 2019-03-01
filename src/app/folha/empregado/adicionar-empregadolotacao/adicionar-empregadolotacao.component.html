@@ -1,0 +1,110 @@
+<div class="modal" data-backdrop="static">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myLargeModalLabel">Lotações</h4>
+        <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+      </div>
+      <div class="card-block">
+        
+        <form class="form-horizontal" novalidate (ngSubmit)="adicionarEmpregadoLotacao()" [formGroup]="empregadoLotacaoForm">
+          <div class="form-body">
+            <div class="row p-t-20">
+              
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Cargo</label>
+                      <select class="custom-select col-md-12" id="cargoId" name="cargoId" formControlName="cargoId">
+                          <option *ngFor="let cargo of cargos" [ngValue]="cargo.id">{{ cargo.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.cargoId">
+                          <p [innerHTML]="displayMessage.cargoId"></p>
+                      </span>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Departamento</label>
+                      <select class="custom-select col-md-12" id="departamentoId" name="departamentoId" formControlName="departamentoId">
+                          <option *ngFor="let departamento of departamentos" [ngValue]="departamento.id">{{ departamento.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.departamentoId">
+                          <p [innerHTML]="displayMessage.departamentoId"></p>
+                      </span>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>Tipo de Salário</label>
+                      <select class="custom-select col-md-12" id="tipoSalario" name="tipoSalario" formControlName="tipoSalario">
+                          <option *ngFor="let tipoSalario of tiposSalarios" [ngValue]="tipoSalario.id">{{ tipoSalario.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.tipoSalario">
+                          <p [innerHTML]="displayMessage.tipoSalario"></p>
+                      </span>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.valorRemuneracao }">
+                    <label class="control-label" for="valorRemuneracao">Valor Remuneração</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">R$</span>
+                      <input type="text" autocomplete="off" currencyMask id="valorRemuneracao" name="valorRemuneracao" class="form-control text-input"
+                        formControlName="valorRemuneracao" />
+                    </div>
+                    <span class="text-danger" *ngIf="displayMessage.valorRemuneracao">
+                      <p [innerHTML]="displayMessage.valorRemuneracao"></p>
+                    </span>
+                  </div>
+              </div>
+  
+              <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="dataInicio">Data Inicio</label>
+                        <dx-date-box [value]="now" name="dataInicio" style="width: 100%" displayFormat="dd/MM/yyyy" formControlName="dataInicio"
+                        (onValueChanged)="definirValor($event)"
+                        (onValueChanged)="refazerFiltro = false"></dx-date-box>
+                        <span class="text-danger" *ngIf="displayMessage.dataInicio">
+                            <p [innerHTML]="displayMessage.dataInicio"></p>
+                        </span>
+                    </div>
+              </div>
+
+              <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="dataFim">Data Final</label>
+                        <dx-date-box [value]="now" [min]="minDate" style="width: 100%" displayFormat="dd/MM/yyyy" name="dataFim" type="date" formControlName="dataFim" 
+                        (onValueChanged)="refazerFiltro = false"></dx-date-box>
+                        <span class="text-danger" *ngIf="displayMessage.dataFim">
+                            <p [innerHTML]="displayMessage.dataFim"></p>
+                        </span>
+                    </div>
+              </div>
+  
+            </div>
+          </div>
+  
+          <div class="form-actions">
+            <div class="row p-t-5">
+  
+           <div class="col-md-4">
+                <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                  <i class="fa fa-mail-reply"></i> Cancelar</button>
+              </div> 
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <button type="button" (click)="adicionarEmpregadoLotacao()" [disabled]='!empregadoLotacaoForm.valid' class="btn btn-block btn-success">
+                  <i class="fa fa-check"></i> Gravar</button>
+              </div>
+              <div class="col-md-4"></div>
+              <br>
+  
+            </div>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+  </div>

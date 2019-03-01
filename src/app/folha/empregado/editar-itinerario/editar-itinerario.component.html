@@ -1,0 +1,121 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Endereço</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form novalidate (ngSubmit)="editaritinerario()" [formGroup]="itinerarioForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Grupo</label>
+                <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                  <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Empresa</label>
+                <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                  <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label" for="codigo">Código</label>
+                <input type="text" autocomplete="off" id="codigo" name="codigo" maxlength="20" class="form-control text-input" formControlName="codigo" />
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label" for="sigla">Sigla</label>
+                <input type="text" autocomplete="off" id="sigla" name="sigla" class="form-control text-input" maxlength="20" formControlName="sigla" />
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Valor Transporte</label>
+                <select class="custom-select col-md-12" id="valorTransporteId" name="valorTransporteId" formControlName="valorTransporteId" (ngModelChange)="ConsultaTipoTransporte($event)">
+                  <option *ngFor="let valorTransportes of valorTransporte" [ngValue]="valorTransportes.id">{{ valorTransportes.descricao }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Tipo Transporte</label>
+                <input type="text" autocomplete="off" id="tipotransporte" disabled name="tipotransporte" class="form-control text-input" formControlName="tipotransporte" />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="dataInicio">Data Início</label>
+                <input type="date" autocomplete="off" id="dataInicio" name="dataInicio" class="form-control text-input" formControlName="dataInicio" />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="dataTermino">Data Termino</label>
+                <input type="date" autocomplete="off" id="dataTermino" name="dataTermino" class="form-control text-input" formControlName="dataTermino" />
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label" for="descricao">Descrição</label>
+                <input type="text" autocomplete="off" id="descricao" maxlength="100" name="descricao" class="form-control text-input" formControlName="descricao"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="origem">Origem</label>
+                <input type="text" autocomplete="off" id="origem" maxlength="100" name="origem" class="form-control text-input" formControlName="origem" />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="destino">Destino</label>
+                <input type="text" autocomplete="off" id="destino" maxlength="100" name="destino" class="form-control text-input" formControlName="destino"
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Alterar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

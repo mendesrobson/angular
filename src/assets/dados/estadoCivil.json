@@ -1,0 +1,18 @@
+[
+    {
+        "id": "SOL",
+        "valor": "Solteiro(a)"
+    },
+    {
+        "id": "CAS",
+        "valor": "Casado(a)"
+    },
+    {
+        "id": "SEP",
+        "valor": "Separado(a)"
+    },
+    {
+        "id": "VIU",
+        "valor": "Viuvo(a)"
+    }
+]

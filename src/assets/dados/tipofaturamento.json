@@ -1,0 +1,14 @@
+[
+    {
+        "id": "TOD",
+        "valor": "Todos"
+    },
+    {
+        "id": "CEFC",
+        "valor": "Somente contratos e eventos que faturam com os contratos"
+    },
+    {
+        "id": "ENFC",
+        "valor": "Somente eventos que não faturam com o contrato"
+    }
+]

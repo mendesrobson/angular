@@ -1,0 +1,61 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Sindicato Base Territorial</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarBaseTerritorialSindicato()" [formGroup]="baseTerritorialSindicatoForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Uf</label>
+                <select class="custom-select col-md-6" id="ufId" name="ufId" formControlName="ufId" (ngModelChange)="ConsultaLocalidade($event)">
+                  <option *ngFor="let uf of ufs" [ngValue]="uf.id">{{ uf.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.ufId">
+                  <p [innerHTML]="displayMessage.ufId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Localidade</label>
+                <select class="custom-select col-md-6" id="localidadeId" name="localidadeId" formControlName="localidadeId">
+                  <option *ngFor="let localidade of localidades" [ngValue]="localidade.id">{{ localidade.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.localidadeId">
+                  <p [innerHTML]="displayMessage.localidadeId"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+            
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="adicionarBaseTerritorialSindicato()" [disabled]='!baseTerritorialSindicatoForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

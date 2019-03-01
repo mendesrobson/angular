@@ -1,0 +1,61 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Cliente Sindicato</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarClienteSindicato()" [formGroup]="clienteSindicatoForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Sindicato</label>
+                <select class="custom-select col-md-12" id="sindicatoId" name="sindicatoId" formControlName="sindicatoId" (ngModelChange)="consultaSindicatoConvencao($event)">
+                  <option *ngFor="let sindicato of sindicatos" [ngValue]="sindicato.id">{{ sindicato.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.sindicatoId">
+                  <p [innerHTML]="displayMessage.sindicatoId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Convenção</label>
+                <select class="custom-select col-md-12" id="convencaoId" name="convencaoId" formControlName="convencaoId">
+                  <option *ngFor="let convencao of convencoes" [ngValue]="convencao.id">{{ convencao.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.convencaoId">
+                  <p [innerHTML]="displayMessage.convencaoId"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" [disabled]='!clienteSindicatoForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

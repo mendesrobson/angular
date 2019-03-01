@@ -1,0 +1,121 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+        <form novalidate (ngSubmit)="editarConvencao()" [formGroup]="convencaoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                  <label class="control-label" for="codigo">Código</label>
+                  <input type="text" autocomplete="off" id="codigo" name="codigo" maxlength="20" class="form-control text-input" formControlName="codigo" />
+                  <span class="text-danger" *ngIf='displayMessage.codigo'>
+                    <p [innerHTML]="displayMessage.codigo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla  }">
+                  <label class="control-label" for="sigla">Sigla</label>
+                  <input type="text" autocomplete="off" id="sigla" name="sigla" class="form-control text-input" 
+                  maxlength="20" formControlName="sigla"
+                  />
+                  <span class="text-danger" *ngIf='displayMessage.sigla'>
+                    <p [innerHTML]="displayMessage.sigla"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.tipoConvencao }">
+                  <label>Tipo Convenção</label>
+                  <select class="custom-select col-md-12" id="tipoConvencao" name="tipoConvencao" formControlName="tipoConvencao">
+                      <option *ngFor="let tipoconvencao of tipoConvencao" [ngValue]="tipoconvencao.id">{{ tipoconvencao.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.tipoConvencao">
+                      <p [innerHTML]="displayMessage.tipoConvencao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao  }">
+                  <label class="control-label" for="descricao">Descrição</label>
+                  <input type="text" autocomplete="off" id="descricao" maxlength="100" name="descricao" class="form-control text-input" 
+                  formControlName="descricao"
+                  />
+                  <span class="text-danger" *ngIf='displayMessage.descricao'>
+                    <p [innerHTML]="displayMessage.descricao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.observacao }">
+                  <label class="control-label" for="observacao">Observação </label>
+                  <textarea id="observacao" name="observacao" class="form-control" 
+                  formControlName="observacao" rows="3">
+                  </textarea>
+                  <span class="text-danger" *ngIf='displayMessage.observacao'>
+                    <p [innerHTML]="displayMessage.observacao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row button-group">
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+                  <div class="col-lg-2 col-md-6">
+                    <button type="submit" class="btn btn-block btn-success" [disabled]='!removerVisivel' [disabled]='!convencaoForm.valid'>
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+                  <div class="col-lg-2 col-md-6">
+                    <button type="button" class="btn btn-block btn-danger" [disabled]='!removerVisivel' (click)="remover(convencao.id)">
+                      <i class="fa fa-times"></i> Remover</button>
+                  </div>
+
+                  <div class="col-lg-2 col-md-6">
+                    <button type="button" class="btn btn-block btn-success" [disabled]="!reativarVisivel" (click)="reativar(convencao.id)">
+                      <i class="fa fa-retweet"></i> Reativar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

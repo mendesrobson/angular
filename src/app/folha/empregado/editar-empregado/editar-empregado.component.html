@@ -1,0 +1,473 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Ficha Cadastral</h4>
+      </div>
+      <!-- <div class="card-block"> -->
+
+      <div class="form-body col-12">
+        <!-- <div class="row p-t-20"> -->
+
+
+        <form (ngSubmit)="editarPessoa()">
+          <dx-form id="form" [formData]="empregado" labelLocation="top" [showValidationSummary]="true" validationGroup="groupName">
+            <dxi-item itemType="group" cssClass="first-group" [colCount]="12">
+              <dxi-item [colSpan]="2">
+
+                <!-- Foto -->
+                <div class="form-avatar">
+                  <div *ngIf="foto == '' || foto == null">
+                    <img src="https://querotrabalharsite.files.wordpress.com/2017/01/11.jpg?w=1200" class="foto-client">
+                  </div>
+                  <div *ngIf="foto != '' && foto != null">
+                    <img [src]="foto" class="foto-client">
+                  </div>
+                  <input type="file" accept="image/*" (change)="ChangeListener($event)" id="file-foto-cadastro" dataField="pessoa.foto" name="file-foto-cadastro"
+                    class="file-foto-cadastro">
+                  <input type="hidden" [value]="foto" dataField="pessoa.foto">
+                </div>
+
+              </dxi-item>
+              <dxi-item itemType="group" [colSpan]="10" [colCount]="12">
+                <dxi-item dataField="pessoa.nome" autocomplete="off" [colSpan]="12" [isRequired]="true" [label]="{text: 'Nome'}">
+                  <dxi-validation-rule type="required" message="Nome é requerido."></dxi-validation-rule>
+                </dxi-item>
+                <dxi-item dataField="pessoa.nomeSocial" autocomplete="off" [colSpan]="12" [label]="{text: 'Nome Social'}"></dxi-item>
+                <dxi-item dataField="tipoAdmissaoId" [colSpan]="6" editorType="dxSelectBox" [label]="{text: 'Tipo de Admissão'}" [editorOptions]="{ items: tipoAdmissao, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+                <dxi-item dataField="primeiroEmprego" [colSpan]="6" editorType="dxSelectBox" [label]="{text: 'Primeiro Emprego'}" [editorOptions]="{ items: [{descricao: 'Sim', id: 'S'}, {descricao: 'Não', id: 'N'}], displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+              </dxi-item>
+            </dxi-item>
+
+            <dxi-item itemType="group" caption="Informações Gerais" cssClass="second-group" [colCount]="12">
+              <dxi-item dataField="pessoa.sexoId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Sexo'}" [editorOptions]="{ items: sexo, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: ''}"></dxi-item>
+              <dxi-item dataField="pessoa.estadoCivilId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Estado Civil'}" [editorOptions]="{ items: estadoCivil, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+              <dxi-item dataField="pessoa.dataNascimento" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Data de Nascimento'}" [editorOptions]="{ width: '100%',  displayFormat: 'dd/MM/yyyy'}"></dxi-item>
+
+              <dxi-item dataField="paisId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'País de Nascimento'}" [editorOptions]="{ items: pais, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+              <dxi-item dataField="pessoa.ufNascimentoId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Estado de Nascimento'}"
+                [editorOptions]="{ items: uf, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '', disabled: empregado.paisId != 1}"></dxi-item>
+              <dxi-item dataField="pessoa.localidadeId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Cidade de Nascimento'}"
+                [editorOptions]="{ items: localidade, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '', disabled: empregado.paisId != 1}"></dxi-item>
+
+              <dxi-item dataField="nacionalidadeId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Nacionalidade'}" [editorOptions]="{ items: nacionalidade, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '', disabled: empregado.paisId != 1 }"></dxi-item>
+              <dxi-item dataField="grauInstrucaoId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Grau de Instrução'}" [editorOptions]="{ items: grauInstrucao, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+              <dxi-item dataField="racaCorId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Raça/Cor'}" [editorOptions]="{ items: cor, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+
+              <dxi-item dataField="deficiente" [colSpan]="4" editorType="dxSelectBox" [label]="{text: 'Deficiente'}" [editorOptions]="{ items: [{descricao: 'Sim', id: 'S'}, {descricao: 'Não', id: 'N'}], displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+              <dxi-item dataField="tipoDeficiencia" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Tipo de Deficiência'}" [editorOptions]="{ items: tipoDeficiencia, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+              <dxi-item dataField="reabilitado" [colSpan]="2" editorType="dxSelectBox" [label]="{text: 'Reabilitado'}" [editorOptions]="{ items: [{descricao: 'Sim', id: 'S'}, {descricao: 'Não', id: 'N'}], displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+              <dxi-item dataField="preencheCota" [colSpan]="2" editorType="dxSelectBox" [label]="{text: 'Preenche Cota'}" [editorOptions]="{ items: [{descricao: 'Sim', id: 'S'}, {descricao: 'Não', id: 'N'}], displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+
+              <dxi-item dataField="nomeMae" autocomplete="off" [colSpan]="6" [label]="{text: 'Nome da Mãe'}"></dxi-item>
+              <dxi-item dataField="nomePai" autocomplete="off" [colSpan]="6" [label]="{text: 'Nome do Pai'}"></dxi-item>
+            </dxi-item>
+
+            <dxi-item itemType="group">
+              <br/>
+            </dxi-item>
+
+            <dxi-item itemType="group" cssClass="second-group" caption="Documentos" [colCount]="12">
+
+              <dxi-item dataField="pessoa.pisPasep" autocomplete="off" [colSpan]="4" [label]="{text: 'PIS'}" [editorOptions]="{ mask: '000.00000.00-0'}"></dxi-item>
+              <dxi-item dataField="pessoa.dataCadastroPis" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Data Cadastro'}" [editorOptions]="{ width: '100%',  displayFormat: 'dd/MM/yyyy'}"></dxi-item>
+              <dxi-item dataField="pessoa.cpf" autocomplete="off" [colSpan]="4" [label]="{text: 'CPF'}" [editorOptions]="{ mask: '000.000.000-00'}"></dxi-item>
+
+              <dxi-item dataField="pessoa.rg" autocomplete="off" [colSpan]="4" [label]="{text: 'RG'}" [editorOptions]="{ mask: '00.000.000-0'}"></dxi-item>
+              <dxi-item dataField="pessoa.orgEmissaoRg" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Órgão Emissor'}" [editorOptions]="{ items: orgaoEmissor, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: ''}"></dxi-item>
+              <dxi-item dataField="ufRgId" editorType="dxSelectBox" [colSpan]="2" [label]="{text: 'UF'}" [editorOptions]="{ items: uf, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: ''}"></dxi-item>
+              <dxi-item dataField="pessoa.dataEmissaoRg" autocomplete="off" editorType="dxDateBox" [colSpan]="2" [label]="{text: 'Expedição'}" [editorOptions]="{ width: '100%',  displayFormat: 'dd/MM/yyyy'}"></dxi-item>
+
+              <dxi-item dataField="pessoa.descricaoCtps" autocomplete="off" [colSpan]="4" [label]="{text: 'CTPS'}"></dxi-item>
+              <dxi-item dataField="pessoa.numSerieCtps" autocomplete="off" [colSpan]="4" [label]="{text: 'Série'}"></dxi-item>
+              <dxi-item dataField="pessoa.ufCtps" editorType="dxSelectBox" [colSpan]="2" [label]="{text: 'Estado'}" [editorOptions]="{ items: uf, displayExpr:'descricao', valueExpr:'sigla', searchEnabled: 'true', placeholder: ''}"></dxi-item>
+              <dxi-item dataField="pessoa.dataEmissaoCtps" autocomplete="off" editorType="dxDateBox" [colSpan]="2" [label]="{text: 'Emissão'}" [editorOptions]="{ width: '100%',  displayFormat: 'dd/MM/yyyy'}"></dxi-item>
+
+              <dxi-item dataField="pessoa.ric" autocomplete="off" [colSpan]="4" [label]="{text: 'RIC'}"></dxi-item>
+              <dxi-item dataField="pessoa.orgaoEmissorRic" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Órgão Emissor'}" [editorOptions]="{ items: orgaoEmissor, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: ''}"></dxi-item>
+              <dxi-item dataField="ufRicId" editorType="dxSelectBox" [colSpan]="2" [label]="{text: 'UF'}" [editorOptions]="{ items: uf, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: ''}"></dxi-item>
+              <dxi-item dataField="dataExpedicaoRic" autocomplete="off" editorType="dxDateBox" [colSpan]="2" [label]="{text: 'Expedição'}" [editorOptions]="{ width: '100%',  displayFormat: 'dd/MM/yyyy'}"></dxi-item>
+
+              <dxi-item dataField="pessoa.tituloEleitoral" autocomplete="off" [colSpan]="4" [label]="{text: 'Título Eleitor'}"></dxi-item>
+              <dxi-item dataField="pessoa.sessaoEleitoral" autocomplete="off" [colSpan]="4" [label]="{text: 'Seção'}"></dxi-item>
+              <dxi-item dataField="pessoa.zonaEleitoral" autocomplete="off" [colSpan]="4" [label]="{text: 'Zona'}"></dxi-item>
+
+              <dxi-item dataField="pessoa.numRaReservista" autocomplete="off" [colSpan]="4" [label]="{text: 'Reservista'}"></dxi-item>
+              <dxi-item dataField="pessoa.dataEmissaoReservista" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Emissão'}" [editorOptions]="{ width: '100%',  displayFormat: 'dd/MM/yyyy'}"></dxi-item>
+              <dxi-item dataField="pessoa.categoriaReservista" autocomplete="off" [colSpan]="4" [label]="{text: 'Categoria'}"></dxi-item>
+
+              <dxi-item dataField="pessoa.cnh" autocomplete="off" [colSpan]="4" [label]="{text: 'CNH'}"></dxi-item>
+              <dxi-item dataField="pessoa.categoriaCnh" [colSpan]="4" editorType="dxSelectBox" [label]="{text: 'Categoria'}" [editorOptions]="{ items: [{descricao: 'A', id: 'A'}, {descricao: 'B', id: 'B'}, {descricao: 'C', id: 'C'}, {descricao: 'D', id: 'D'}, {descricao: 'E', id: 'E'}, {descricao: 'AB', id: 'AB'}, {descricao: 'AC', id: 'AC'}, {descricao: 'AD', id: 'AD'}, {descricao: 'AE', id: 'AE'}], displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '' }"></dxi-item>
+              <dxi-item dataField="pessoa.dataEmissaoCnh" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Data de Emissão'}" [editorOptions]="{ width: '100%',  displayFormat: 'dd/MM/yyyy'}"></dxi-item>
+              <dxi-item dataField="pessoa.ufCnhId" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'UF'}" [editorOptions]="{ items: uf, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: ''}"></dxi-item>
+              <dxi-item dataField="pessoa.validadeCnh" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Data de Validade'}" [editorOptions]="{ width: '100%',  displayFormat: 'dd/MM/yyyy'}"></dxi-item>
+              <dxi-item dataField="pessoa.dataPrimeiraValidacaoCnh" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Data 1ª habilitação',  displayFormat: 'dd/MM/yyyy'}"
+                [editorOptions]="{ width: '100%'}"></dxi-item>
+
+            </dxi-item>
+
+            <dxi-item itemType="group">
+              <br/>
+            </dxi-item>
+
+            <dxi-item itemType="group" cssClass="second-group" caption="Estrangeiro" [colCount]="12" visible="false">
+
+              <dxi-item dataField="pessoa.rge" autocomplete="off" [isRequired]="true" [colSpan]="4" [label]="{text: 'Rne'}" [editorOptions]="{ disabled: empregado.paisId == 1 }"></dxi-item>
+              <dxi-item dataField="pessoa.orgaoEmissaoRne" autocomplete="off" [colSpan]="4" [label]="{text: 'Órgão Emissor'}" [editorOptions]="{ disabled: empregado.paisId == 1 }"></dxi-item>
+              <!-- <dxi-item dataField="ufRneId" editorType="dxSelectBox" [colSpan]="2" [label]="{text: 'UF'}" [editorOptions]="{ items: uf, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '', disabled: empregado.paisId == 1 }"></dxi-item> -->
+              <dxi-item dataField="pessoa.dataExpedicaoRne" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Expedição'}" [editorOptions]="{ width: '100%', disabled: empregado.paisId == 1,  displayFormat: 'dd/MM/yyyy' }"></dxi-item>
+
+              <dxi-item dataField="pessoa.dataChegadaBrasil" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Chegada ao Brasil'}"
+                [editorOptions]="{ width: '100%', disabled: empregado.paisId == 1,  displayFormat: 'dd/MM/yyyy' }"></dxi-item>
+              <dxi-item dataField="pessoa.tipoVisto" editorType="dxSelectBox" [colSpan]="4" [label]="{text: 'Tipo de Visto'}" [editorOptions]="{ items: uf, displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '', disabled: empregado.paisId == 1 }"></dxi-item>
+              <dxi-item dataField="pessoa.dataValidadeVisto" autocomplete="off" editorType="dxDateBox" [colSpan]="4" [label]="{text: 'Validade do Visto'}"
+                [editorOptions]="{ width: '100%', disabled: empregado.paisId == 1,  displayFormat: 'dd/MM/yyyy' }"></dxi-item>
+
+              <dxi-item dataField="pessoa.casadoComBrasileiro" [colSpan]="4" editorType="dxSelectBox" [label]="{text: 'Casado com Brasileiro(a)'}"
+                [editorOptions]="{ items: [{descricao: 'Sim', id: 'S'}, {descricao: 'Não', id: 'N'}], displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '', disabled: empregado.paisId == 1  }"></dxi-item>
+              <dxi-item dataField="pessoa.filhosComBrasileiro" [colSpan]="4" editorType="dxSelectBox" [label]="{text: 'Filhos com Brasileiro(a)'}"
+                [editorOptions]="{ items: [{descricao: 'Sim', id: 'S'}, {descricao: 'Não', id: 'N'}], displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '', disabled: empregado.paisId == 1  }"></dxi-item>
+              <dxi-item dataField="pessoa.naturalizado" [colSpan]="2" editorType="dxSelectBox" [label]="{text: 'Naturalizado'}" [editorOptions]="{ items: [{descricao: 'Sim', id: 'S'}, {descricao: 'Não', id: 'N'}], displayExpr:'descricao', valueExpr:'id', searchEnabled: 'true', placeholder: '', disabled: empregado.paisId == 1  }"></dxi-item>
+              <dxi-item dataField="pessoa.dataNaturalizacao" editorType="dxDateBox" [colSpan]="2" [label]="{text: 'Naturalização'}" [editorOptions]="{ width: '100%', disabled: empregado.paisId == 1,  displayFormat: 'dd/MM/yyyy' }"></dxi-item>
+            </dxi-item>
+
+            <dxi-item [colCount]="12">
+                <div class="card col-md-12  padd-left0 padd-right0">
+                    <app-lista-empregadolotacao *ngIf="carregarLotacao == true"></app-lista-empregadolotacao>
+                </div>
+            </dxi-item>
+
+            <dxi-item [colCount]="12">
+              <!-- <div class="card"> -->
+
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs customtab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#endereco" role="tab">
+                    <span class="hidden-sm-up">
+                      <i class="ti-home"></i>
+                    </span>
+                    <span class="hidden-xs-down">Endereço</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#contato" role="tab">
+                    <span class="hidden-sm-up">
+                      <i class="ti-user"></i>
+                    </span>
+                    <span class="hidden-xs-down">Contato</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#oragaos" role="tab">
+                    <span class="hidden-sm-up">
+                      <i class="ti-email"></i>
+                    </span>
+                    <span class="hidden-xs-down">Órgãos de Classe</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#estagio" role="tab">
+                    <span class="hidden-sm-up">
+                      <i class="ti-email"></i>
+                    </span>
+                    <span class="hidden-xs-down">Estágio</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#dependente" role="tab">
+                    <span class="hidden-sm-up">
+                      <i class="ti-email"></i>
+                    </span>
+                    <span class="hidden-xs-down">Dependentes</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#itinerario" role="tab">
+                    <span class="hidden-sm-up">
+                      <i class="ti-email"></i>
+                    </span>
+                    <span class="hidden-xs-down">Itinerários</span>
+                  </a>
+                </li>
+              </ul>
+
+              <div class="tab-content">
+                <div class="tab-pane p-20 active" id="endereco" role="tabpanel">
+                  <app-lista-pessoaendereco *ngIf="carregaPessoaEndereco == true"></app-lista-pessoaendereco>
+                </div>
+                <div class="tab-pane p-20" id="contato" role="tabpanel">
+                  <app-lista-pessoacontato *ngIf="carregaPessoaContato == true"></app-lista-pessoacontato>
+                </div>
+                <div class="tab-pane p-20" id="oragaos" role="tabpanel">
+                  <app-lista-empregadoorgaoclasse *ngIf="carregarEmpregadoorgaoclasse == true"></app-lista-empregadoorgaoclasse>
+                </div>
+                <div class="tab-pane p-20" id="estagio" role="tabpanel">
+                  <app-lista-estagio *ngIf="carregaEstagio == true"></app-lista-estagio>
+                </div>
+                <div class="tab-pane p-20" id="dependente" role="tabpanel">
+                  <app-lista-empregadodependente *ngIf="carregarEmpregadoDependente == true"></app-lista-empregadodependente>
+                </div>
+                <div class="tab-pane p-20" id="itinerario" role="tabpanel">
+                  <app-lista-itinerario *ngIf="carregarItinerario == true"></app-lista-itinerario>
+                </div>
+              </div>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+            </dxi-item>
+
+            <dxi-item itemType="button" alignment="left" [buttonOptions]="buttonOptions">
+            </dxi-item>
+
+
+          </dx-form>
+          <!-- <div class="col-lg-2 col-md-6">
+              <button type="submit" style="margin-left: -30px; width: 160px;" class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div> -->
+          <br/>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card col-md-12  padd-left0 padd-right0">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Horário de Trabalho</h4>
+      </div>
+
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+
+
+
+
+    </div>
+
+    <div class="card col-md-12  padd-left0 padd-right0">
+
+        <div class="card-header">
+          <h4 class="m-b-0 text-white">Descontos
+            <label *ngIf="empregadoComponent.empregado.sindicalizado == null 
+            || empregadoComponent.empregado.descontaMensalidadeSindical == null
+            || empregadoComponent.empregado.pagouContribuicaoSindical == null"
+              style="float: right; cursor: pointer;" title="Cadastrar" (click)="showModal('modalAddDesconto')"><i class="fa fa-plus"></i></label>
+            <label *ngIf="empregadoComponent.empregado.sindicalizado != null 
+            || empregadoComponent.empregado.descontaMensalidadeSindical != null
+            || empregadoComponent.empregado.pagouContribuicaoSindical != null"
+              style="float: right; cursor: pointer;" title="Inativar" (click)="inativarDesconto()"><i class="fa fa-minus"></i></label>
+            <label *ngIf="empregadoComponent.empregado.sindicalizado != null 
+                  || empregadoComponent.empregado.descontaMensalidadeSindical != null
+                  || empregadoComponent.empregado.pagouContribuicaoSindical != null"
+              style="float: right; margin: 0 12px 0 0; cursor: pointer;" title="Editar" (click)="showModal('modalEditDesconto')"><i
+                class="fa fa-edit"></i></label>
+          </h4>
+        </div>
+  
+        <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery"
+          #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+          <thead>
+          </thead>
+          <tbody *ngIf="empregadoComponent.empregado.sindicalizado != null 
+          || empregadoComponent.empregado.descontaMensalidadeSindical != null
+          || empregadoComponent.empregado.pagouContribuicaoSindical != null">
+            <tr style="color: #969696; background-color: transparent; font-weight: 100;" *ngIf="empregadoComponent.empregado.sindicalizado != null">
+              <td>
+                <p style="float: left;">É Sindicalizado?</p>
+              </td>
+              <td>
+                <div style="float: right;" *ngIf="empregadoComponent.empregado.sindicalizado == 'N'" class="label label-table label-danger">Não</div>
+                <div style="float: right;" *ngIf="empregadoComponent.empregado.sindicalizado == 'S'" class="label label-table label-success">Sim</div>
+              </td>
+            </tr>
+            <tr style="color: #969696; background-color: transparent; font-weight: 100;" *ngIf="empregadoComponent.empregado.descontaMensalidadeSindical != null">
+              <td>
+                <p style="float: left;">Desconta Mensal. Sindical?</p>
+              </td>
+              <td>
+                <div style="float: right;" *ngIf="empregadoComponent.empregado.descontaMensalidadeSindical == 'N'" class="label label-table label-danger">Não</div>
+                <div style="float: right;" *ngIf="empregadoComponent.empregado.descontaMensalidadeSindical == 'S'" class="label label-table label-success">Sim</div>
+              </td>
+            </tr>
+            <tr style="color: #969696; background-color: transparent; font-weight: 100;" *ngIf="empregadoComponent.empregado.pagouContribuicaoSindical != null">
+              <td>
+                <p style="float: left;">Pagou Contr. Sindical?</p>
+              </td>
+              <td>
+                <div style="float: right;" *ngIf="empregadoComponent.empregado.pagouContribuicaoSindical == 'N'" class="label label-table label-danger">Não</div>
+                <div style="float: right;" *ngIf="empregadoComponent.empregado.pagouContribuicaoSindical == 'S'" class="label label-table label-success">Sim</div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+
+
+    <!-- <div class="card col-md-12  padd-left0 padd-right0">
+        <app-lista-empregadolotacao *ngIf="carregarLotacao == true"></app-lista-empregadolotacao>
+    </div> -->
+
+    <div class="card col-md-12  padd-left0 padd-right0">
+
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Dados Bancários
+          <label *ngIf="empregado.bancoId <= 0 || empregado.bancoId == null" (click)="showModal('modalAddContaCorrente')" style="float: right; cursor: pointer;"
+            title="Cadastrar"><i class="fa fa-plus"></i></label>
+          <label *ngIf="empregado.bancoId > 0 || empregado.bancoId != null" (click)="inativarContaCorrente()" style="float: right; cursor: pointer;"
+            title="Inativar"><i class="fa fa-minus"></i></label>
+        </h4>
+      </div>
+
+      <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+        <thead *ngIf="empregadoComponent.empregado.bancoId > 0 && empregadoComponent.empregado.bancoId != null">
+          <tr>
+            <th style="color: #969696; background-color: transparent; font-weight: 100;">
+              <mfDefaultSorter by="Numero">Banco</mfDefaultSorter>
+            </th>
+            <th style="color: #969696; background-color: transparent; font-weight: 100">
+              <mfDefaultSorter by="Numero">Agencia</mfDefaultSorter>
+            </th>
+            <th style="color: #969696; background-color: transparent; font-weight: 100">
+              <mfDefaultSorter by="Numero">Conta Corrente</mfDefaultSorter>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="empregadoComponent.empregado.bancoId > 0 && empregadoComponent.empregado.bancoId != null">
+          <tr style="cursor:pointer">
+            <td *ngIf="empregadoComponent.empregado.banco != null">{{ empregadoComponent.empregado.banco.descricao }}</td>
+            <td>{{ empregadoComponent.empregado.agenciaNumero + (empregadoComponent.empregado.agenciaDigito == undefined
+              || empregadoComponent.empregado.agenciaDigito == '' ? '' : ('-' + empregadoComponent.empregado.agenciaDigito))
+              }}</td>
+            <td>{{ empregadoComponent.empregado.contaCorrenteNumero + '-' + empregadoComponent.empregado.contaCorrenteDigito
+              }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+        </tfoot>
+      </table>
+
+
+
+    </div>
+
+    <div class="card col-md-12  padd-left0 padd-right0">
+
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Admissão
+          <label *ngIf="empregadoComponent.empregado.dataAdmissao == null" style="float: right; cursor: pointer;" title="Cadastrar"
+            (click)="showModal('modalAddAdmissao')"><i class="fa fa-plus"></i></label>
+          <label *ngIf="empregadoComponent.empregado.dataAdmissao != null" style="float: right; cursor: pointer;" title="Cadastrar"
+            (click)="inativarAdmissao()"><i class="fa fa-minus"></i></label>
+          <label *ngIf="empregadoComponent.empregado.dataAdmissao != null" style="float: right; margin: 0 12px 0 0; cursor: pointer;"
+            title="Editar" (click)="showModal('modalEditAdmissao')"><i class="fa fa-edit"></i></label>
+        </h4>
+      </div>
+
+      <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+        <thead>
+          <tr>
+            <th style="color: #969696; background-color: transparent; font-weight: 100;" *ngIf="empregadoComponent.empregado.dataAdmissao != null">
+              <p style="float: left;">Data de Admissão</p>
+              <p style="float: right;">{{ empregadoComponent.empregado.dataAdmissao | date : 'dd/MM/yyyy' }}</p>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="empregadoComponent.empregado.dataAdmissao != null">
+          <!-- <td>{{ empregadoComponent.empregado.dataAdmissao | date : 'dd/MM/yyyy' }}</td> -->
+        </tbody>
+
+        <tfoot></tfoot>
+
+      </table>
+
+    </div>
+
+
+    <!-- <div class="col-md-4">
+        <div class="card col-md-12  padd-left0 padd-right0">
+          <div id="accordionexample" class="accordion" role="tablist" aria-multiselectable="true">
+            <div class="card">
+              <div class="card-header" role="tab" id="headingOne">
+                <h5 class="mb-0">
+                  <a style="color: white" data-toggle="collapse" data-parent="#accordionexample" href="#collapseexaOne" aria-expanded="true"
+                    aria-controls="collapseexaOne">
+                    Receitas
+                  </a>
+                </h5>
+              </div>
+  
+              <div id="collapseexaOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+  
+                <div class="card-block">
+                  <div class="table-responsive m-t-20">
+  
+  
+  
+                    <br/><br/><br/><br/>
+  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+
+
+
+
+
+
+
+
+    <div class="card col-md-12  padd-left0 padd-right0">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Benefícios
+          <label *ngIf="empregadoComponent.empregado.valeTransporte == null" style="float: right; cursor: pointer;" title="Cadastrar"
+            (click)="showModal('modalAddBeneficios')"><i class="fa fa-plus"></i></label>
+          <label *ngIf="empregadoComponent.empregado.valeTransporte != null" style="float: right; cursor: pointer;" title="Inativar"
+            (click)="inativarBeneficios()"><i class="fa fa-minus"></i></label>
+          <label *ngIf="empregadoComponent.empregado.valeTransporte != null" style="float: right; margin: 0 12px 0 0; cursor: pointer;"
+            title="Editar" (click)="showModal('modalEditBeneficios')"><i class="fa fa-edit"></i></label>
+        </h4>
+      </div>
+
+      <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+
+        <thead>
+          <tr>
+            <th style="color: #969696; background-color: transparent; font-weight: 100;">
+              <mfDefaultSorter by="Numero" *ngIf="empregadoComponent.empregado.valeTransporte == 'S'">Vale Transporte</mfDefaultSorter>
+            </th>
+          </tr>
+        </thead>
+
+        <tfoot></tfoot>
+
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+<app-adicionar-empregadocontacorrente *ngIf="modalAddContaCorrenteVisible != false" [(visible)]="modalAddContaCorrenteVisible"></app-adicionar-empregadocontacorrente>
+<app-adicionar-empregadoadmissao *ngIf="modalAddAdmissaoVisible != false" [(visible)]="modalAddAdmissaoVisible"></app-adicionar-empregadoadmissao>
+<app-editar-empregadoadmissao *ngIf="modalEditAdmissaoVisible != false" [(visible)]="modalEditAdmissaoVisible"></app-editar-empregadoadmissao>
+<app-adicionar-empregadobeneficios *ngIf="modalAddBeneficiosVisible != false" [(visible)]="modalAddBeneficiosVisible"></app-adicionar-empregadobeneficios>
+<app-editar-empregadobeneficios *ngIf="modalEditBeneficiosVisible != false" [(visible)]="modalEditBeneficiosVisible"></app-editar-empregadobeneficios>
+<app-adicionar-empregadodesconto *ngIf="modalAddDescontoVisible != false" [(visible)]="modalAddDescontoVisible"></app-adicionar-empregadodesconto>
+<app-editar-empregadodesconto *ngIf="modalEditDescontoVisible != false" [(visible)]="modalEditDescontoVisible"></app-editar-empregadodesconto>

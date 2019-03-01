@@ -1,0 +1,465 @@
+<aside class="left-sidebar">
+    <div class="scroll-sidebar">
+        <div class="user-profile">
+            <div class="profile-img">
+                <img src="assets/images/users/1.jpg" alt="user" /> </div>
+            <div class="profile-text">
+                <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                    {{primeiroNome}}
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu animated flipInY">
+                    <a href="#" class="dropdown-item">
+                        <i class="ti-user"></i> My Profile</a>
+                    <a href="#" class="dropdown-item">
+                        <i class="ti-wallet"></i> My Balance</a>
+                    <a href="#" class="dropdown-item">
+                        <i class="ti-email"></i> Inbox</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="ti-settings"></i> Account Setting</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="login.html" class="dropdown-item">
+                        <i class="fa fa-power-off"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+
+                <li [class.active]="showMenu === '/dashboard'">
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['/dashboard'])" aria-expanded="false">
+                        <i class="mdi mdi-gauge"></i>
+                        <span class="hide-menu">Dashboard</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === '/dashboard'">
+                        <li>
+                            <a routerLink="/dashboard/dashboard1" [routerLinkActive]="['router-link-active']">Dashboard</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-devider"></li>
+                <li *ngIf="authService.roleMatch(['Administrador', 'Cadastro'])" class="nav-small-cap">CADASTROS</li>
+
+                <li *ngIf="authService.roleMatch(['Administrador', 'Cadastro'])" [class.active]="showMenu === 'empresa'">
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['empresa'])" aria-expanded="false">
+                        <i class="fa fa-address-card"></i>
+                        <span class="hide-menu">Cadastros</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'empresa'">
+                        <li>
+                            <a routerLink="/empresa" [routerLinkActive]="['router-link-active']">Empresas</a>
+                        </li>
+                        <li>
+                            <a routerLink="/cliente" [routerLinkActive]="['router-link-active']">Clientes</a>
+                        </li>
+                        <li>
+                            <a routerLink="/fornecedor" [routerLinkActive]="['router-link-active']">Fornecedor</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipologradouro" [routerLinkActive]="['router-link-active']">Tipos de Logradouro</a>
+                        </li>
+                        <li>
+                            <a routerLink="/mascara" [routerLinkActive]="['router-link-active']">Mascara</a>
+                        </li>
+                        <li>
+                            <a routerLink="/leiautearquivobancario" [routerLinkActive]="['router-link-active']">
+                                Layout p/ Arquivo Bancário</a>
+                        </li>
+                        <li>
+                            <a routerLink="/estadocivil" [routerLinkActive]="['router-link-active']">
+                                Estado Civil</a>
+                        </li>
+                        <li>
+                            <a routerLink="/localidade" [routerLinkActive]="['router-link-active']">
+                                Localidades</a>
+                        </li>
+                        <li>
+                            <a routerLink="/pais" [routerLinkActive]="['router-link-active']">
+                                País</a>
+                        </li>
+                        <li>
+                            <a routerLink="/corraca" [routerLinkActive]="['router-link-active']">
+                                Cor/Raça</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipoendereco" [routerLinkActive]="['router-link-active']">Tipos de Endereços</a>
+                        </li>
+                        <li>
+                            <a routerLink="/uf" [routerLinkActive]="['router-link-active']">UF - Unidade da Federação</a>
+                        </li>
+                        <li>
+                            <a routerLink="/parentesco" [routerLinkActive]="['router-link-active']">Parentesco</a>
+                        </li>
+                        <li>
+                            <a routerLink="/nacionalidades" [routerLinkActive]="['router-link-active']">Nacionalidades</a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li *ngIf="authService.roleMatch(['Administrador', 'Financeiro'])" class="nav-small-cap">FINANCEIRO</li>
+                <li *ngIf="authService.roleMatch(['Administrador', 'Financeiro'])" [class.active]="showMenu === 'administradoracartao'">
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['administradoracartao'])" aria-expanded="false">
+                        <i class="fa fa-podcast"></i>
+                        <span class="hide-menu">Informações Bancárias</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'administradoracartao'">
+                        <li>
+                            <a routerLink="/administradoracartao" [routerLinkActive]="['router-link-active']">Administradora de Cartão</a>
+                        </li>
+                        <li>
+                            <a routerLink="/banco" [routerLinkActive]="['router-link-active']">Banco</a>
+                        </li>
+                        <li>
+                            <a routerLink="/agencia" [routerLinkActive]="['router-link-active']">Agência</a>
+                        </li>
+                        <li>
+                            <a routerLink="/conta/lista" [routerLinkActive]="['router-link-active']">Conta Corrente</a>
+                        </li>
+                        <li>
+                            <a routerLink="/conta/listacontacaixa" [routerLinkActive]="['router-link-active']">Contas Caixa</a>
+                        </li>
+                    </ul>
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['historicopadrao'])" aria-expanded="false">
+                        <i class="fa fa-wpexplorer"></i>
+                        <span class="hide-menu">Histórico Padrão</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'historicopadrao'">
+                        <li>
+                            <a routerLink="/centrocusto" [routerLinkActive]="['router-link-active']">Centro de Custo</a>
+                        </li>
+                        <li>
+                            <a routerLink="/centroresultado" [routerLinkActive]="['router-link-active']">Centro de Resultado</a>
+                        </li>
+                        <li>
+                            <a routerLink="/historicopadrao" [routerLinkActive]="['router-link-active']">Histórico Padrão</a>
+                        </li>
+                    </ul>
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['titulo'])" aria-expanded="false">
+                        <i class="fa fa-envelope-open"></i>
+                        <span class="hide-menu">Contas a Receber</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'titulo'">
+                        <li>
+                            <a routerLink="/titulo/lista/receber" [routerLinkActive]="['router-link-active']">Títulos</a>
+                        </li>
+                        <li>
+                            <a routerLink="/configuracaopagamento" [routerLinkActive]="['router-link-active']">Configuração de Pagamento</a>
+                        </li>
+                        <li>
+                            <a routerLink="/desconto" [routerLinkActive]="['router-link-active']">Desconto</a>
+                        </li>
+                        <li>
+                            <a routerLink="/boleto" [routerLinkActive]="['router-link-active']">Boletos</a>
+                        </li>
+                        <li>
+                            <a routerLink="/remessa" [routerLinkActive]="['router-link-active']">Remessas</a>
+                        </li>
+                        <li>
+                            <a routerLink="/alterarvencimentolote/receber" [routerLinkActive]="['router-link-active']">Alterar Vencimento Em Lote</a>
+                        </li>
+                        <li [class.active]="showSubMenu === 'nfse'">
+                            <a class="has-arrow" href="javascript:void(0)" (click)="AdicionarClassAtiva(['nfse'])" aria-expanded="false">
+                                <i class="mdi mdi-arrange-send-backward"></i>&nbsp;NFS-e</a>
+                            <ul aria-expanded="false" class="collapse" [class.in]="showSubMenu === 'nfse'">
+
+                                <li>
+                                    <a routerLink="/nfse" [routerLinkActive]="['router-link-active']">Gerar</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/nfse/consultar" [routerLinkActive]="['router-link-active']">Consultar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a routerLink="/tituloparcelabaixa/lista/receber" [routerLinkActive]="['router-link-active']">Baixa Manual Receber</a>
+                        </li>
+                        <li>
+                            <a routerLink="/renegociacao/receber" [routerLinkActive]="['router-link-active']">Renegociação a Receber</a>
+                        </li>
+                        <li>
+                            <a routerLink="/cobranca" [routerLinkActive]="['router-link-active']">Central de Cobrança</a>
+                        </li>
+                    </ul>
+
+
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['/titulo/lista/pagar'])" aria-expanded="false">
+                        <i class="fa fa-credit-card-alt"></i>
+                        <span class="hide-menu">Contas a Pagar</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === '/titulo/lista/pagar'">
+                        <li>
+                            <a routerLink="/titulo/lista/pagar" [routerLinkActive]="['router-link-active']">Títulos</a>
+                        </li>
+                        <li>
+                            <a routerLink="/cartao" [routerLinkActive]="['router-link-active']">Cartão</a>
+                        </li>
+                        <li>
+                            <a routerLink="/chequeproprio" [routerLinkActive]="['router-link-active']">Cheque Próprio</a>
+                        </li>
+                        <li>
+                            <a routerLink="/alterarvencimentolote/pagar" [routerLinkActive]="['router-link-active']">Alterar Vencimento em Lote</a>
+                        </li>
+                        <li [class.active]="showSubMenu === 'gerarremessapagamento'">
+                            <a class="has-arrow" href="javascript:void(0)" (click)="AdicionarClassAtiva(['gerarremessapagamento'])" aria-expanded="false">
+                                <i class="mdi mdi-arrange-send-backward"></i>&nbsp;Pagamentos</a>
+                            <ul aria-expanded="false" class="collapse" [class.in]="showSubMenu === 'gerarremessapagamento'">
+                                <li>
+                                    <a routerLink="/gerarremessapagamento" [routerLinkActive]="['router-link-active']">Gerar Remessa de Pagamentos</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/lerretornopagamento" [routerLinkActive]="['router-link-active']">Ler Retorno de Pagamentos</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a routerLink="/tituloparcelabaixa/lista/pagar" [routerLinkActive]="['router-link-active']">Baixa Manual Pagar</a>
+                        </li>
+                    </ul>
+
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['movimentoconta'])" aria-expanded="false">
+                        <i class="fa fa-ravelry"></i>
+                        <span class="hide-menu">Movimentação</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'movimentoconta'">
+                        <li>
+                            <a routerLink="/movimentoconta/lista" [routerLinkActive]="['router-link-active']">Lançar Movimento</a>
+                        </li>
+                    </ul>
+
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['conciliacaobancaria'])" aria-expanded="false">
+                        <i class="fa fa-handshake-o"></i>
+                        <span class="hide-menu">Conciliação Bancária</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'conciliacaobancaria'">
+                        <li>
+                            <a routerLink="/conciliacaobancaria/lista" [routerLinkActive]="['router-link-active']">Efetuar Conciliação Bancária</a>
+                        </li>
+                    </ul>
+                </li>
+                <li *ngIf="authService.roleMatch(['Administrador', 'Faturamento'])" class="nav-small-cap">FATURAMENTO</li>
+                <li *ngIf="authService.roleMatch(['Administrador', 'Faturamento'])" [class.active]="showMenu === 'faturamento'">
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['faturamento'])" aria-expanded="false">
+                        <i class="fa fa-percent"></i>
+                        <span class="hide-menu">Faturamento</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'faturamento'">
+                        <li>
+                            <a routerLink="/parametrofaturamento" [routerLinkActive]="['router-link-active']">Parâmentro</a>
+                        </li>
+                        <li>
+                            <a routerLink="/eventofaturamento" [routerLinkActive]="['router-link-active']">Evento</a>
+                        </li>
+                        <li>
+                            <a routerLink="/faturamento" [routerLinkActive]="['router-link-active']">Faturamento</a>
+                        </li>
+                        <li [class.active]="showSubMenu === 'contratofaturamento'">
+                            <a class="has-arrow" href="javascript:void(0)" (click)="AdicionarClassAtiva(['contratofaturamento'])" aria-expanded="false">
+                                <i class="mdi mdi-arrange-send-backward"></i>&nbsp;Contratos</a>
+                            <ul aria-expanded="false" class="collapse" [class.in]="showSubMenu === 'contratofaturamento'">
+                                <li>
+                                    <a routerLink="/contratofaturamento" [routerLinkActive]="['router-link-active']">Contrato Faturamento</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/tipocontrato" [routerLinkActive]="['router-link-active']">Tipo de Contrato</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/testemunha" [routerLinkActive]="['router-link-active']">Testemunha</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/reajustecontratofaturamento" [routerLinkActive]="['router-link-active']">Reajuste de Contato Faturamento</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a routerLink="/lancamento" [routerLinkActive]="['router-link-active']">Lançamentos</a>
+                        </li>
+                        <li>
+                            <a routerLink="/observacao" [routerLinkActive]="['router-link-active']">Observação</a>
+                        </li>
+                        <li [class.active]="showSubMenu === '/categoriacontapagar'">
+                            <a class="has-arrow" href="javascript:void(0)" (click)="AdicionarClassAtiva(['/categoriacontapagar'])" aria-expanded="false">
+                                <i class="mdi mdi-arrange-send-backward"></i>&nbsp;Categorias</a>
+                            <ul aria-expanded="false" class="collapse" [class.in]="showSubMenu === '/categoriacontapagar'">
+                                <li>
+                                    <a routerLink="/categoriacontapagar" [routerLinkActive]="['router-link-active']">Contas a Pagar</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/categoriacontareceber" [routerLinkActive]="['router-link-active']">Contas a Receber</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li [class.active]="showSubMenu === '/report'">
+                            <a class="has-arrow" href="javascript:void(0)" (click)="AdicionarClassAtiva(['/report'])" aria-expanded="false">
+                                <i class="mdi mdi-arrange-send-backward"></i>&nbsp;Relatórios</a>
+                            <ul aria-expanded="false" class="collapse" [class.in]="showSubMenu === '/report'">
+                                <li>
+                                    <a routerLink="/report/lancamentoevento" [routerLinkActive]="['router-link-active']">Lançamentos de Eventos</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/resumofaturamento" [routerLinkActive]="['router-link-active']">Resumo Faturamento</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/reciboprovisorioservicoemitido" [routerLinkActive]="['router-link-active']">Recido Provisório Serviços Emitidos</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/boletosemitidos" [routerLinkActive]="['router-link-active']">Boletos Emitidos</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/documentocobrancaemitido" [routerLinkActive]="['router-link-active']">Documentos de Cobrança Emitidos</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/extratofaturamento" [routerLinkActive]="['router-link-active']">Extrato Faturamento</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/faturamentoperiodo" [routerLinkActive]="['router-link-active']">Faturamento por período</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/notasfiscaisemitidas" [routerLinkActive]="['router-link-active']">Notas Fiscais Emitidas</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/pendenciafaturamento" [routerLinkActive]="['router-link-active']">Pendência Faturamento</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/relacaofaturamento" [routerLinkActive]="['router-link-active']">Relação Faturamento</a>
+                                </li>
+                                <li>
+                                    <a routerLink="/report/reajustecontratos" [routerLinkActive]="['router-link-active']">Reajuste de Contrato</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li *ngIf="authService.roleMatch(['Administrador', 'Folha'])" class="nav-small-cap">FOLHA</li>
+                <li *ngIf="authService.roleMatch(['Administrador', 'Folha'])" [class.active]="showMenu === 'folha'">
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['folha'])" aria-expanded="false">
+                        <i class="fa fa-address-card"></i>
+                        <span class="hide-menu">Cadastros Folha</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'folha'">
+                        <li>
+                            <a routerLink="/cargo" [routerLinkActive]="['router-link-active']">Cargo</a>
+                        </li>
+                        <li>
+                            <a routerLink="/cbo" [routerLinkActive]="['router-link-active']">Cbo</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipojornada" [routerLinkActive]="['router-link-active']">Tipo Jornada</a>
+                        </li>
+                        <li>
+                            <a routerLink="/grade" [routerLinkActive]="['router-link-active']">Grade</a>
+                        </li>
+                        <li>
+                            <a routerLink="/grauinstrucao" [routerLinkActive]="['router-link-active']">Grau de Instrução</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipoadmissao" [routerLinkActive]="['router-link-active']">Tipo de Admissão</a>
+                        </li>
+                        <li>
+                            <a routerLink="/contribuicaosindicalpatronal" [routerLinkActive]="['router-link-active']">Contribuição Sindical Patronal</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipobeneficio" [routerLinkActive]="['router-link-active']">Tipo de Benefício</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipoafastamento" [routerLinkActive]="['router-link-active']">Tipo de Afastamento</a>
+                        </li>
+                        <li>
+                            <a routerLink="/agenteintegrador" [routerLinkActive]="['router-link-active']">Agente Integrador</a>
+                        </li>
+                        <li>
+                            <a routerLink="/operadoraplanosaude" [routerLinkActive]="['router-link-active']">Operadora de Plano de Saúde</a>
+                        </li>
+                        <li>
+                            <a routerLink="/coordenadordeestagio" [routerLinkActive]="['router-link-active']">Coordenador de Estágio</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipohorariotrabalho" [routerLinkActive]="['router-link-active']">Tipo Horário Trabalho</a>
+                        </li>
+                        <li>
+                            <a routerLink="/instituicaoensino" [routerLinkActive]="['router-link-active']">Instituição de Ensino</a>
+                        </li>
+                        <li>
+                            <a routerLink="/responsavelcaged" [routerLinkActive]="['router-link-active']">Responsável Caged</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipodeficiencia" [routerLinkActive]="['router-link-active']">Tipo de Deficiência</a>
+                        </li>
+                        <li>
+                            <a routerLink="/sindicato" [routerLinkActive]="['router-link-active']">Sindicato</a>
+                        </li>
+                        <li>
+                            <a routerLink="/convencao" [routerLinkActive]="['router-link-active']">Convenção</a>
+                        </li>
+                        <li>
+                            <a routerLink="/legislacao" [routerLinkActive]="['router-link-active']">Legislação</a>
+                        </li>
+                        <li>
+                            <a routerLink="/naturezalesao" [routerLinkActive]="['router-link-active']">Natureza da Lesão</a>
+                        </li>
+                        <li>
+                            <a routerLink="/sitgeradoraacidentetrabalho" [routerLinkActive]="['router-link-active']">Situação Geradora do Acidente de Trabalho</a>
+                        </li>
+                        <li>
+                            <a routerLink="/exposicaoagentenocivo" [routerLinkActive]="['router-link-active']">Exposição Agente Nocivo</a>
+                        </li>
+                        <li>
+                            <a routerLink="/partecorpoatingida" [routerLinkActive]="['router-link-active']">Parte Corpo Atiginda</a>
+                        </li>
+                        <li>
+                            <a routerLink="/agentecausadoracidente" [routerLinkActive]="['router-link-active']">Agente Causador Acidente</a>
+                        </li>
+
+                        <li>
+                            <a routerLink="/cid" [routerLinkActive]="['router-link-active']">Cid</a>
+                        </li>
+                        <li>
+                            <a routerLink="/colaborador" [routerLinkActive]="['router-link-active']">Colaborador</a>
+                        </li>
+                        <li>
+                            <a routerLink="/departamento" [routerLinkActive]="['router-link-active']">Departamento</a>
+                        </li>
+                        <li>
+                            <a routerLink="/equipprotecaoindividual" [routerLinkActive]="['router-link-active']">EPI</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tipolotacaotributaria" [routerLinkActive]="['router-link-active']">Tipos de Lotação Tributária</a>
+                        </li>
+                        <li>
+                            <a routerLink="/valortransporte" [routerLinkActive]="['router-link-active']">Valores dos Transportes</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li *ngIf="authService.roleMatch(['Administrador'])" class="nav-small-cap">SEGURANÇA</li>
+                <li *ngIf="authService.roleMatch(['Administrador'])" [class.active]="showMenu === 'seguranca'">
+                    <a class="has-arrow waves-effect waves-dark" (click)="AdicionarExpandirClass(['seguranca'])" aria-expanded="false">
+                        <i class="fa fa-unlock-alt"></i>
+                        <span class="hide-menu">Segurança</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'seguranca'">
+                        <li>
+                            <a routerLink="/usuario" [routerLinkActive]="['router-link-active']">Usuário</a>
+                        </li>
+                        <li>
+                            <a routerLink="/papel" [routerLinkActive]="['router-link-active']">Papel</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+    <div class="sidebar-footer">
+        <a href="" class="link" data-toggle="tooltip" title="Settings">
+            <i class="ti-settings"></i>
+        </a>
+        <a href="" class="link" data-toggle="tooltip" title="Email">
+            <i class="mdi mdi-gmail"></i>
+        </a>
+        <a href="" class="link" data-toggle="tooltip" title="Logout">
+            <i class="mdi mdi-power"></i>
+        </a>
+    </div>
+</aside>

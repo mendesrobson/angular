@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Relatório Relação Faturamento</h4>
+            </div>
+            <div class="card-block">
+                <form [formGroup]="filtroRelatorioExtratoFaturamentoForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-12">
+                                <div class="row p-t-20">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Grupo</label>
+                                            <dx-select-box placeholder="Grupo" [items]="grupoEmpresas" displayExpr="pessoa.nome" valueExpr="id" [searchEnabled]="true"
+                                                formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                                            </dx-select-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Empresa</label>
+                                            <dx-select-box placeholder="Empresa" [items]="empresas" displayExpr="pessoa.nome" valueExpr="id" [searchEnabled]="true" formControlName="empresaId"
+                                                (ngModelChange)="ConsultaSelectEmpresa($event)">
+                                            </dx-select-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="clienteId">Cliente</label>
+                                            <dx-drop-down-box [(value)]="gridBoxValue" valueExpr="id" displayExpr="cliente" placeholder="Selecionar..."
+                                                [showClearButton]="true" [dataSource]="gridDataSource" formControlName="clienteId">
+                                    
+                                                <div *dxTemplate="let data of 'content'">
+                                                    <dx-data-grid [dataSource]="gridDataSource" [columns]="['codigo','cliente']" [selection]="{ mode: 'multiple' }"
+                                                        [hoverStateEnabled]="true" [paging]="{ enabled: true, pageSize: 10 }" [filterRow]="{ visible: true }"
+                                                        [scrolling]="{ mode: 'infinite' }" [height]="345" [(selectedRowKeys)]="gridBoxValue">
+                                                    </dx-data-grid>
+                                                </div>
+                                            </dx-drop-down-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="dataCompetenciaInicial">Data Competência</label>
+                                            <dx-date-box type="date" width="100%" displayFormat="MM/yyyy" maxZoomLevel="year" 
+                                            minZoomLevel="century" formControlName="dataCompetenciaInicial" style="margin-top: 10px;"></dx-date-box>
+                                            <!-- <span class="text-danger" *ngIf="displayMessage.dataCompetencia">
+                                                    <p [innerHTML]="displayMessage.dataCompetencia"></p>
+                                                </span> -->
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="control-label">Ordem dos Clientes</label>
+                                        <div class="card color-bordered-table info-bordered-table" style="border: 2px solid #ddd">
+                                            <div class="form-check" style="margin-top: 10px;">
+                                                <div class="col-12">
+                                                    <dx-radio-group [items]="ordemClientes" formControlName="ordemClientes" [value]="ordemClientes[0]" layout="horizontal">
+                                                    </dx-radio-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="control-label">Opções</label>
+                                        <div class="card color-bordered-table info-bordered-table" style="border: 2px solid #ddd">
+                                            <div class="form-check" style="margin-top: 10px;">
+                                                <div class="col-12">
+                                                    <dx-radio-group [items]="opcoes" [value]="opcoes[0]" layout="horizontal">
+                                                    </dx-radio-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="">
+                                            <button type="button" class="btn btn-block btn-success" (click)="gerarRelatorioExtratoFaturamento()">
+                                                <i class="fa fa-plus"></i> Gerar Relatório</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div #scripts>
+</div>
+<div #control style="width:100%; height: 1000px">
+    <div data-bind="dxReportViewer: $data"></div>
+</div>

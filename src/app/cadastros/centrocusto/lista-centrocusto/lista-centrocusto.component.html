@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="card col-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-block" style="display: inline;">
+        
+                    <div class="m-t-40">
+                        <div class="d-flex">
+                            <div class="col-lg-3 col-md-4 align-content-lg-end">
+                                <div class="row button-group">
+                                    <div>
+                                        <button type="button" class="btn btn-success" (click)="cadastrarCentroCusto()">
+                                            <i class="fa fa-plus"></i> Cadastrar </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" [formGroup]="centroCustoForm">
+                                <div>
+                                    <dx-select-box placeholder="Selecione o grupo" [items]="grupoEmpresas" displayExpr="pessoa.nome"
+                                        valueExpr="id" [searchEnabled]="true" (ngModelChange)="ConsultaEmpresa($event)"
+                                        formControlName="grupoEmpresaId">
+                                    </dx-select-box>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" [formGroup]="centroCustoForm">
+                                <div>
+                                    <dx-select-box placeholder="Selecione a empresa" [items]="empresas" displayExpr="pessoa.nome"
+                                        valueExpr="id" [searchEnabled]="true" (ngModelChange)="ConsultaSelectEmpresa($event)"
+                                        formControlName="empresaId">
+                                    </dx-select-box>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="float-right padd-left15">
+                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-list"></i>
+                                    </button>
+
+
+                                    <div class="dropdown-menu animated flipInY">
+                                        <a class="dropdown-item" ngbTooltip="Excel" (click)="gerarExcel(table,'CentroCusto')">
+                                            <i class="fa fa-file-excel-o"> &nbsp;Excel</i>
+                                        </a>
+                                        <a class="dropdown-item" (click)="gerarPDF('CentroCusto');" ngbTooltip="PDF">
+                                            <i class="fa fa-file-pdf-o">&nbsp;PDF</i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="form-group float-right padd-left15">
+                                    <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..."
+                                        class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                <div class="table-responsive">
+                    <dx-tree-list #table id="CentroCusto" [dataSource]="centroCustos" keyExpr="id" parentIdExpr="centroCustoPaiId"
+                        [showRowLines]="true" [showBorders]="true" [columnAutoWidth]="true" [expandedRowKeys]="[1]"
+                        (onSelectionChanged)="oncellClick($event)" (onNodesInitialized)="nodesInitialized($event)" noDataText="Nenhum dado para exibir">
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxi-column dataField="codigo" caption="Código"></dxi-column>
+                        <dxi-column dataField="sigla" caption="Sigla"></dxi-column>
+                        <dxi-column dataField="descricao" caption="Descrição"></dxi-column>
+                    </dx-tree-list>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="card col-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+        <div class="m-t-40">
+          <div class="d-flex">
+            <div class="col-md-6 align-content-lg-end">
+              <div class="row button-group">
+                <div>
+                  <button type="button" class="btn btn-success" (click)="cadastrarParametroFaturamento()">
+                    <i class="fa fa-plus"></i> Cadastrar </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="btn-group float-right padd-left15">
+                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-list"></i>
+                  </button>
+                  <div class="dropdown-menu animated flipInY">
+                    <a class="dropdown-item" (click)="gerarExcel(table,'tableparamentro');" ngbTooltip="Excel">
+                      <i class="fa fa-file-excel-o"> &nbsp;Excel</i>
+                    </a>
+                    <a class="dropdown-item" (click)="gerarPDF('tableparamentro');" ngbTooltip="PDF">
+                      <i class="fa fa-file-pdf-o">&nbsp;PDF</i>
+                    </a>
+                  </div>
+                </div>
+          
+                <div class="form-group float-right padd-left15">
+                  <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..." class="form-control" autocomplete="off">
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="table-responsive">
+          <table #table id="tableparamentro" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery"
+            #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="grupoEmpresa.pessoa.nome">Grupo Empresa</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="empresa.pessoa.nome">Empresa</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="status">Status</mfDefaultSorter>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let parametrofaturamento of mf.data" (click)="editarParametroFaturamento(parametrofaturamento.id)" style="cursor:pointer">
+                <td>{{ parametrofaturamento.grupoEmpresa.pessoa.nome }}</td>
+                <td>{{ parametrofaturamento.empresa.pessoa.nome }}</td>
+                <td>
+                  <div *ngIf="parametrofaturamento.excluido == 'N'" class="label label-table label-success">Ativo</div>
+                  <div *ngIf="parametrofaturamento.excluido == 'S'" class="label label-table label-danger">Inativo</div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- 
+<div class="card-block">
+  <div class="m-t-40">
+    <div class="d-flex">
+      <div class="col-lg-4 col-md-10 align-content-lg-end">
+        <div class="row button-group">
+          <div class="">
+            <button type="button" class="btn btn-success" (click)="cadastrarParametroFaturamento()">
+              <i class="fa fa-plus"></i> Cadastrar </button>
+          </div>
+        </div>
+      </div>
+      <div class="ml-auto">
+        <div class="form-group">
+          <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..." class="form-control" autocomplete="off">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+      [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+      <thead>
+        <tr>
+          <th>
+            <mfDefaultSorter by="grupoEmpresa.nome">Grupo Empresa</mfDefaultSorter>
+          </th>
+          <th>
+            <mfDefaultSorter by="empresa.nome">Empresa</mfDefaultSorter>
+          </th>
+          <th>
+            <mfDefaultSorter by="status">Status</mfDefaultSorter>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let parametrofaturamento of mf.data" (click)="editarParametroFaturamento(parametrofaturamento.id)" style="cursor:pointer">
+          <td>{{ parametrofaturamento.grupoEmpresa.nome }}</td>
+          <td>{{ parametrofaturamento.empresa.nome }}</td>
+          <td>
+            <div *ngIf="parametrofaturamento.excluido == 'N'" class="label label-table label-success">Ativo</div>
+            <div *ngIf="parametrofaturamento.excluido == 'S'" class="label label-table label-danger">Inativo</div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div> -->

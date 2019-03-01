@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-block">
+        <div class="form-body">
+          <h3 class="box-title m-t-0">Saldo Conta Caixa</h3>
+          <hr>
+
+          <div class="table-responsive m-t-20">
+            <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+              [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+              <thead>
+                <tr>
+                  <th>
+                    <mfDefaultSorter by="valorSaldoDiaReal">Saldo Real</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="valorSaldoDiaConciliado">Saldo Conciliado</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="valorSaldoDiaConcEmissao">Saldo Conciliado Emissão</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="dataSaldo">Data Saldo</mfDefaultSorter>
+                  </th> 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let contaSaldo of contaCorrenteComponent.ContaCorrente.contaCaixaBancoSaldo">
+                  <td>{{ contaSaldo.valorSaldoDiaReal | currency:'BRL':'symbol' }}</td>
+                  <td>{{ contaSaldo.valorSaldoDiaConciliado | currency:'BRL':'symbol' }}</td>
+                  <td>{{ contaSaldo.valorSaldoDiaConcEmissao | currency:'BRL':'symbol' }}</td>
+                  <td>{{ contaSaldo.dataSaldo | date:'dd/MM/yyyy' }}</td>                                
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

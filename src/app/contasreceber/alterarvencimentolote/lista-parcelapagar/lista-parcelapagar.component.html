@@ -1,0 +1,279 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Alterar Vencimento em Lote</h4>
+            </div>
+            <div class="card-block">
+                <form class="form-horizontal" novalidate [formGroup]="filtroParcelasAVencerForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                                        <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                        <p [innerHTML]="displayMessage.empresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="clientes">Fornecedor</label>
+                                    <angular2-multiselect class="custom-select col-12" [data]="dropdownList" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                                        (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
+                                        formControlName="fornecedores">
+                                    </angular2-multiselect>
+                                    <span class="text-danger" *ngIf="displayMessage.fornecedores">
+                                        <p [innerHTML]="displayMessage.fornecedores"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="dataVencimentoInicial">Data do Vencimento Inicial</label>
+                                    <my-date-picker name="dataVencimentoInicial" [options]="myDatePickerOptions" formControlName="dataVencimentoInicial"></my-date-picker>
+                                    <span class="text-danger" *ngIf="displayMessage.dataVencimentoInicial">
+                                        <p [innerHTML]="displayMessage.dataVencimentoInicial"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="dataVencimentoFinal">Data do Vencimento Final</label>
+                                    <my-date-picker name="dataVencimentoFinal" [options]="myDatePickerOptions" formControlName="dataVencimentoFinal"></my-date-picker>
+                                    <span class="text-danger" *ngIf="displayMessage.dataVencimentoFinal">
+                                        <p [innerHTML]="displayMessage.dataVencimentoFinal"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="button" [disabled]='!filtroParcelasAVencerForm.valid' class="btn btn-block btn-success" (click)="filtrarParcelas()">
+                                    <i class="fa fa-filter"></i> Filtrar </button>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="carregarTable != false">
+                    <div class="col-md-12">
+                        <div class="row p-t-20">
+                            <div [ngBusy]="{busy: busy, message: 'Por favor, aguarde...', backdrop: false, delay: 600, minDuration: 600}">
+                                <div class="col-md-12">
+                                    <div class="row button-group">
+                                        <div class="col-lg-3 col-md-12">
+                                            <!-- <div *ngIf="this.selectedEntities != undefined && this.selectedEntities.length > 0">
+                                                    teste
+                                                </div> -->
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target=".modal-novadatavencimento">
+                                                <i class="fa fa-pencil"></i> Alterar Vencimento</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <button class="btn btn-info" (click)="gerarExcel(table,'tableCliente');">
+                                            <i class="fa fa-file-excel-o"></i> Excel</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-info" (click)="gerarPDF('tableCliente');">
+                                            <i class="fa fa-file-pdf-o"></i> PDF</button>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="table-responsive">
+                                    <table #table id="tableCliente" *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data"
+                                        #mf="mfDataTable" [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <mfRowSelectorHead></mfRowSelectorHead>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter by="numero">Nro. Parcela</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter by="fornecedor.pessoa.nome">Fornecedor</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter by="dataVencimento">Dt. Vencimento</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter by="valorBruto">R$ Bruto</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter by="valorDesconto">R$ Desconto</mfDefaultSorter>
+                                                </th>
+                                                <th>
+                                                    <mfDefaultSorter by="valorLiquido">R$ Liquido</mfDefaultSorter>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let parcela of mf.data">
+
+                                                <td>
+                                                    <mfRowSelector [entity]="parcela" [checkboxId]="ndx"></mfRowSelector>
+                                                </td>
+
+                                                <td>{{ parcela.numero }}/{{ parcela.quantidadeParcela }}</td>
+                                                <td>{{ parcela.fornecedor.pessoa.nome }}</td>
+                                                <td>{{ parcela.dataVencimento | date:'dd/MM/yyyy' }}</td>
+                                                <td>{{ parcela.valorBruto | currency:'BRL':'symbol'}}</td>
+                                                <td>{{ parcela.valorDesconto | currency:'BRL':'symbol'}}</td>
+                                                <td>{{ parcela.valorLiquido| currency:'BRL':'symbol' }}</td>
+
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Nova Data de Vencimento -->
+<div class="modal fade modal-novadatavencimento" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+    style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <form class="form-horizontal" novalidate [formGroup]="novaDataVencimentoForm">
+                        <!-- <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="novaDataVencimento">Nova Data de Vencimento</label>
+                                    <my-date-picker name="novaDataVencimento" [options]="myDatePickerOptions" (click)="mostrarMensagem()" formControlName="novaDataVencimento"></my-date-picker>
+                                </div>
+                            </div>
+    
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Novo Dia de Vencimento</label>
+                                    <select [disableControl]="true" class="custom-select col-12" id="novoDiaVencimento" name="novoDiaVencimento" formControlName="novoDiaVencimento">
+                                        <option *ngFor="let dia of diasDoMes">{{ dia }}</option>
+    
+                                    </select>
+    
+    
+                                </div>
+                            </div> -->
+
+                        <div class="col-md-12">
+                            <div class="form-check">
+                                <label class="custom-control custom-radio">
+                                    <input name="radio" type="radio" class="custom-control-input" checked (change)="habilitarDesabilitarOpcaoData('novaDataVencimento', 'novoDiaVencimento')">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Nova Data de Vencimento</span>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <!-- <label class="control-label" for="novaDataVencimento">Nova Data de Vencimento</label> -->
+                                            <my-date-picker name="novaDataVencimento" [options]="myDatePickerOptions" formControlName="novaDataVencimento"></my-date-picker>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="custom-control custom-radio">
+                                    <input name="radio" type="radio" class="custom-control-input" (change)="habilitarDesabilitarOpcaoData('novoDiaVencimento', 'novaDataVencimento')">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Novo Dia de Vencimento</span>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <!-- <label>Novo Dia de Vencimento</label> -->
+                                            <select class="custom-select col-md-12" id="novoDiaVencimento" name="novoDiaVencimento" formControlName="novoDiaVencimento">
+                                                <option *ngFor="let dia of diasDoMes">{{ dia }}</option>
+
+                                            </select>
+
+
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                    <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="novaDataVencimento">Nova Data de Vencimento</label>
+                                <my-date-picker name="novaDataVencimento" [options]="myDatePickerOptions" (click)="mostrarMensagem()"></my-date-picker>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Novo Dia de Vencimento</label>
+                                <select class="custom-select col-12" id="novoDiaVencimento" name="novoDiaVencimento">
+                                    <option *ngFor="let dia of diasDoMes">{{ dia }}</option>
+    
+                                </select>
+    
+    
+                            </div>
+                        </div> -->
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- <div class="col-lg-2 col-md-6">
+                                <button type="button" (click)="adicionarCentroCusto()" [disabled]='!tituloCentroCustoForm.valid' class="btn btn-block btn-success"
+                                  data-dismiss="modal">
+                                  <i class="fa fa-check"></i> Gravar</button>
+                              </div> -->
+                <div>
+
+                    <button class="btn btn-block btn-success" type="button" data-dismiss="modal" (click)="alterarVencimentoParcelas()">
+                        <i class="fa fa-check"></i> Confirmar</button>
+                </div>
+                <div>
+                    <button class="btn btn-danger waves-effect text-left" data-dismiss="modal" type="button">Fechar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

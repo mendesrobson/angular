@@ -1,0 +1,792 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal col-12" novalidate (ngSubmit)="adicionarPessoa()" [formGroup]="pessoaForm">
+          <div class="form-body">
+            <div class="row p-t-20">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Tipo Pessoa</label>
+                  <select class="custom-select col-md-12" id="tipoId" name="tipoId" formControlName="tipoId" (ngModelChange)="carregarFormEmpresa($event)">
+                    <option value="1">Cliente</option>
+                    <option value="2">Fornecedor</option>
+                    <option value="3">Empresa</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.tipoId">
+                    <p [innerHTML]="displayMessage.tipoId"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                  <label class="control-label" for="codigo">Código</label>
+                  <input type="text" [disableControl]="!maskValid" autocomplete="off" [textMask]="{ mask: codMask }" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                  <span class="text-danger" *ngIf="displayMessage.codigo">
+                    <p [innerHTML]="displayMessage.codigo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" 
+                  (ngModelChange)="ConsultaEmpresa($event)">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6" *ngIf="pessoa.tipoId != 3">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId" (ngModelChange)="OnChangeEmpresa($event)">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Tipo</label>
+                  <select class="custom-select col-md-12" name="tipoPessoaId" formControlName="tipoPessoaId" (ngModelChange)="pessoa.tipoPessoaId = $event">
+                    <option *ngFor="let row of tipoPessoa" [ngValue]="row.id">{{row.descricao}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 2">
+                <div class="form-group">
+                  <label class="control-label" for="cnpj">CNPJ</label>
+                  <input type="text" autocomplete="off" [textMask]="{ mask: cnpjMask }" (blur)="ConsultaCnpj($event.target.value)" id="cnpj" name="cnpj" class="form-control text-input"
+                    formControlName="cnpj" />
+                  <span class="text-danger" *ngIf="displayMessage.cnpj">
+                    <p [innerHTML]="displayMessage.cnpj"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6" *ngIf="pessoa.tipoPessoaId == 2">
+                <div class="form-group">
+                  <label class="control-label" for="nome">Razão Social</label>
+                  <input type="text" autocomplete="off" id="nome" name="nome" class="form-control text-input" formControlName="nome" />
+                  <span class="text-danger" *ngIf="displayMessage.nome">
+                    <p [innerHTML]="displayMessage.nome"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                <div class="form-group">
+                  <label class="control-label" for="cpf">CPF</label>
+                  <input type="text" autocomplete="off" [textMask]="{ mask: cpfMask }" id="cpf" name="cpf" class="form-control text-input" formControlName="cpf"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.cpf">
+                    <p [innerHTML]="displayMessage.cpf"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                <div class="form-group">
+                  <label class="control-label" for="nome">Nome</label>
+                  <input type="text" autocomplete="off" id="nome" name="nome" class="form-control text-input" formControlName="nome" />
+                  <span class="text-danger" *ngIf="displayMessage.nome">
+                    <p [innerHTML]="displayMessage.nome"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="card padd-left15 padd-right15" style="width: 100%;">
+
+                <ul class="nav nav-tabs customtab2" role="tablist">
+
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#dadosComplementares" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-home"></i>
+                      </span>
+                      <span class="hidden-xs-down">Dados Complementares</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                    <a class="nav-link" data-toggle="tab" href="#documentos" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Documentos</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#endereco" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Endereços</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#contato" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Contatos</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" *ngIf="pessoa.tipoId == 3" href="#empresacontacorrente" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Conta Correntes</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" *ngIf="pessoa.tipoId == 1" href="#clientecontacorrente" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Conta Correntes</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item" *ngIf="pessoa.tipoId == 1">
+                    <a class="nav-link" data-toggle="tab" href="#clienteSindicato" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Cliente Sindicato</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item" *ngIf="pessoa.tipoId == 2">
+                    <a class="nav-link" data-toggle="tab" href="#fornecedorContaCorrente" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Conta Correntes</span>
+                    </a>
+                  </li>
+
+                </ul>
+                
+                
+                <div class="tab-content">
+                  <div class="tab-pane active" id="dadosComplementares" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="col-md-12">
+                        <div class="row p-t-20">
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 2">
+                            <div class="form-group">
+                              <label class="control-label" for="fantasia">Nome Fantasia</label>
+                              <input type="text" autocomplete="off" id="fantasia" name="fantasia" class="form-control text-input" formControlName="fantasia" />
+                              <span class="text-danger" *ngIf="displayMessage.fantasia">
+                                <p [innerHTML]="displayMessage.fantasia"></p>
+                              </span>
+                            </div>
+                          </div>
+
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 2">
+                            <div class="form-group">
+                              <label class="control-label" for="dataAbertura">Data Abertura</label>
+                              <input type="date" autocomplete="off" id="dataAbertura" name="dataAbertura" class="form-control text-input" formControlName="dataAbertura" pattern="dd/MM/yyyy"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 2">
+                            <div class="form-group">
+                              <label class="control-label" for="dataEncerramento">Data Encerramento</label>
+                              <input type="date" autocomplete="off" id="dataEncerramento" name="dataEncerramento" class="form-control text-input" formControlName="dataEncerramento"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 2">
+                            <div class="form-group">
+                              <label class="control-label" for="inscricaoEstadual">Inscricao Estadual</label>
+                              <input type="text" autocomplete="off" id="inscricaoEstadual" name="inscricaoEstadual" class="form-control text-input" formControlName="inscricaoEstadual"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.inscricaoEstadual">
+                                <p [innerHTML]="displayMessage.inscricaoEstadual"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 2">
+                            <div class="form-group">
+                              <label class="control-label" for="inscricaoMunicipal">Inscricao Municipal</label>
+                              <input type="text" autocomplete="off" id="inscricaoMunicipal" name="inscricaoMunicipal" class="form-control text-input" formControlName="inscricaoMunicipal"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.inscricaoMunicipal">
+                                <p [innerHTML]="displayMessage.inscricaoMunicipal"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 2">
+                            <div class="form-group">
+                              <label class="control-label" for="site">Site</label>
+                              <input type="text" autocomplete="off" id="site" name="site"  maxlength="100" class="form-control text-input" formControlName="site" />
+                              <span class="text-danger" *ngIf="displayMessage.site">
+                                <p [innerHTML]="displayMessage.site"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12" *ngIf="pessoa.tipoId == 3">
+                            <div class="card color-bordered-table info-bordered-table">
+
+                              <div class="card-header">
+                                <h4 class="m-b-0 text-white">Dados NFSe</h4>
+                              </div>
+                              <br>
+
+                              <div class="col-md-12">
+                                <div class="row p-t-2">
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label>Serviço</label>
+                                      <select class="custom-select col-md-12" id="servicoId" name="servicoId" formControlName="servicoId">
+                                        <option *ngFor="let servico of servicos" [ngValue]="servico.id">{{ servico.descricao }}</option>
+                                      </select>
+                                      <span class="text-danger" *ngIf="displayMessage.servicoId">
+                                        <p [innerHTML]="displayMessage.servicoId"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="control-label" for="discriminacao">Discriminação</label>
+                                      <input type="text" autocomplete="off" id="discriminacao" name="discriminacao" class="form-control text-input" formControlName="discriminacao"
+                                      />
+                                      <span class="text-danger" *ngIf="displayMessage.discriminacao">
+                                        <p [innerHTML]="displayMessage.discriminacao"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="control-label" for="tokenHomologacaoNfse">Token Homologação NFSe</label>
+                                      <input type="text" autocomplete="off" id="tokenHomologacaoNfse" name="tokenHomologacaoNfse" class="form-control text-input" formControlName="tokenHomologacaoNfse"
+                                      />
+                                      <span class="text-danger" *ngIf="displayMessage.tokenHomologacaoNfse">
+                                        <p [innerHTML]="displayMessage.tokenHomologacaoNfse"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="control-label" for="tokenProducaoNfse">Token Produção NFSe</label>
+                                      <input type="text" autocomplete="off" id="tokenProducaoNfse" name="tokenProducaoNfse" class="form-control text-input" formControlName="tokenProducaoNfse"
+                                      />
+                                      <span class="text-danger" *ngIf="displayMessage.tokenProducaoNfse">
+                                        <p [innerHTML]="displayMessage.tokenProducaoNfse"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="col-md-3">
+                                    <div class="form-group">
+                                      <label class="control-label" for="rpsHomologacaoNfse">RPS Homologação NFSe</label>
+                                      <input type="number" autocomplete="off" id="rpsHomologacaoNfse" name="rpsHomologacaoNfse" class="form-control text-input" formControlName="rpsHomologacaoNfse"
+                                      />
+                                      <span class="text-danger" *ngIf="displayMessage.rpsHomologacaoNfse">
+                                        <p [innerHTML]="displayMessage.rpsHomologacaoNfse"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-3">
+                                    <div class="form-group">
+                                      <label class="control-label" for="rpsProducaoNfse">RPS Produção NFSe</label>
+                                      <input type="number" autocomplete="off" id="rpsProducaoNfse" name="rpsProducaoNfse" class="form-control text-input" formControlName="rpsProducaoNfse"
+                                      />
+                                      <span class="text-danger" *ngIf="displayMessage.rpsProducaoNfse">
+                                        <p [innerHTML]="displayMessage.rpsProducaoNfse"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-3">
+                                    <div class="form-group">
+                                      <label class="control-label" for="codigoTributacaoMunicipio">Código Tributação Municipio</label>
+                                      <input type="text" autocomplete="off" id="codigoTributacaoMunicipio" name="codigoTributacaoMunicipio" class="form-control text-input" formControlName="codigoTributacaoMunicipio"
+                                      />
+                                      <span class="text-danger" *ngIf="displayMessage.codigoTributacaoMunicipio">
+                                        <p [innerHTML]="displayMessage.codigoTributacaoMunicipio"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-3">
+                                    <div class="form-group">
+                                      <label>Ambiente NFSe</label>
+                                      <select class="custom-select col-md-12" id="emiteProducao" name="emiteProducao" formControlName="emiteProducao">
+                                        <option value=""></option>
+                                        <option value="S">Produção</option>
+                                        <option value="N">Homologação</option>
+                                      </select>
+                                      <span class="text-danger" *ngIf="displayMessage.emiteProducao">
+                                        <p [innerHTML]="displayMessage.emiteProducao"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+
+                          <div class="col-md-12" *ngIf="pessoa.tipoPessoaId == 2">
+                            <div class="card color-bordered-table info-bordered-table">
+
+                              <div class="card-header">
+                                <h4 class="m-b-0 text-white">Lista dos CNAE`s</h4>
+                              </div>
+                              <br>
+
+                              <app-lista-pessoacnae class="col-md-12"></app-lista-pessoacnae>
+
+                            </div>
+                          </div>
+
+                          <div class="col-md-12" *ngIf="pessoa.tipoPessoaId == 2">
+                            <div class="card color-bordered-table info-bordered-table">
+
+                              <div class="card-header">
+                                <h4 class="m-b-0 text-white">Regime Tributário</h4>
+                              </div>
+                              <br>
+
+                              <app-lista-pessoaregimetributario class="col-md-12"></app-lista-pessoaregimetributario>
+
+                            </div>
+                          </div>
+
+                          <div class="col-md-2" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label>Sexo</label>
+                              <select class="custom-select col-md-12" name="sexoId" formControlName="sexoId">
+                                <option *ngFor="let row of sexo" [ngValue]="row.id">{{row.descricao}}</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="dataNascimento">Data Nascimento</label>
+                              <input type="date" autocomplete="off" id="dataNascimento" name="dataNascimento" class="form-control text-input" formControlName="dataNascimento"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.dataNascimento">
+                                <p [innerHTML]="displayMessage.dataNascimento"></p>
+                              </span>
+                            </div>
+                          </div>
+
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label>Cidade de Nascimento</label>
+                              <select class="custom-select col-md-12" name="localidadeId" formControlName="localidadeId">
+                                <option *ngFor="let row of localidade" [ngValue]="row.id">{{row.descricao}}</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label>Estado de Nascimento</label>
+                              <select class="custom-select col-md-12" name="ufNascimentoId" formControlName="ufNascimentoId">
+                                <option *ngFor="let row of uf" [ngValue]="row.id">{{row.descricao}}</option>
+                              </select>
+                            </div>
+                          </div>
+
+
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label>Estado Civil</label>
+                              <select class="custom-select col-md-12" name="estadoCivilId" formControlName="estadoCivilId">
+                                <option *ngFor="let row of estadoCivil" [ngValue]="row.id">{{row.descricao}}</option>
+                              </select>
+                              <span class="text-danger" *ngIf="displayMessage.estadoCivilId">
+                                <p [innerHTML]="displayMessage.estadoCivilId"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="dataCasamento">Data Casamento</label>
+                              <input type="date" autocomplete="off" id="dataCasamento" name="dataCasamento" class="form-control text-input" formControlName="dataCasamento"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label>Profissão</label>
+                              <select class="custom-select col-md-12" name="profissaoId" formControlName="profissaoId">
+                                <option *ngFor="let row of profissao" [ngValue]="row.id">{{row.descricao}}</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="dataFalecimento">Data Falecimento</label>
+                              <input type="date" autocomplete="off" id="dataFalecimento" name="dataFalecimento" class="form-control text-input" formControlName="dataFalecimento"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-6" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="nomeMae">Nome Mãe</label>
+                              <input type="text" autocomplete="off" id="nomeMae" name="nomeMae" class="form-control text-input" formControlName="nomeMae" />
+                              <span class="text-danger" *ngIf="displayMessage.nomeMae">
+                                <p [innerHTML]="displayMessage.nomeMae"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="nomePai">Nome Pai</label>
+                              <input type="text" autocomplete="off" id="nomePai" name="nomePai" class="form-control text-input" formControlName="nomePai" />
+                              <span class="text-danger" *ngIf="displayMessage.nomePai">
+                                <p [innerHTML]="displayMessage.nomePai"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="descricaoDeficiencia">Deficiência</label>
+                              <input type="text" autocomplete="off" id="descricaoDeficiencia" name="descricaoDeficiencia" class="form-control text-input" formControlName="descricaoDeficiencia"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.descricaoDeficiencia">
+                                <p [innerHTML]="displayMessage.descricaoDeficiencia"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                              <label>Religião</label>
+                              <select class="custom-select col-md-12" name="religiaoId" formControlName="religiaoId">
+                                <option *ngFor="let row of religiao" [ngValue]="row.id">{{row.descricao}}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                              <label>Cor</label>
+                              <select class="custom-select col-md-12" name="corRacaId" formControlName="corRacaId">
+                                <option *ngFor="let row of cor" [ngValue]="row.id">{{row.descricao}}</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="empresaTrabalha">Empresa que Trabalha</label>
+                              <input type="text" autocomplete="off" id="empresaTrabalha" name="empresaTrabalha" class="form-control text-input" formControlName="empresaTrabalha"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.empresaTrabalha">
+                                <p [innerHTML]="displayMessage.empresaTrabalha"></p>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="documentos" role="tabpanel" aria-expanded="true" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                    <div class="form-body">
+                      <div class="col-md-12">
+                        <div class="row p-t-20">
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="rg">RG</label>
+                              <input type="text" autocomplete="off" id="rg" name="rg" class="form-control text-input" formControlName="rg" />
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="orgEmissaoRg">Órgão Emissor</label>
+                              <input type="text" autocomplete="off" id="orgEmissaoRg" name="orgEmissaoRg" class="form-control text-input" formControlName="orgEmissaoRg" />
+                              <span class="text-danger" *ngIf="displayMessage.orgEmissaoRg">
+                                <p [innerHTML]="displayMessage.orgEmissaoRg"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="dataEmissaoRg">Data Emissão</label>
+                              <input type="date" autocomplete="off" id="dataEmissaoRg" name="dataEmissaoRg" class="form-control text-input" formControlName="dataEmissaoRg"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-3" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="rge">RGE</label>
+                              <input type="text" autocomplete="off" id="rge" name="rge" class="form-control text-input" formControlName="rge" />
+                              <span class="text-danger" *ngIf="displayMessage.rge">
+                                <p [innerHTML]="displayMessage.rge"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="tituloEleitoral">Título Eleitoral</label>
+                              <input type="text" autocomplete="off" id="tituloEleitoral" name="tituloEleitoral" class="form-control text-input" formControlName="tituloEleitoral"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.tituloEleitoral">
+                                <p [innerHTML]="displayMessage.tituloEleitoral"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="sessaoEleitoral">Sessão</label>
+                              <input type="text" autocomplete="off" id="sessaoEleitoral" name="sessaoEleitoral" class="form-control text-input" formControlName="sessaoEleitoral"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.sessaoEleitoral">
+                                <p [innerHTML]="displayMessage.sessaoEleitoral"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="zonaEleitoral">Zona</label>
+                              <input type="text" autocomplete="off" id="zonaEleitoral" name="zonaEleitoral" class="form-control text-input" formControlName="zonaEleitoral"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.zonaEleitoral">
+                                <p [innerHTML]="displayMessage.zonaEleitoral"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="dataEmissaoTitulo">Data Emissão Título</label>
+                              <input type="date" autocomplete="off" id="dataEmissaoTitulo" name="dataEmissaoTitulo" class="form-control text-input" formControlName="dataEmissaoTitulo"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="descricaoCtps">CTPS</label>
+                              <input type="text" autocomplete="off" id="descricaoCtps" name="descricaoCtps" class="form-control text-input" formControlName="descricaoCtps"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.descricaoCtps">
+                                <p [innerHTML]="displayMessage.descricaoCtps"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="numSerieCtps">Série</label>
+                              <input type="text" autocomplete="off" id="numSerieCtps" name="numSerieCtps" class="form-control text-input" formControlName="numSerieCtps" />
+                              <span class="text-danger" *ngIf="displayMessage.numSerieCtps">
+                                <p [innerHTML]="displayMessage.numSerieCtps"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label>UF</label>
+                              <select class="custom-select col-md-12" name="ufCtps" formControlName="ufCtps">
+                                <option *ngFor="let row of uf" [ngValue]="row.id">{{row.descricao}}</option>
+                              </select>
+                              <span class="text-danger" *ngIf="displayMessage.ufCtps">
+                                <p [innerHTML]="displayMessage.ufCtps"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="dataEmissaoCtps">Data Emissão CTPS</label>
+                              <input type="date" autocomplete="off" id="dataEmissaoCtps" name="dataEmissaoCtps" class="form-control text-input" formControlName="dataEmissaoCtps"
+                              />
+                            </div>
+                          </div>
+
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="numRaReservista">Número Reservista</label>
+                              <input type="text" autocomplete="off" id="numRaReservista" name="numRaReservista" class="form-control text-input" formControlName="numRaReservista"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.numRaReservista">
+                                <p [innerHTML]="displayMessage.numRaReservista"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="descricaoReservista">Descrição Reservista</label>
+                              <input type="text" autocomplete="off" id="descricaoReservista" name="descricaoReservista" class="form-control text-input" formControlName="descricaoReservista"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.descricaoReservista">
+                                <p [innerHTML]="displayMessage.descricaoReservista"></p>
+                              </span>
+                            </div>
+
+                          </div>
+                          <div class="col-md-4" *ngIf="pessoa.tipoPessoaId == 1 || pessoa.tipoPessoaId == null">
+                            <div class="form-group">
+                              <label class="control-label" for="dataEmissaoReservista">Data Emissão Reservista</label>
+                              <input type="date" autocomplete="off" id="dataEmissaoReservista" name="dataEmissaoReservista" class="form-control text-input" formControlName="dataEmissaoReservista"
+                              />
+                            </div>
+                          </div>
+                          <br />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="clienteSindicato" role="tabpanel" aria-expanded="true" *ngIf="pessoa.tipoId == 1">
+                    <div class="form-body">
+                      <div class="padd-left0 padd-right0 col-md-12">
+                        <div class="p-t-20">
+                          <div class="form-group">
+                            <app-lista-clientesindicato></app-lista-clientesindicato>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="fornecedorContaCorrente" role="tabpanel" aria-expanded="true" *ngIf="pessoa.tipoId == 2">
+                    <div class="form-body">
+                      <div class="padd-left0 padd-right0 col-md-12">
+                        <div class="p-t-20">
+                          <div class="form-group">
+                            <app-lista-fornecedorcontacorrente></app-lista-fornecedorcontacorrente>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="endereco" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="padd-left0 padd-right0 col-md-12">
+                        <div class="p-t-20">
+                          <div class="form-group">
+                            <app-lista-pessoaendereco></app-lista-pessoaendereco>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="contato" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="padd-left0 padd-right0 col-md-12">
+                        <div class="p-t-20">
+                          <div class="form-group">
+                            <app-lista-pessoacontato></app-lista-pessoacontato>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="empresacontacorrente" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="padd-left0 padd-right0 col-md-12">
+                        <div class="p-t-20">
+                          <div class="form-group">
+                            <app-lista-empresacontacorrente></app-lista-empresacontacorrente>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="clientecontacorrente" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="padd-left0 padd-right0 col-md-12">
+                        <div class="p-t-20">
+                          <div class="form-group">
+                            <app-lista-clientecontacorrente></app-lista-clientecontacorrente>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row button-group">
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+
+                  <div class="col-lg-2 col-md-6">
+                    <button type="submit" [disabled]='!pessoaForm.valid' class="btn btn-block btn-success">
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

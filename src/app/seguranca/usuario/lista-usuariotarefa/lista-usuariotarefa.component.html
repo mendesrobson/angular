@@ -1,0 +1,17 @@
+<div>
+    <dx-data-grid #grid id="grid-container" [dataSource]="usuarioComponent.Usuario.papeis" keyExpr="papelId" [(selectedRowKeys)]="selectedRows"
+        (onSelectionChanged)="selectionChangedHandler($event)">
+
+        <dxo-selection mode="multiple"></dxo-selection>
+
+        <dxi-column dataField="papelId" caption="Código"></dxi-column>
+        <dxi-column dataField="nome" caption="Papel"></dxi-column>
+    </dx-data-grid>
+    <br>
+    <div class="selected-data">
+        <!-- <span class="caption">Papéis selecionados:</span>
+        <span>
+            {{grid.selectedRowKeys}}
+        </span> -->
+    </div>
+</div>

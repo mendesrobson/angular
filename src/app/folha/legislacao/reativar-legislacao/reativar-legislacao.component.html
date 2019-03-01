@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="m-b-0 text-white">Cadastro</h4>
+        </div>
+        <div class="card-block">
+  
+          <form class="form-horizontal" novalidate (ngSubmit)="editarLegislacao()" [formGroup]="legislacaoForm">
+            <div class="form-body col-12">
+              <div class="row p-t-20">
+  
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Grupo</label>
+                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                      <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                      <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Empresa</label>
+                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                      <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                      <p [innerHTML]="displayMessage.empresaId"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                    <label class="control-label" for="codigo">Código</label>
+                    <input type="text" id="codigo" name="codigo" maxlength="20" class="form-control text-input" formControlName="codigo" />
+                    <span class="text-danger" *ngIf="displayMessage.codigo">
+                      <p [innerHTML]="displayMessage.codigo"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                    <label class="control-label" for="sigla">Sigla</label>
+                    <input type="text" id="sigla" name="sigla" maxlength="20" class="form-control text-input" formControlName="sigla" />
+                    <span class="text-danger" *ngIf="displayMessage.sigla">
+                      <p [innerHTML]="displayMessage.sigla"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label" for="descricao">Descrição</label>
+                    <input type="text" id="descricao" name="descricao" class="form-control text-input"
+                      formControlName="descricao" />
+                    <span class="text-danger" *ngIf="displayMessage.descricao">
+                      <p [innerHTML]="displayMessage.descricao"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.dataDou }">
+                    <label class="control-label" for="dataDou">Data DOU</label>
+                    <input type="date" id="dataDou" name="dataDou" class="form-control text-input" formControlName="dataDou"/>
+                    <span class="text-danger" *ngIf="displayMessage.dataDou">
+                      <p [innerHTML]="displayMessage.dataDou"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.dataHomologacao }">
+                      <label class="control-label" for="dataHomologacao">Data Homologação</label>
+                      <input type="date" id="dataHomologacao" name="dataHomologacao" class="form-control text-input" formControlName="dataHomologacao" />
+                      <span class="text-danger" *ngIf="displayMessage.dataHomologacao">
+                        <p [innerHTML]="displayMessage.dataHomologacao"></p>
+                      </span>
+                    </div>
+                </div>
+              
+  
+              <div class="col-md-12">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.observacao }">
+                    <label class="control-label" for="observacao">Observação </label>
+                    <textarea id="observacao" name="observacao" class="form-control" formControlName="observacao" rows="3">
+                    </textarea>
+                    <span class="text-danger" *ngIf='displayMessage.observacao'>
+                      <p [innerHTML]="displayMessage.observacao"></p>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

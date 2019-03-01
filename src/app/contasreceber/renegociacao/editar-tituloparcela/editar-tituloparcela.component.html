@@ -1,0 +1,92 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Parcela</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="editarParcela()" [formGroup]="parcelaForm">
+        <div class="form-body col-12">
+          <div class="row p-t-20">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="contaCorrenteId">Conta Corrente</label>
+                <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" readonly formControlName="contaCorrenteId">
+                  <option *ngFor="let conta of contaCorrentes" [ngValue]="conta.id">{{ conta.descricao }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.dataVencimento }">
+                <label class="control-label" for="dataVencimento">Data de Vencimento</label>
+                <input type="date" autocomplete="off" id="dataVencimento" name="dataVencimento" class="form-control text-input" formControlName="dataVencimento"/>
+                <span class="text-danger" *ngIf="displayMessage.dataVencimento">
+                  <p [innerHTML]="displayMessage.dataVencimento"></p>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="documento">Documento</label>
+                <div class="input-group">
+                  <input type="number" autocomplete="off" id="documento" name="documento" readonly class="form-control text-input" formControlName="documento"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="numero">Numero</label>
+                <div class="input-group">
+                  <input type="number" autocomplete="off" id="numero" name="numero" readonly class="form-control text-input" formControlName="numero" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="valorBruto">Valor Bruto</label>
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input type="number" autocomplete="off" id="valorBruto" name="valorBruto" class="form-control text-input" formControlName="valorBruto"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="valorDesconto">Valor Desconto</label>
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input type="number" autocomplete="off" id="valorDesconto" name="valorDesconto" readonly class="form-control text-input" formControlName="valorDesconto"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="valorLiquido">Valor Liquido</label>
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input type="number" autocomplete="off" id="valorLiquido" name="valorLiquido" readonly class="form-control text-input" formControlName="valorLiquido"/>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-12">
+              <div class="row button-group">
+                <div class="col-lg-2 col-md-6 align-content-lg-end">
+                  <button type="button" class="btn btn-block btn-secondary" (click)="close()">
+                    <i class="fa fa-mail-reply"></i> Cancelar</button>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                  <button type="submit" [disabled]='!parcelaForm.valid' class="btn btn-block btn-success" data-dismiss="modal">
+                    <i class="fa fa-check"></i> Gravar</button>
+                </div>
+              </div>
+            </div>
+
+            <br>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+[
+    {
+        "id": "",
+        "descricao": ""
+    },
+    {
+        "id": "BUS",
+        "descricao": "Ônibus"
+    },
+    {
+        "id": "METRO",
+        "descricao": "Metro"
+    },
+	{
+        "id": "INTEG",
+        "descricao": "Integração"
+    },
+    {
+        "id": "CARRO",
+        "descricao": "Carro"
+    },
+	{
+        "id": "TREM",
+        "descricao": "Trem"
+    },
+	{
+        "id": "OUTRO",
+        "descricao": "Outros"
+    }
+]

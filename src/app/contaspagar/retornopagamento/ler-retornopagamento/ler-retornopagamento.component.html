@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Ler Retorno de Pagamentos</h4>
+      </div>
+      <div class="card-block">
+        <form class="form-horizontal" novalidate>
+          <div class="form-body">
+            <div class="row p-t-20">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" for="arquivoRetorno">Arquivo de retorno</label>
+                  <div class="input-group">
+                    <input type="text" id="arquivoRetorno" name="arquivoRetorno" value="{{nomeArquivo}}" class="form-control text-input" readonly/>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default ig-mid-btn">
+                        <label class="btn btn-default btn-file">
+                          <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>
+
+                          <input type="file" (change)="lerArquivo($event)" id="arquivo" name="arquivo" class="form-control text-input" />
+                        </label>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                  [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                  <thead>
+                    <tr>
+                      <th>
+                        <mfDefaultSorter by="fornecedor.pessoa.nome">Fornecedor</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="numero">Nro. Parcela</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="dataQuitacao">Data Quitação</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="valorBruto">Valor da Parcela</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="valorDesconto">Valor do Desconto</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="valorLiquidado">Valor Líquidado</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="_ContaCorrente.conta">Conta</mfDefaultSorter>
+                      </th>
+                      <th>
+                        <mfDefaultSorter by="_ContaCorrente.banco.descricao">Banco</mfDefaultSorter>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let parcela of mf.data let i = index" [attr.data-index]="i" style="cursor:pointer" (click)="onChange_Parcela(i)">
+                      <td>{{ parcela.fornecedor.pessoa.nome }}</td>
+                      <td>{{ parcela.numero }}/{{ parcela.quantidadeParcela }}</td>
+                      <td>{{ parcela.dataQuitacao | date:'dd/MM/yyyy' }}</td>
+                      <td>{{ parcela.valorBruto | currency:'BRL':'symbol' }}</td>
+                      <td>{{ parcela.valorDesconto | currency:'BRL':'symbol' }}</td>
+                      <td>{{ parcela.valorLiquidado | currency:'BRL':'symbol' }}</td>
+                      <td>{{ parcela._ContaCorrente.conta }}</td>
+                      <td>{{ parcela._ContaCorrente.banco.descricao }}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="table-responsive">
+                <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                  [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                  <thead>
+                    <tr>
+                      <th>
+                        <mfDefaultSorter by="">Ocorrências</mfDefaultSorter>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let ocorrencias of mf.data[ind].ocorrenciasRetornoPagamento">
+                      <td>{{ ocorrencias }}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

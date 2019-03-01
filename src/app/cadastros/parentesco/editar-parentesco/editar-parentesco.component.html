@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+            <div class="card-block">
+                <form novalidate (ngSubmit)="editarParentesco()" [formGroup]="parentescoForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                    <label class="control-label" for="codigo">Codigo</label>
+                                    <input type="text" autocomplete="off" id="codigo" name="codigo" maxlength="20" class="form-control text-input" formControlName="codigo" />
+                                    <span class="text-danger" *ngIf="displayMessage.codigo">
+                                        <p [innerHTML]="displayMessage.codigo"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="sigla">Sigla</label>
+                                    <input type="text" autocomplete="off" id="sigla" maxlength="20" name="sigla" class="form-control text-input" formControlName="sigla" />
+                                    <span class="text-danger" *ngIf="displayMessage.sigla">
+                                        <p [innerHTML]="displayMessage.sigla"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                                    <label class="control-label" for="descricao">Descrição</label>
+                                    <input type="text" autocomplete="off" id="descricao" maxlength="100" name="descricao" class="form-control text-input" formControlName="descricao" />
+                                    <span class="text-danger" *ngIf="displayMessage.descricao">
+                                        <p [innerHTML]="displayMessage.descricao"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoEsocial }">
+                                    <label class="control-label" for="codigoEsocial">Código E-Social</label>
+                                    <input type="text" autocomplete="off" id="codigoEsocial" maxlength="5" name="codigoEsocial" class="form-control text-input" formControlName="codigoEsocial"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.codigoEsocial'>
+                                        <p [innerHTML]="displayMessage.codigoEsocial"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.idadeLimiteSalarioFamilia }">
+                                    <label class="control-label" for="idadeLimiteSalarioFamilia">Idade Lim. Sal.</label>
+                                    <input type="text" autocomplete="off" id="idadeLimiteSalarioFamilia" maxlength="3" name="idadeLimiteSalarioFamilia" class="form-control text-input" formControlName="idadeLimiteSalarioFamilia"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.idadeLimiteSalarioFamilia'>
+                                        <p [innerHTML]="displayMessage.idadeLimiteSalarioFamilia"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.idadeLimiteSalarioFamiliaDef }">
+                                    <label class="control-label" for="idadeLimiteSalarioFamiliaDef">Idade Lim. Sal. Defic.</label>
+                                    <input type="text" autocomplete="off" id="idadeLimiteSalarioFamiliaDef" maxlength="3" name="idadeLimiteSalarioFamiliaDef" class="form-control text-input"
+                                        formControlName="idadeLimiteSalarioFamiliaDef" />
+                                    <span class="text-danger" *ngIf='displayMessage.idadeLimiteSalarioFamiliaDef'>
+                                        <p [innerHTML]="displayMessage.idadeLimiteSalarioFamiliaDef"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.idadeLimiteDeficienteIR }">
+                                    <label class="control-label" for="idadeLimiteDeficienteIR">Idade Lim. P/IR Defic.</label>
+                                    <input type="text" autocomplete="off" id="idadeLimiteDeficienteIR" maxlength="2" name="idadeLimiteDeficienteIR" class="form-control text-input" formControlName="idadeLimiteDeficienteIR"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.idadeLimiteDeficienteIR'>
+                                        <p [innerHTML]="displayMessage.idadeLimiteDeficienteIR"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-check">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" formControlName="elegivelSalarioFamilia" [checkBoxSet]="parentesco.elegivelSalarioFamilia">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">Elegível Salário Família?</span>
+                                    </label>
+                                    <span class="text-danger" *ngIf="displayMessage.elegivelSalarioFamilia">
+                                        <p [innerHTML]="displayMessage.elegivelSalarioFamilia"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-check">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" formControlName="dependenteIR" [checkBoxSet]="parentesco.dependenteIR">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">Poderá ser dependente IR?</span>
+                                    </label>
+                                    <span class="text-danger" *ngIf="displayMessage.dependenteIR">
+                                        <p [innerHTML]="displayMessage.dependenteIR"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+
+                            <div class="col-md-12">
+                                <div class="row button-group">
+                                    <div class="col-lg-2 col-md-6 align-content-lg-end">
+                                        <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                                            <i class="fa fa-mail-reply"></i> Cancelar</button>
+                                    </div>
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="submit" class="btn btn-block btn-success" [disabled]='!parentescoForm.valid'>
+                                            <i class="fa fa-check"></i> Gravar</button>
+                                    </div>
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="button" class="btn btn-block btn-danger" [disabled]='!removerVisivel' (click)="remover(parentesco.id)">
+                                            <i class="fa fa-times"></i> Remover</button>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="button" class="btn btn-block btn-success" [disabled]="!reativarVisivel" (click)="reativar(parentesco.id)">
+                                            <i class="fa fa-retweet"></i> Reativar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

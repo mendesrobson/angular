@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="card col-12 padd-left0 padd-right0">
+    <div class="card">
+      
+      <div class="card-block" style="display: inline;">
+          <br>
+
+        <div [ngBusy]="{busy: busy, message: 'Por favor, aguarde...', backdrop: false, delay: 600, minDuration: 600}">
+
+          <div class="table-responsive">
+            <table *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable"
+              [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+              <thead>
+                <tr>
+                  <th>
+                    <mfRowSelectorHead></mfRowSelectorHead>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="codigo">Código</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="cliente.pessoa.nome">Cliente</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="valorTotal">Valor Total</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="eventoFaturamento.descricao">Descrição do Evento</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="contratoFaturamento.codigo">Código Contrato</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="contratoFaturamento.descricao">Descrição Contrato</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="fixo">Fixo</mfDefaultSorter>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let lancamento of mf.data" style="cursor:pointer">
+
+                  <td>
+                    <mfRowSelector [entity]="lancamento" [checkboxId]="ndx"></mfRowSelector>
+                  </td>
+                  <td>{{ lancamento.codigo }}</td>
+                  <td>{{ lancamento.cliente.pessoa.nome }}</td>
+                  <td>{{ lancamento.valorTotal | currency:'BRL':true:'1.2-2' }}</td>
+                  <td>{{ lancamento.eventoFaturamento.descricao }}</td>
+                  <td>
+                    <div *ngIf="lancamento.contratoFaturamento != null"> {{ lancamento.contratoFaturamento.codigo }} </div>
+                  </td>
+                  <td>
+                    <div *ngIf="lancamento.contratoFaturamento != null"> {{ lancamento.contratoFaturamento.descricao }} </div>
+                  </td>
+                  <td>
+                    <div *ngIf="lancamento.fixo == 'N'">Não</div>
+                    <div *ngIf="lancamento.fixo == 'S'">Sim</div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-success" (click)="gerarFaturamento()">
+            <i class="fa fa-refresh"></i> Gerar Faturamento </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+

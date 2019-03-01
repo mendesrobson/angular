@@ -1,0 +1,80 @@
+  <div class="row">
+    <div class="col-12">
+        <div class="card">         
+          <div class="card-block">
+            <!-- <form class="form-horizontal" novalidate (ngSubmit)="adicionarContaCorrente()" [formGroup]="contaCorrenteForm"> -->
+                  <div class="form-body">
+                      <div class="row p-t-20">
+                          <div class="col-md-12">
+                              <h3 class="box-title m-t-0">Dados para Cobrança</h3>
+                              <hr>
+                              <div class="col-md-12">
+                                    <div class="row button-group">
+                                        <div>
+                                            <button type="button" class="btn btn-block btn-success" (click)="modalAddVisible = true">
+                                                <i class="fa fa-plus"></i> Cadastrar</button>
+                                        </div>
+                                    </div>
+                                </div>                              
+                              <div class="table-responsive m-t-20">
+                                <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+                                        [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                                      <thead>
+                                          <tr>
+                                              <th>
+                                                  <mfDefaultSorter by="codigo">Código</mfDefaultSorter>
+                                              </th>
+                                              <th>
+                                                  <mfDefaultSorter by="codigo">Sigla</mfDefaultSorter>
+                                              </th>
+                                              <th>
+                                                    <mfDefaultSorter by="codigo">Descrição</mfDefaultSorter>
+                                              </th>
+                                              <th>
+                                                    <mfDefaultSorter by="codigo">Ação</mfDefaultSorter>
+                                              </th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr *ngFor="let contaCorrenteCobranca of mf.data">
+                                                <td>{{ contaCorrenteCobranca.codigo }}</td>
+                                                <td>{{ contaCorrenteCobranca.sigla }}</td>
+                                                <td>{{ contaCorrenteCobranca.descricao }}</td>                                              
+                                              <td>
+                                                    <div *ngIf="contaCorrenteCobranca.excluido == 'N'">
+                                                        <label (click)="editarContaCorrenteCobranca(contaCorrenteCobranca)" style="cursor:pointer" title="Editar"><i class="fa fa-pencil text-info"></i></label>
+                                                        <span style="padding-right:2px"></span>
+                                                        <label (click)="inativarContaCorrenteCobranca(contaCorrenteCobranca)" style="cursor:pointer" title="Inativar"><i class="fa fa-trash-o text-danger"></i></label>
+                                                        <!-- <span style="padding-right:2px"></span>
+                                                        <label (click)="ativarContaCorrenteCobranca(contaCorrenteCobranca)" style="cursor:pointer" title="Ativar" disabled><i class="fa fa-retweet text-success"></i></label> -->
+                                                    </div>
+                                                    <!-- <div *ngIf="contaCorrenteCobranca.excluido == 'S'">
+                                                        <span style="padding-right:38px"></span>
+                                                        <label (click)="ativarContaCorrenteCobranca()" style="cursor:pointer" title="Ativar"><i class="fa fa-retweet text-success"></i></label>
+                                                    </div> -->
+                                                </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                                  <!-- <div class="col-md-12">
+                                      <div class="row button-group">
+                                          <div>
+                                             <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target=".modal-dadoscobranca">
+                                                    <i class="fa fa-check"></i> Adicionar Dados Cobrança</button>
+                                            </div>
+                                      </div>
+                                  </div> -->
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              <!-- </form> -->
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+<app-adicionar-dadoscobranca *ngIf="modalAddVisible != false"  [(visible)]="modalAddVisible"></app-adicionar-dadoscobranca>
+
+<app-editar-dadoscobranca *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-dadoscobranca>

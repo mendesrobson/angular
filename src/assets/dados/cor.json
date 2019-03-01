@@ -1,0 +1,14 @@
+[
+    {
+        "id": "BRC",
+        "valor": "Branco"
+    },
+    {
+        "id": "PAR",
+        "valor": "Pardo"
+    },
+    {
+        "id": "AMR",
+        "valor": "Amarelo"
+    }
+]

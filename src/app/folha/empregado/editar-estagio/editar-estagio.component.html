@@ -1,0 +1,141 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Endereço</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form novalidate (ngSubmit)="editarEstagio()" [formGroup]="estagioForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Natureza</label>
+                <select class="custom-select col-md-12" id="natureza" name="natureza" formControlName="natureza">
+                  <option [ngValue]="'S'">Obrigatório</option>
+                  <option [ngValue]="'N'">Não Obrigatório</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.natureza">
+                  <p [innerHTML]="displayMessage.natureza"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                  <label>Nível</label>
+                  <select class="custom-select col-md-12" id="nivel" name="nivel" formControlName="nivel">
+                    <option *ngFor="let nivel of niveis" [ngValue]="nivel.id">{{ nivel.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.nivel">
+                    <p [innerHTML]="displayMessage.nivel"></p>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.areaAtuacao }">
+                  <label class="control-label" for="areaAtuacao">Área de Atuação</label>
+                  <input type="text" autocomplete="off" id="areaAtuacao" name="areaAtuacao" maxlength="60" class="form-control text-input" formControlName="areaAtuacao"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.areaAtuacao">
+                    <p [innerHTML]="displayMessage.areaAtuacao"></p>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                  <label>Coordenador do estágio</label>
+                  <select class="custom-select col-md-12" id="coordenadorEstagioId" name="coordenadorEstagioId" formControlName="coordenadorEstagioId">
+                    <option *ngFor="let coordenadorDeEstagio of coordenadoresDeEstagios" [ngValue]="coordenadorDeEstagio.id">{{ coordenadorDeEstagio.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.coordenadorEstagioId">
+                    <p [innerHTML]="displayMessage.coordenadorEstagioId"></p>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                  <label>Agente Integrador</label>
+                  <select class="custom-select col-md-12" id="agenteIntegradorId" name="agenteIntegradorId" formControlName="agenteIntegradorId">
+                    <option *ngFor="let agenteIntegrador of agentesIntegradores" [ngValue]="agenteIntegrador.id">{{ agenteIntegrador.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.agenteIntegradorId">
+                    <p [innerHTML]="displayMessage.agenteIntegradorId"></p>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                  <label>Instituição de Ensino</label>
+                  <select class="custom-select col-md-12" id="instituicaoEnsinoId" name="instituicaoEnsinoId" formControlName="instituicaoEnsinoId">
+                    <option *ngFor="let instituicaoDeEnsino of instituicoesDeEnsino" [ngValue]="instituicaoDeEnsino.id">{{ instituicaoDeEnsino.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.instituicaoEnsinoId">
+                    <p [innerHTML]="displayMessage.instituicaoEnsinoId"></p>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.numeroApolice }">
+                  <label class="control-label" for="numeroApolice">Número da Apólice</label>
+                  <input type="text" autocomplete="off" id="numeroApolice" name="numeroApolice" maxlength="20" class="form-control text-input" formControlName="numeroApolice"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.numeroApolice">
+                    <p [innerHTML]="displayMessage.numeroApolice"></p>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.dataInicio }">
+                  <label class="control-label" for="dataInicio">Data Início</label>
+                  <input type="date" autocomplete="off" id="dataInicio" name="dataInicio" class="form-control text-input" formControlName="dataInicio"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.dataInicio">
+                    <p [innerHTML]="displayMessage.dataInicio"></p>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.dataTermino }">
+                  <label class="control-label" for="dataTermino">Data Termino</label>
+                  <input type="date" autocomplete="off" id="dataTermino" name="dataTermino" class="form-control text-input" formControlName="dataTermino"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.dataTermino">
+                    <p [innerHTML]="displayMessage.dataTermino"></p>
+                  </span>
+                </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Alterar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

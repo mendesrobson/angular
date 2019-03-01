@@ -1,0 +1,114 @@
+<div class="modal" data-backdrop="static">
+
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Contato Cobrança</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarCobranca()" [formGroup]="cobrancaForm">
+        <div class="form-body col-12">
+          <div class="row p-t-20">
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                <label class="control-label" for="codigo">Código</label>
+                <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo"
+                />
+                <span class="text-danger" *ngIf="displayMessage.codigo">
+                  <p [innerHTML]="displayMessage.codigo"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.tipoAtendimentoId }">
+                <label>Tipo Atendimento</label>
+                <select class="custom-select col-md-12" id="tipoAtendimentoId" name="tipoAtendimentoId" formControlName="tipoAtendimentoId">
+                  <option *ngFor="let tipoAtendimento of tipoAtendimentos" [ngValue]="tipoAtendimento.id">{{ tipoAtendimento.descricao
+                    }}
+                  </option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.tipoAtendimentoId">
+                  <p [innerHTML]="displayMessage.tipoAtendimentoId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.cobrancaAcaoId }">
+                <label>Ação Cobrança</label>
+                <select class="custom-select col-md-12" id="cobrancaAcaoId" name="cobrancaAcaoId" formControlName="cobrancaAcaoId">
+                  <option *ngFor="let cobrancaAcao of cobrancaAcaos" [ngValue]="cobrancaAcao.id">{{ cobrancaAcao.descricao
+                    }}
+                  </option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.cobrancaAcaoId">
+                  <p [innerHTML]="displayMessage.cobrancaAcaoId"></p>
+                </span>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="dataContato">Data Contato</label>
+
+                <dx-date-box [value]="now" autocomplete="off" name="dataContato" style="width: 100%" displayFormat="dd/MM/yyyy" formControlName="dataContato"
+                  (onValueChanged)="definirValor($event)"></dx-date-box>
+
+                <span class="text-danger" *ngIf="displayMessage.dataContato">
+                  <p [innerHTML]="displayMessage.dataContato"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="dataProximoContato">Data Próximo Contato</label>
+
+                <dx-date-box [value]="now" [min]="minDate" type="date" width="100%" displayFormat="dd/MM/yyyy" formControlName="dataProximoContato"></dx-date-box>
+
+                <span class="text-danger" *ngIf="displayMessage.dataProximoContato">
+                  <p [innerHTML]="displayMessage.dataProximoContato"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.comentario }">
+                <label class="control-label" for="comentario">Comentario</label>
+                <input type="text" autocomplete="off" id="comentario" name="comentario" class="form-control text-input" formControlName="comentario"
+                />
+                <span class="text-danger" *ngIf="displayMessage.comentario">
+                  <p [innerHTML]="displayMessage.comentario"></p>
+                </span>
+              </div>
+            </div>
+
+
+            <div class="col-md-12">
+              <div class="row button-group">
+                <div class="col-lg-4 col-md-6 align-content-lg-end">
+                  <button type="button" class="btn btn-block btn-secondary" *ngIf="visible" (click)="close()">
+                    <i class="fa fa-mail-reply"></i> Cancelar</button>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                  <button type="button" [disabled]='!cobrancaForm.valid' class="btn btn-block btn-success" (click)="adicionarCobranca()">
+                    <i class="fa fa-check"></i> Gravar</button>
+                </div>
+              </div>
+            </div>
+
+
+            <br>
+
+
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>

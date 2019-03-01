@@ -1,0 +1,243 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Boletos</h4>
+      </div>
+      <div class="card-block">
+        <form class="form-horizontal" novalidate [formGroup]="filtroBoletoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Conta Corrente Cobrança</label>
+                  <select class="custom-select col-md-12" id="contaCorrenteCobrancaId" name="contaCorrenteCobrancaId" formControlName="contaCorrenteCobrancaId">
+                    <option *ngFor="let contaCorrenteCobranca of contasCorrenteCobranca" [ngValue]="contaCorrenteCobranca.id">{{ contaCorrenteCobranca.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.contaCorrenteCobrancaId">
+                    <p [innerHTML]="displayMessage.contaCorrenteCobrancaId"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <!-- <div class="col-md-4">
+                <div class="form-group">
+                  <label>Cliente</label>
+                  <ss-multiselect-dropdown [texts]="myTexts" [settings]="mySettings" [options]="myOptionsClientes" formControlName="clientes">
+                  </ss-multiselect-dropdown>
+
+                </div>
+              </div> -->
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="clientes">Cliente</label>
+                  <angular2-multiselect class="custom-select col-12" [data]="dropdownList" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
+                    formControlName="clientes">
+                  </angular2-multiselect>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataVencimentoInicial">Data do Vencimento Inicial</label>
+                  <my-date-picker name="dataVencimentoInicial" [options]="myDatePickerOptions" formControlName="dataVencimentoInicial"></my-date-picker>
+                  <span class="text-danger" *ngIf="displayMessage.dataVencimentoInicial">
+                    <p [innerHTML]="displayMessage.dataVencimentoInicial"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataVencimentoFinal">Data do Vencimento Final</label>
+                  <my-date-picker name="dataVencimentoFinal" [options]="myDatePickerOptions" formControlName="dataVencimentoFinal"></my-date-picker>
+                  <span class="text-danger" *ngIf="displayMessage.dataVencimentoFinal">
+                    <p [innerHTML]="displayMessage.dataVencimentoFinal"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-check">
+                  <label class="custom-control custom-radio">
+                    <input name="radio" type="radio" class="custom-control-input" value="parcelas" checked (change)="setarValorFiltro($event)">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Parcelas sem Boletos</span>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="custom-control custom-radio">
+                    <input name="radio" type="radio" class="custom-control-input" value="boletos" (change)="setarValorFiltro($event)">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Boletos Gerados</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <button type="button" [disabled]='!filtroBoletoForm.valid' class="btn btn-block btn-success" (click)="filtrar()">
+                  <i class="fa fa-refresh"></i> Filtrar </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div *ngIf="carregarTable != false">
+          <div class="col-md-12">
+            <div class="row p-t-20">
+              <div style="width:100%" class="col-12" [ngBusy]="{busy: busy, message: 'Por favor, aguarde...', backdrop: false, delay: 600, minDuration: 600}">
+                <div class="col-md-12 card">
+                  <div class="row button-group">
+                    <div class="col-lg-2 col-md-6 no-margin-gerar-boleto" style="padding: 0; margin-right: 25px" *ngIf="valorRadio != 'boletos'">
+                      <button type="button" class="btn btn-block btn-success" (click)="gerarBoletos()">
+                        <i class="fa fa-barcode"></i> Gerar Boleto</button>
+                    </div>
+                    <div class="col-lg-2 col-md-6" style="padding: 0" *ngIf="valorRadio != 'parcelas'">
+                      <button type="button" class="btn btn-block btn-danger" (click)="cancelarBoletos()">
+                        <i class="fa fa-times"></i> Cancelar Boleto</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-1">
+                    <button class="btn btn-info" (click)="gerarExcel(table,'tableboletos');">
+                      <i class="fa fa-file-excel-o"></i> Excel</button>
+                  </div>
+                  <div class="col-md-1">
+                    <button class="btn btn-info" (click)="gerarPDF('tableboletos');">
+                      <i class="fa fa-file-pdf-o"></i> PDF</button>
+                  </div>
+                </div>
+                <br/>
+                <div class="table-responsive">
+                  <table #table id="tableboletos" *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data"
+                    #mf="mfDataTable" [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                    <thead>
+                      <tr>
+                        <th>
+                          <mfRowSelectorHead></mfRowSelectorHead>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="numero">Nro. Parcela</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="_Cliente.nome">Cliente</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="dataVencimento">Dt. Vencimento</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="valorBruto">R$ Bruto</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="valorDesconto">R$ Desconto</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="valorLiquido">R$ Liquido</mfDefaultSorter>
+                        </th>
+                        <!-- <th>
+                          <mfDefaultSorter by="situacao">Situação</mfDefaultSorter>
+                        </th> -->
+                        <th>
+                          <mfDefaultSorter by=""></mfDefaultSorter>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let parcelaboleto of mf.data">
+
+                        <td>
+                          <mfRowSelector [entity]="parcelaboleto" [checkboxId]="ndx"></mfRowSelector>
+                        </td>
+
+                        <td>{{ parcelaboleto.numero }}/{{ parcelaboleto.quantidadeParcela }}</td>
+                        <td>{{ parcelaboleto._Cliente.pessoa.nome }}</td>
+                        <td>{{ parcelaboleto.dataVencimento | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ parcelaboleto.valorBruto | currency:'BRL':'symbol'}}</td>
+                        <td>{{ parcelaboleto.valorDesconto | currency:'BRL':'symbol'}}</td>
+                        <td>{{ parcelaboleto.valorLiquido| currency:'BRL':'symbol' }}</td>
+                        <!-- <td *ngIf="parcelaboleto._Boleto != null">{{ parcelaboleto._Boleto.formats }}</td> -->
+                        <!-- <td>{{ parcelaboleto.situacao }}</td> -->
+                        <td *ngIf="parcelaboleto._Boleto != null">
+                          <div>
+                            <label data-toggle="modal" data-target=".modal-boleto" (click)="setarValorsrcImagem(parcelaboleto._Boleto.url)">
+                              <i class="fa fa-eye" style="cursor:pointer" title="Visualizar boleto"></i>
+                            </label>
+                            <span style="padding-right:2px"></span>
+                            <a href="{{ parcelaboleto._Boleto.url }}.pdf" target="_blank">
+                              <i class="fa fa-download" title="Baixar boleto"></i>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="5">
+                          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Boleto -->
+<div class="modal fade modal-boleto " data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="card-block">
+
+          <div *ngIf="srcImagem != ''">
+            <img src="{{ srcImagem }}" />
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Fechar</button>
+
+      </div>
+    </div>
+  </div>
+</div>

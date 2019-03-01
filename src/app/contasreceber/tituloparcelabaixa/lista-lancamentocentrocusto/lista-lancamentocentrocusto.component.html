@@ -1,0 +1,67 @@
+<div class="col-md-4">
+  <div class="row button-group">
+    <div>
+      <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target=".modal-centroCusto" (click)="modalAddVisible = true">
+        <i class="fa fa-plus"></i> Adicionar Centro Custo</button>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable"
+  [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+    <thead>
+      <tr>
+        <th>
+          <mfDefaultSorter by="centroCusto.codigo">Centro Custo</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="centroCusto.descricao">Descrição</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="percentual">%</mfDefaultSorter>
+        </th>
+        <th>
+          Ações
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="mf.data != null">
+      <tr *ngFor="let centroCusto of mf.data">
+
+        <td *ngIf="centroCusto.centroCusto != null">
+          {{ centroCusto.centroCusto.codigo }}
+        </td>
+        <td *ngIf="centroCusto.centroCusto != null">
+          {{ centroCusto.centroCusto.descricao }}
+        </td>
+        <td *ngIf="centroCusto.centroCusto != null">
+          {{ centroCusto.percentual }}
+        </td>
+        <td *ngIf="centroCusto.centroCusto != null">
+
+          <label (click)="editarCentroCusto(centroCusto)" data-toggle="modal" data-target=".modal-centroCusto-edit">
+            <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+          </label>
+          <span style="padding-right:2px"></span>
+          <label (click)="inativarCentroCusto(centroCusto)" style="cursor:pointer" title="Inativar">
+            <i class="fa fa-trash-o text-danger"></i>
+          </label>
+
+        </td>
+
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5">
+          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<app-adicionar-lancamentocentrocusto *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-lancamentocentrocusto>
+
+<app-editar-lancamentocentrocusto *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-lancamentocentrocusto>

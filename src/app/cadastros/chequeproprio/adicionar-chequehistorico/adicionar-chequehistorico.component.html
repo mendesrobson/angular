@@ -1,0 +1,59 @@
+<div class="modal" data-backdrop="static">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myLargeModalLabel">Situação</h4>
+        <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+      </div>
+  
+      <div class="card-block">
+        <form class="form-horizontal" novalidate (ngSubmit)="adicionarChequeFolhaHistorico()" [formGroup]="chequeFolhaHistoricoForm">
+          <div class="form-body col-12 card">
+            <div class="row p-t-20">
+  
+  
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Situação</label>
+                      <select class="custom-select col-md-12" id="situacaoChequeId" name="situacaoChequeId" formControlName="situacaoChequeId">
+                        <option *ngFor="let situacao of situacaoCheques" [ngValue]="situacao.id">{{ situacao.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.situacaoChequeId">
+                        <p [innerHTML]="displayMessage.situacaoChequeId"></p>
+                      </span>
+                    </div>
+                  </div>
+  
+              <div class="col-md-8">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.observacao }">
+                  <label class="control-label" for="observacao">Observação</label>
+                  <input type="text" autocomplete="off" id="observacao" name="observacao" class="form-control text-input" formControlName="observacao" />
+                  <span class="text-danger" *ngIf="displayMessage.observacao">
+                    <p [innerHTML]="displayMessage.observacao"></p>
+                  </span>
+                </div>
+              </div>
+  
+  
+              
+                <div class="form-actions" style="width: 100%">
+                  <div class="row p-t-5">
+
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-block btn-secondary" *ngIf="visible" (click)="close()">
+                                <i class="fa fa-mail-reply"></i> Cancelar</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" [disabled]='!chequeFolhaHistoricoForm.valid' class="btn btn-block btn-success" (click)="adicionarChequeFolhaHistorico()">
+                              <i class="fa fa-check"></i> Gravar</button>
+                        </div>
+
+                  </div>
+                </div>
+  
+  
+            </div>
+          </div>
+        </form>
+  
+      </div>
+    </div>

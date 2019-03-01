@@ -1,0 +1,10 @@
+[
+    {
+        "id": "GRAVA",
+        "valor": "Ao Gravar"
+    },
+    {
+        "id": "MOVI",
+        "valor": "Ao Adicionar um Movimento"
+    }
+]

@@ -1,0 +1,36 @@
+[{
+	"id": "",
+	"valor": ""
+},
+     {
+	"id": "Leg",
+	"valor": "Legal"
+},
+     {
+	"id": "Doe",
+	"valor": "Doença"
+},
+    {
+	"id": "Aci",
+	"valor": "Acidente"
+},
+    {
+	"id": "Sind",
+	"valor": "Sindical"
+},
+    {
+	"id": "Ces",
+	"valor": "Cessão"
+},
+    {
+	"id": "Mil",
+	"valor": "Militar"
+},
+    {
+	"id": "Conc",
+	"valor": "Conciliação"
+},
+    {
+	"id": "Mater",
+	"valor": "Maternidade"
+}]

@@ -1,0 +1,335 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+            <div class="card-block">
+                <form class="form-horizontal" novalidate (ngSubmit)="editarEventoFaturamento()" [formGroup]="eventoFaturamentoForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                                        <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId"  name="empresaId"
+                                        formControlName="empresaId">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                        <p [innerHTML]="displayMessage.empresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="codigo">Código</label>
+                                    <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                                    <span class="text-danger" *ngIf="displayMessage.codigo">
+                                        <p [innerHTML]="displayMessage.codigo"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="control-label" for="nome">Descrição</label>
+                                    <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                                    <span class="text-danger" *ngIf="displayMessage.descricao">
+                                        <p [innerHTML]="displayMessage.descricao"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Unidade Valor</label>
+                                    <select class="custom-select col-md-12" [(ngModel)]="eventoFaturamento.unidade" name="unidade" formControlName="unidade">
+                                        <option *ngFor="let row of unidadeEvento" [ngValue]="row.id">{{row.valor}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <label class="control-label" for="valorReferencia">Valor Referência</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" *ngIf="eventoFaturamento.unidade == 'VLR'">R$</span>
+                                    <input type="text" autocomplete="off" currencyMask *ngIf="eventoFaturamento.unidade == 'VLR' || eventoFaturamento.unidade == 'PRC'" id="valorReferencia"
+                                        name="valorReferencia" class="form-control text-input" formControlName="valorReferencia"
+                                    />
+                                    <input type="number" autocomplete="off" id="valorReferencia" name="valorReferencia" *ngIf="eventoFaturamento.unidade != 'VLR' && eventoFaturamento.unidade != 'PRC'"
+                                        class="form-control text-input" formControlName="valorReferencia" />
+                                    <span class="input-group-addon" *ngIf="eventoFaturamento.unidade == 'PRC'">%</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Histórico Padrão</label>
+                                    <select class="custom-select col-md-12" id="historicoPadraoId" name="historicoPadraoId" formControlName="historicoPadraoId">
+                                        <option *ngFor="let hist of historicoPadrao" [ngValue]="hist.id">{{hist.descricao}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.historicoPadraoId">
+                                        <p [innerHTML]="displayMessage.historicoPadraoId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <!-- <div class="col-md-2">
+                                        <div class="form-check" style="margin-top: 30px;">
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" formControlName="lancamentoMensal" [checkBoxSet]="eventoFaturamento.lancamentoMensal">
+                                                <span class="custom-control-indicator"></span>
+                                                <span class="custom-control-description"> Lançamento Mensal</span>
+                                            </label>
+                                        </div>
+                                    </div> -->
+
+                            <div class="col-md-2">
+                                <div class="form-check" style="margin-top: 30px;">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" formControlName="faturarContrato" [checkBoxSet]="eventoFaturamento.faturarContrato"
+                                            (ngModelChange)="eventoFaturamento.faturarContrato = $event">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description"> Fatura com Contrato</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-check" style="margin-top: 30px;">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" formControlName="valorContrato" [checkBoxSet]="eventoFaturamento.valorContrato"
+                                            (ngModelChange)="eventoFaturamento.valorContrato = $event">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description"> Valor Contrato</span>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-check" style="margin-top: 30px;">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" formControlName="diaVencimentoContrato" [checkBoxSet]="eventoFaturamento.diaVencimentoContrato"
+                                            (ngModelChange)="eventoFaturamento.diaVencimentoContrato = $event">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description"> Vencimento</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="nome">Dia Vencimento</label>
+                                    <input [disableControl]="(eventoFaturamento.diaVencimentoContrato != 'S')" type="text" autocomplete="off" id="diaVencimento" name="diaVencimento"
+                                        class="form-control text-input" formControlName="diaVencimento" />
+                                    <span class="text-danger" *ngIf="displayMessage.diaVencimento">
+                                        <p [innerHTML]="displayMessage.diaVencimento"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Mês Vencimento</label>
+                                    <select [disableControl]="(eventoFaturamento.diaVencimentoContrato != 'S')" class="custom-select col-md-12" id="mesVencimento"
+                                        name="mesVencimento" formControlName="mesVencimento">
+                                        <option *ngFor="let row of tipoMesVencimento" [ngValue]="row.id">{{row.valor}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.mesVencimento">
+                                        <p [innerHTML]="displayMessage.mesVencimento"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="card color-bordered-table info-bordered-table">
+
+                                    <div class="card-header">
+                                        <h4 class="m-b-0 text-white">Impostos</h4>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="row p-t-20">
+
+
+                                            <div class="col-md-1">
+                                                <div class="form-check" style="margin-top: 30px;">
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" formControlName="irrf" style="margin-top: 30px" [checkBoxSet]="eventoFaturamento.irrf"
+                                                            (ngModelChange)="eventoFaturamento.irrf = $event">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description"> IRRF</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="aliquotaIRRF">Aliquota IRRF</label>
+                                                    <div class="input-group">
+                                                        <input type="text" autocomplete="off" currencyMask [disableControl]="(eventoFaturamento.irrf != 'S')" id="aliquotaIRRF" name="aliquotaIRRF"
+                                                            class="form-control text-input" formControlName="aliquotaIRRF" />
+                                                        <span class="input-group-addon">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-1">
+                                                <div class="form-check" style="margin-top: 30px;">
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" formControlName="iss" [checkBoxSet]="eventoFaturamento.iss" (ngModelChange)="eventoFaturamento.iss = $event">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description"> ISS</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="aliquotaISS">Aliquota ISS</label>
+                                                    <div class="input-group">
+                                                        <input type="text" autocomplete="off" currencyMask [disableControl]="(eventoFaturamento.iss != 'S')" id="aliquotaISS" name="aliquotaISS" class="form-control text-input"
+                                                            formControlName="aliquotaISS" />
+                                                        <span class="input-group-addon">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-check" style="margin-top: 30px;">
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input [(ngModel)]="eventoFaturamento.retencaoFonte" (ngModelChange)="habilitarAliquotaRetencao($event)" id="retencaoFonte"
+                                                            name="retencaoFonte" type="checkbox" class="custom-control-input"
+                                                            formControlName="retencaoFonte" [checkBoxSet]="eventoFaturamento.retencaoFonte">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description"> Retenção na Fonte</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="aliquotaRetencaoFonte">Aliquota Retenção</label>
+                                                    <div class="input-group">
+                                                        <input type="text" autocomplete="off" currencyMask [disableControl]="(eventoFaturamento.retencaoFonte != 'S')" id="aliquotaRetencaoFonte" name="aliquotaRetencaoFonte"
+                                                            class="form-control text-input" formControlName="aliquotaRetencaoFonte"
+                                                        />
+                                                        <span class="input-group-addon">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-check" style="margin-top: 30px;">
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" formControlName="inssRetido" [checkBoxSet]="eventoFaturamento.inssRetido"
+                                                            (ngModelChange)="eventoFaturamento.inssRetido = $event">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description"> INSS Retido</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="aliquotaINSSRetido">Aliquota INSS</label>
+                                                    <div class="input-group">
+                                                        <input type="text" autocomplete="off" currencyMask [disableControl]="(eventoFaturamento.inssRetido != 'S')" id="aliquotaINSSRetido" name="aliquotaINSSRetido"
+                                                            class="form-control text-input" formControlName="aliquotaINSSRetido"
+                                                        />
+                                                        <span class="input-group-addon">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-check" style="margin-top: 30px;">
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" formControlName="issRetido" [checkBoxSet]="eventoFaturamento.issRetido"
+                                                            (ngModelChange)="eventoFaturamento.issRetido = $event">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description"> ISS Retido</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="aliquotaISSRetido">Aliquota ISS Retido</label>
+                                                    <div class="input-group">
+                                                        <input type="text" autocomplete="off" currencyMask [disableControl]="(eventoFaturamento.issRetido != 'S')" id="aliquotaISSRetido" name="aliquotaISSRetido"
+                                                            class="form-control text-input" formControlName="aliquotaISSRetido"
+                                                        />
+                                                        <span class="input-group-addon">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+
+                            <div class="col-md-12">
+                                <div class="row button-group">
+
+                                    <div class="col-lg-2 col-md-6 align-content-lg-end">
+                                        <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                                            <i class="fa fa-mail-reply"></i> Cancelar</button>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="submit" [disabled]='!eventoFaturamentoForm.valid' class="btn btn-block btn-success">
+                                            <i class="fa fa-check"></i> Gravar</button>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="button" class="btn btn-block btn-danger" [disabled]='!removerVisivel' (click)="remover(eventoFaturamento.id)">
+                                            <i class="fa fa-times"></i> Remover</button>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="button" class="btn btn-block btn-success" [disabled]="!reativarVisivel" (click)="reativar(eventoFaturamento.id)">
+                                            <i class="fa fa-retweet"></i> Reativar</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

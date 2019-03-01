@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="card col-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+        <div class="m-t-40">
+          <div class="d-flex">
+            <div class="col-md-6 align-content-lg-end">
+              <div class="row button-group">
+                <div>
+                  <button type="button" class="btn btn-success" (click)="cadastrarPapel()">
+                    <i class="fa fa-plus"></i> Cadastrar </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="btn-group float-right padd-left15">
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-list"></i>
+                </button>
+                <div class="dropdown-menu animated flipInY">
+                  <a class="dropdown-item" (click)="gerarExcel(table,'tablepapel');" ngbTooltip="Excel">
+                    <i class="fa fa-file-excel-o"> &nbsp;Excel</i>
+                  </a>
+                  <a class="dropdown-item" (click)="gerarPDF('tablepapel');" ngbTooltip="PDF">
+                    <i class="fa fa-file-pdf-o">&nbsp;PDF</i>
+                  </a>
+                </div>
+              </div>
+              <div class="form-group float-right padd-left15">
+                <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..." class="form-control" autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table #table id="tablepapel" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery"
+            #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="papelId">Código</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="nome">Nome</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="nomeNormalizado">Nome Normalizado</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="seloConcorrencia">Selo Concorrência</mfDefaultSorter>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let papeis of mf.data" (click)="visualizarPapel(papeis.papelId)" style="cursor:pointer">
+                <td>{{ papeis.papelId }}</td>
+                <td>{{ papeis.nome }}</td>
+                <td>{{ papeis.nomeNormalizado }}</td>
+                <td>{{ papeis.seloConcorrencia }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

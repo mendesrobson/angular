@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+thead, tbody, tr, th, td { display: block; }
+
+thead tr {
+  /* fallback */
+  width: 97%;
+  /* minus scroll bar width */
+  width: -webkit-calc(100% - 16px);
+  width:    -moz-calc(100% - 16px);
+  width:         calc(100% - 16px);
+}
+
+tr:after {  /* clearing float */
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+tbody {
+  height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+tbody td, thead th {
+  width: 20%;  /* 25% para 4 colunas, se for 5 colunas informar 20% */
+  float: left;
+}

@@ -1,0 +1,214 @@
+<div class="modal" data-backdrop="static">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myLargeModalLabel">Item Registro Leiaute Arquivo Bancário</h4>
+            <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+        </div>
+        <div class="card-block">
+            <form class="form-horizontal" novalidate (ngSubmit)="adicionarItemRegistroLeiauteArquivoBancario()" [formGroup]="ItemRegLeiauteArquivoBancarioForm">
+                <div class="form-body">
+                    <div class="row p-t-20">
+                        <div class="col-md-6">
+                            <!-- <div class="form-group">
+                                <label>Origem do Campo Valor</label>
+                                <select class="custom-select col-md-12" id="origemValor" name="origemValor" formControlName="origemValor" (click)="ItemRegLeiauteArquivoBancario.origemValor = $event.target.value">
+                                    <option>Tag</option>
+                                    <option>Default</option>
+                                    <option>Sequencial</option>
+                                </select>
+                                <span class="text-danger" *ngIf="displayMessage.origemValor">
+                                    <p [innerHTML]="displayMessage.origemValor"></p>
+                                </span>
+                            </div> -->
+                            <div class="form-group">
+                                <label>Origem do Campo Valor</label>
+                                <dx-select-box placeholder="Selecione.." [items]="origemvalores" (ngModelChange)="ItemRegLeiauteArquivoBancario.origemValor = $event" displayExpr="descricao" valueExpr="id"
+                                    [searchEnabled]="true" formControlName="origemValor">
+                                </dx-select-box>
+                                <span class="text-danger" *ngIf="displayMessage.origemValor">
+                                    <p [innerHTML]="displayMessage.origemValor"></p>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.campo }">
+                                <label class="control-label" for="campo">Campo</label>
+                                <input type="text" autocomplete="off" id="campo" name="campo" class="form-control text-input" formControlName="campo" />
+                                <span class="text-danger" *ngIf="displayMessage.campo">
+                                    <p [innerHTML]="displayMessage.campo"></p>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- <div class="form-group">
+                                <label>Tipo</label>
+                                <select class="custom-select col-md-12" id="tipo" name="tipo" formControlName="tipo">
+                                    <option value="A">Alfanumérico</option>
+                                    <option value="N">Numérico</option>
+                                </select>
+                                <span class="text-danger" *ngIf="displayMessage.tipo">
+                                    <p [innerHTML]="displayMessage.tipo"></p>
+                                </span>
+                            </div> -->
+                            <div class="form-group">
+                                <label>Tipo</label>
+                                <dx-select-box placeholder="Selecione.." [items]="tipos" displayExpr="descricao" valueExpr="id"
+                                    [searchEnabled]="true" formControlName="tipo">
+                                </dx-select-box>
+                                <span class="text-danger" *ngIf="displayMessage.tipo">
+                                    <p [innerHTML]="displayMessage.tipo"></p>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="valor">Valor</label>
+                                <input type="text" name="valor" class="form-control text-input" formControlName="valor" />
+                                <span class="text-danger" *ngIf="displayMessage.valor">
+                                    <p [innerHTML]="displayMessage.valor"></p>
+                                </span>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-6">
+
+                            <div class="card card-outline-primary mb-3" droppable [dragOverClass]="'drag-target-border-green'" [dropScope]="'campo'"
+                                [dragHintClass]="'drag-hint'" (onDrop)="onCamposDrop($event)">
+                                <label>Valor</label>
+                                <input type="text" autocomplete="off" id="valor" #valor name="valor" class="form-control text-input" formControlName="valor" (click)="getPosition(valor)"
+                                    (keyup)="getPosition(valor)" [disableControl]="ItemRegLeiauteArquivoBancario.origemValor == 'Tag'"
+                                />
+                                <span class="text-danger" *ngIf="displayMessage.valor">
+                                    <p [innerHTML]="displayMessage.valor"></p>
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="posicaoInicial">Posição Inicial</label>
+                                <input type="text" autocomplete="off" name="posicaoInicial" class="form-control text-input" formControlName="posicaoInicial" />
+                                <span class="text-danger" *ngIf="displayMessage.posicaoInicial">
+                                    <p [innerHTML]="displayMessage.posicaoInicial"></p>
+                                </span>
+                            </div>
+                        </div> -->
+
+                        <!-- <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="posicaoFinal">Posição Final</label>
+                                <input type="text" autocomplete="off" name="posicaoFinal" class="form-control text-input" formControlName="posicaoFinal" />
+                                <span class="text-danger" *ngIf="displayMessage.posicaoFinal">
+                                    <p [innerHTML]="displayMessage.posicaoFinal"></p>
+                                </span>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <!-- <div class="dx-fieldset"> -->
+                                <div>
+                                    <div class="dx-field">
+                                        <dx-range-slider #rangeSlider
+                                            [min]="0" 
+                                            [max]="400" 
+                                            [start]="0" 
+                                            [end]="50"
+                                        ></dx-range-slider>
+                                    </div>
+                                    <div class="col-md-6" style="float: left">
+                                        <div class="dx-field">
+                                            <div style="width: 100%">Posição Inicial</div>
+                                            <div style="width: 100%">
+                                                <dx-number-box 
+                                                    [min]="0"
+                                                    [max]="400" 
+                                                    [showSpinButtons]="true" 
+                                                    [(value)]="rangeSlider.start"
+                                                    formControlName="posicaoInicial"
+                                                ></dx-number-box>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="float: left">
+                                        <div class="dx-field">
+                                            <div style="width: 100%">Posição Final</div>
+                                            <div style="width: 100%">
+                                                <dx-number-box 
+                                                    [min]="0"
+                                                    [max]="400" 
+                                                    [showSpinButtons]="true" 
+                                                    [(value)]="rangeSlider.end"
+                                                    formControlName="posicaoFinal"
+                                                ></dx-number-box>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card col-md-12"></div>
+                        
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" formControlName="flagCampoRetorno" [checkBoxSet]="ItemRegLeiauteArquivoBancario.flagCampoRetorno">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">Campo Preenchido no Retorno?</span>
+                                    </label>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12" *ngIf="ItemRegLeiauteArquivoBancario.origemValor == 'Tag'">
+                            <div class="card color-bordered-table info-bordered-table">
+                                <div class="card-header">
+                                    <h4 class="m-b-0 text-white">Campos Disponíveis</h4>
+                                </div>
+                                <div class="card-block scroll-list">
+                                    <div class="list-group">
+                                        <div class="col-md-12">
+                                            <li class="list-group-item list-group-item-action list-group-item-info" [draggable] *ngFor="let item of campos" [dragClass]="'active'"
+                                                [dragData]="item" [dragScope]="item.type" [dragEnabled]="dragEnabled">
+                                                {{item.name}}
+                                            </li>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row p-t-5">
+
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-block btn-secondary" *ngIf="visible" (click)="close()">
+                                <i class="fa fa-mail-reply"></i> Cancelar</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" (click)="adicionarItemRegistroLeiauteArquivoBancario()" [disabled]='!ItemRegLeiauteArquivoBancarioForm.valid'
+                                class="btn btn-block btn-success" data-dismiss="modal">
+                                <i class="fa fa-check"></i> Gravar</button>
+                        </div>
+
+                        <div class="col-md-12 card"></div>
+                        <br>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

@@ -1,0 +1,218 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+            <div class="card-block">
+
+                <form class="form-horizontal" novalidate [formGroup]="movimentoContaForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="codigo">Código</label>
+                                    <input type="text" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{
+                                            grupoEmpresa.pessoa.nome }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome
+                                            }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Conta</label>
+                                    <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                                        <option *ngFor="let contaCorrente of contasCorrente" [ngValue]="contaCorrente.id">{{
+                                            contaCorrente.descricao }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="documento">Documento</label>
+                                    <input type="text" id="documento" name="documento" class="form-control text-input" formControlName="documento" />
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="dataEmissao">Data de Emissão</label>
+                                    <input type="date" id="dataEmissao" name="dataEmissao" class="form-control text-input" formControlName="dataEmissao" />
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="valor">Valor</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">R$</span>
+                                        <input type="text" currencyMask id="valor" name="valor" class="form-control text-input" formControlName="valor" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Débito ou Crédito</label>
+                                    <select class="custom-select col-md-12" id="siglaDebitoCredito" name="siglaDebitoCredito" formControlName="siglaDebitoCredito">
+                                        <option value="D">Débito</option>
+                                        <option value="C">Crédito</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tipo de Operação</label>
+                                    <select class="custom-select col-md-12" id="siglaTipoOperacao" name="siglaTipoOperacao" formControlName="siglaTipoOperacao">
+                                        <option *ngFor="let tipoOperacao of tiposOperacao" [ngValue]="tipoOperacao.id">{{
+                                            tipoOperacao.valor }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="descricaoFornecedor">Fornecedor</label>
+                                    <input type="text" id="descricaoFornecedor" name="descricaoFornecedor" class="form-control text-input" formControlName="descricaoFornecedor"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <label class="custom-control custom-checkbox" style="margin-top: 30px">
+                                    <input type="checkbox" class="custom-control-input" formControlName="flagCreditoNaoIdentificado" [checkBoxSet]="movimentoConta.flagCreditoNaoIdentificado">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Crédito Não Identificado</span>
+                                </label>
+
+                            </div>
+
+                            <div class="card" style="width: 100%;">
+                                <ul class="nav nav-tabs customtab2" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#historicopadrao" role="tab" aria-expanded="true">
+                                            <span class="hidden-sm-up">
+                                                <i class="ti-home"></i>
+                                            </span>
+                                            <span class="hidden-xs-down">Histórico Padrão</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#apropriacao" role="tab" aria-expanded="true">
+                                            <span class="hidden-sm-up">
+                                                <i class="ti-email"></i>
+                                            </span>
+                                            <span class="hidden-xs-down">Apropriações</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="historicopadrao" role="tabpanel" aria-expanded="true">
+                                        <div class="form-body">
+                                            <div class="col-md-12">
+                                                <div class="row p-t-20">
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Histórico Padrão</label>
+                                                            <select class="custom-select col-md-12" id="historicoPadraoId" name="historicoPadraoId" formControlName="historicoPadraoId">
+                                                                <option *ngFor="let historicoPadrao of historicosPadrao" [ngValue]="historicoPadrao.id">{{
+                                                                    historicoPadrao.descricao }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-8">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="descricaoHistoricoPadrao">Descrição</label>
+                                                            <input type="text" id="descricaoHistoricoPadrao" name="descricaoHistoricoPadrao" value="{{ movimentoConta.descricaoHistoricoPadrao }}"
+                                                                class="form-control text-input" formControlName="descricaoHistoricoPadrao"
+                                                            />
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="carregarMovimentoContaCentro == true" class="col-md-12">
+                                            <div class="row p-t-2">
+
+                                                <div class="col-md-6">
+                                                    <app-lista-movimentocontacentrocusto [(permitirEditar)]="permiteIncluirEditar"> </app-lista-movimentocontacentrocusto>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <app-lista-movimentocontacentroresultado [(permitirEditar)]="permiteIncluirEditar"> </app-lista-movimentocontacentroresultado>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane" id="apropriacao" role="tabpanel" aria-expanded="true">
+                                        <div class="form-body">
+                                            <div class="col-md-12">
+                                                <div class="row p-t-20">
+
+                                                    <p>apropriacoes</p>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

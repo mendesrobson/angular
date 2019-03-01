@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+        <form novalidate (ngSubmit)="adicionarPapel()" [formGroup]="papelForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.nome }">
+                  <label class="control-label" for="nome">Nome</label>
+                  <input type="text" id="nome" name="nome" class="form-control text-input" formControlName="nome" />
+                  <span class="text-danger" *ngIf="displayMessage.nome">
+                    <p [innerHTML]="displayMessage.nome"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row button-group">
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+                  <div class="col-lg-2 col-md-6">
+                    <button type="submit" class="btn btn-block btn-success" [disabled]='!papelForm.valid'>
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

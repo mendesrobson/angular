@@ -1,0 +1,92 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Sindicato Convenção</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarSindicatoConvencao()" [formGroup]="sindicatoConvencaoForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Convenções</label>
+                <select class="custom-select col-md-12" id="convencaoId" name="convencaoId" formControlName="convencaoId">
+                  <option *ngFor="let convencao of convencoes" [ngValue]="convencao.id">{{ convencao.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.convencaoId">
+                  <p [innerHTML]="displayMessage.convencaoId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.dataInicio }">
+                  <label class="control-label" for="dataInicio">Data Inicial</label>
+                  <input type="date" autocomplete="off" id="dataInicio" name="dataInicio" class="form-control text-input" formControlName="dataInicio" />
+                  <span class="text-danger" *ngIf="displayMessage.dataInicio">
+                    <p [innerHTML]="displayMessage.dataInicio"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.dataTermino }">
+                  <label class="control-label" for="dataTermino">Data Término</label>
+                  <input type="date" autocomplete="off" id="dataTermino" name="dataTermino" class="form-control text-input" formControlName="dataTermino" />
+                  <span class="text-danger" *ngIf="displayMessage.dataTermino">
+                    <p [innerHTML]="displayMessage.dataTermino"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.dataHomologacao }">
+                  <label class="control-label" for="dataHomologacao">Data Homologação</label>
+                  <input type="date" autocomplete="off" id="dataHomologacao" name="dataHomologacao" class="form-control text-input" formControlName="dataHomologacao"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.dataHomologacao">
+                    <p [innerHTML]="displayMessage.dataHomologacao"></p>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.observacao }">
+                <label class="control-label" for="observacao">Observação </label>
+                <textarea id="observacao" name="observacao" class="form-control" formControlName="observacao" rows="3">
+                  </textarea>
+                <span class="text-danger" *ngIf='displayMessage.observacao'>
+                  <p [innerHTML]="displayMessage.observacao"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="adicionarSindicatoConvencao()" [disabled]='!sindicatoConvencaoForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

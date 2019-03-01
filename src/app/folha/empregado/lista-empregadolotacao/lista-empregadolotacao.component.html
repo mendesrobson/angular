@@ -1,0 +1,49 @@
+<div class="card-header">
+    <h4 class="m-b-0 text-white">Lotações 
+      <label (click)="showModal('modalAdicionar')" style="float: right; cursor: pointer;" title="Cadastrar"><i class="fa fa-plus"></i></label>
+    </h4>
+</div>
+<div class="barra-filho-default" style="max-height: 160px; overflow-x: hidden; overflow-y: auto;">
+    <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <!-- <thead *ngIf="empregadoComponent.empregado.empregadoLotacao != null"> -->
+                    <thead>
+            <tr>
+                <th style="color: #969696; background-color: transparent; font-weight: 100;">
+                    <mfDefaultSorter by="Numero">Cargo</mfDefaultSorter>
+                </th>
+                <th style="color: #969696; background-color: transparent; font-weight: 100;">
+                        <mfDefaultSorter by="Numero">Departamento</mfDefaultSorter>
+                </th>
+                <th style="color: #969696; background-color: transparent; font-weight: 100;">
+                        <mfDefaultSorter by="Numero">Tipo de salário</mfDefaultSorter>
+                </th>
+                <th style="color: #969696; background-color: transparent; font-weight: 100;">
+                        <mfDefaultSorter by="Numero">Ações</mfDefaultSorter>
+                </th>
+            </tr>
+            </thead>
+            <tbody *ngIf="empregadoComponent.empregado.empregadoLotacao != null">
+                <tr *ngFor="let row of empregadoComponent.empregado.empregadoLotacao" style="cursor:pointer">
+                    
+                    <td *ngIf="row.cargo != null">{{ row.cargo.descricao }}</td>
+                    <td *ngIf="row.departamento != null">{{ row.departamento.descricao }}</td>
+                    <td *ngIf="row.tiposSalarios != null">{{ row.tiposSalarios.descricao }}</td>
+                    <td>
+                        <label (click)="editarEmpregadoLotacao(row)" data-toggle="modal" data-target=".modal-cargocbo-edit">
+                        <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                        </label>
+                        <span style="padding-right:2px"></span>
+                        <label (click)="inativarEmpregadoLotacao(row)" style="cursor:pointer" title="Inativar">
+                        <i class="fa fa-trash-o text-danger"></i>
+                        </label>
+                    </td>
+
+                </tr>
+            </tbody>
+            <tfoot>
+            </tfoot>
+    </table>
+</div>
+<app-adicionar-empregadolotacao *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-empregadolotacao>
+<app-editar-empregadolotacao *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-empregadolotacao>

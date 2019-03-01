@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card col-md-12 padd-left0 padd-right0">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+        <form class="form-horizontal" novalidate [formGroup]="_localidadeForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+              
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                  <label class="control-label" for="codigo">Código</label>
+                  <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                  <span class="text-danger" *ngIf="displayMessage.codigo">
+                    <p [innerHTML]="displayMessage.codigo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                  <label class="control-label" for="sigla">Sigla</label>
+                  <input type="text" autocomplete="off" id="sigla" name="sigla" class="form-control text-input" formControlName="sigla" />
+                </div>
+              </div>
+
+              <div class="col-md-1">
+                <div class="form-group">
+                    <label>Uf</label>
+                    <dx-select-box placeholder="Uf" [items]="ufs" displayExpr="sigla" valueExpr="id" [searchEnabled]="true"
+                        formControlName="ufId">
+                    </dx-select-box>
+                    <span class="text-danger" *ngIf="displayMessage.ufId">
+                        <p [innerHTML]="displayMessage.ufId"></p>
+                      </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoIbge }">
+                  <label class="control-label" for="codigoIbge">Código IBGE</label>
+                  <input type="text" autocomplete="off" id="codigoIbge" name="codigoIbge" class="form-control text-input" formControlName="codigoIbge" maxlength="6" />
+                  <span class="text-danger" *ngIf="displayMessage.codigoIbge">
+                    <p [innerHTML]="displayMessage.codigoIbge"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                  <label class="control-label" for="descricao">Nome</label>
+                  <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                  <span class="text-danger" *ngIf="displayMessage.descricao">
+                    <p [innerHTML]="displayMessage.descricao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <br /><br /><br />
+              <br /><br />
+              <div class="col-md-12">
+                <div class="row button-group">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

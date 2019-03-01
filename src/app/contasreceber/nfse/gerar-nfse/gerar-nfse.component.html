@@ -1,0 +1,198 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">NFS-e</h4>
+      </div>
+      <div class="card-block">
+        <form class="form-horizontal" novalidate [formGroup]="filtroNfseForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Conta Corrente Cobrança</label>
+                  <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                    <option *ngFor="let contaCorrente of contasCorrente" [ngValue]="contaCorrente.id">{{ contaCorrente.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.contaCorrenteId">
+                    <p [innerHTML]="displayMessage.contaCorrenteId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label for="clientes">Cliente</label>
+                  <angular2-multiselect class="custom-select" [data]="dropdownList" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
+                    formControlName="clientes">
+                  </angular2-multiselect>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Emitir por</label>
+                  <select class="custom-select col-md-12" id="tipoEmissaoId" name="tipoEmissaoId" formControlName="tipoEmissaoId">
+                    <!-- <option value="1">Título</option> -->
+                    <option value="2">Parcela</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.tipoEmissaoId">
+                    <p [innerHTML]="displayMessage.tipoEmissaoId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataVencimentoInicial">Data do Vencimento Inicial</label>
+                  <my-date-picker name="dataVencimentoInicial" [options]="myDatePickerOptions" formControlName="dataVencimentoInicial"></my-date-picker>
+                  <span class="text-danger" *ngIf="displayMessage.dataVencimentoInicial">
+                    <p [innerHTML]="displayMessage.dataVencimentoInicial"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataVencimentoFinal">Data do Vencimento Final</label>
+                  <my-date-picker name="dataVencimentoFinal" [options]="myDatePickerOptions" formControlName="dataVencimentoFinal"></my-date-picker>
+                  <span class="text-danger" *ngIf="displayMessage.dataVencimentoFinal">
+                    <p [innerHTML]="displayMessage.dataVencimentoFinal"></p>
+                  </span>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-4">
+                <button type="button" style="margin-top: 27px" class="btn btn-block btn-block" (click)="filtrarParcelas()">
+                  <i class="fa fa-refresh"></i> Filtrar </button>
+              </div>
+
+
+
+            </div>
+          </div>
+
+
+        </form>
+
+
+
+        <div *ngIf="carregarTable != false" class="col-12">
+
+          <div [ngBusy]="{busy: busy, message: 'Por favor, aguarde...', backdrop: false, delay: 600, minDuration: 600}">
+
+            <div class="row button-group">
+              <div class="col-lg-4 col-md-4">
+                <button type="button" class="btn btn-block btn-success" (click)="gerarNfse()">
+                  <i class="fa fa-align-justify"></i> Gerar NFS-e</button>
+              </div>
+            </div>
+
+            <div class="row p-t-10">
+
+            <div class="table-responsive">
+              <div class="row">
+                <div class="col-md-1">
+                  <button class="btn btn-info" (click)="gerarExcel(table,'tablenfse');">
+                    <i class="fa fa-file-excel-o"></i> Excel</button>
+                </div>
+                <div class="col-md-1">
+                  <button class="btn btn-info" (click)="gerarPDF('tablenfse');">
+                    <i class="fa fa-file-pdf-o"></i> PDF</button>
+                </div>
+              </div>
+              <br/>
+              <table #table id="tablenfse" *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data"
+                #mf="mfDataTable" [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                <thead>
+                  <tr>
+                    <th>
+                      <mfRowSelectorHead></mfRowSelectorHead>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="tituloId">Titulo</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="numero">Nro. Parcela</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="_Cliente.nome">Cliente</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="dataVencimento">Dt. Vencimento</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="valorBruto">Valor Bruto</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="valorDesconto">Valor Desconto</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="valorLiquido">Valor Liquido</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="situacao">Situação</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by=""></mfDefaultSorter>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let reg of mf.data">
+                    <td>
+                      <mfRowSelector [entity]="reg" [checkboxId]="ndx"></mfRowSelector>
+                    </td>
+                    <td>{{ reg.tituloId }}</td>
+                    <td>{{ reg.numero }}/{{ reg.quantidadeParcela }}</td>
+                    <td>{{ reg._Cliente.pessoa.nome }}</td>
+                    <td>{{ reg.dataVencimento | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ reg.valorBruto | currency:'BRL':'symbol'}}</td>
+                    <td>{{ reg.valorDesconto | currency:'BRL':'symbol'}}</td>
+                    <td>{{ reg.valorLiquido| currency:'BRL':'symbol' }}</td>
+                    <td>{{ reg.situacao }}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

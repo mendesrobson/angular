@@ -1,0 +1,846 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+      <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Column -->
+  <div class="col-lg-3 col-md-6">
+      <div class="card">
+          <div class="card-block">
+              <h4 class="card-title">Previsão de Entrada (Semana)</h4>
+              <div class="text-right">
+                  <h2 class="font-light m-b-0"><i class="ti-arrow-up text-info"></i> R$ 70.570,00</h2>
+                  <span class="text-muted">Total</span>
+              </div>
+              <span class="text-info">36%</span>
+              <div class="progress">
+                  <div class="progress-bar bg-info" role="progressbar" style="width: 36%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+  <!-- Column -->
+  <!-- Column -->
+  <div class="col-lg-3 col-md-6">
+      <div class="card">
+          <div class="card-block">
+              <h4 class="card-title">Entradas Realizadas (Semana)</h4>
+              <div class="text-right">
+                  <h2 class="font-light m-b-0"><i class="ti-arrow-up text-success"></i> R$ 42.342,00</h2>
+                  <span class="text-muted">Total</span>
+              </div>
+              <span class="text-success">62%</span>
+              <div class="progress">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 62%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Column -->
+  <!-- Column -->
+  <div class="col-lg-3 col-md-6">
+      <div class="card">
+          <div class="card-block">
+              <h4 class="card-title">Saídas</h4>
+              <div class="text-right">
+                  <h2 class="font-light m-b-0"><i class="ti-arrow-down text-danger"></i> R$ 12.058,90</h2>
+                  <span class="text-muted">Total</span>
+              </div>
+              <span class="text-danger">79%</span>
+              <div class="progress">
+                  <div class="progress-bar bg-danger" role="progressbar" style="width: 79%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Column -->
+  <!-- Column -->
+  <div class="col-lg-3 col-md-6">
+      <div class="card">
+          <div class="card-block">
+              <h4 class="card-title">Total Inadimplentes</h4>
+              <div class="text-right">
+                  <h2 class="font-light m-b-0"><i class="ti-arrow-down text-danger"></i> R$ 52.390,69</h2>
+                  <span class="text-muted">Total</span>
+              </div>
+              <span class="text-danger">8%</span>
+              <div class="progress">
+                  <div class="progress-bar bg-danger" role="progressbar" style="width: 8%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Column -->
+</div>
+
+
+
+
+<div class="row">
+  <!-- Column -->
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-block">
+              <div class="row">
+                  <div class="col-12">
+                      <div class="col-12" style="float: left;">
+                          <h3 class="card-title">Projeção de Resultados</h3>
+                      </div>
+                  </div>
+              </div>
+
+                  <div class="col-12">
+                      <div class="row">
+                          <div class="col-3">
+                              <div class="form-group">
+                                  <label>Curso</label>
+                                  <select class="custom-select pull-right" #ciclo name="ciclo" (change)="buscarValores(ciclo.value)" style="width: 100%;">
+                                      <option value="0" selected="">Educação Infantil</option>
+                                      <option value="1">Ensino Fundamental I</option>
+                                      <option value="2">Ensino Fundamental II</option>
+                                      <option value="3">Ensino Medio</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                          <div class="col-2">
+                              <div class="form-group">
+                                  <label>Pessoal</label>
+                                  <select class="custom-select pull-right" [(ngModel)]="mesPessoal" name="mesPessoal" style="width: 100%;">
+                                      <option value="1" selected="">Janeiro</option>
+                                      <option value="2">Fevereiro</option>
+                                      <option value="3">Março</option>
+                                      <option value="4">Abril</option>
+                                      <option value="5">Maio</option>
+                                      <option value="6">Junho</option>
+                                      <option value="7">Julho</option>
+                                      <option value="8">Agosto</option>
+                                      <option value="9">Setembro</option>
+                                      <option value="10">Outubro</option>
+                                      <option value="11">Novembro</option>
+                                      <option value="12">Dezembro</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label>Índice </label>
+                                  <div class="input-group">
+                                      <input type="text" [(ngModel)]="indicePessoal" name="indicePessoal" style="width: 100%;" class="form-control text-input" id="percentualJuros" />
+                                      <span class="input-group-addon">%</span>
+                                  </div>
+                              </div>
+                          </div>
+
+
+
+
+                          <div class="col-2">
+                              <div class="form-group">
+                                  <label>Insumos e Serviços </label>
+                                  <select class="custom-select pull-right" [(ngModel)]="mes" name="mes" style="width: 100%;">
+                                      <option value="1" selected="">Janeiro</option>
+                                      <option value="2">Fevereiro</option>
+                                      <option value="3">Março</option>
+                                      <option value="4">Abril</option>
+                                      <option value="5">Maio</option>
+                                      <option value="6">Junho</option>
+                                      <option value="7">Julho</option>
+                                      <option value="8">Agosto</option>
+                                      <option value="9">Setembro</option>
+                                      <option value="10">Outubro</option>
+                                      <option value="11">Novembro</option>
+                                      <option value="12">Dezembro</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label>Índice </label>
+                                  <div class="input-group">
+                                      <input type="text" [(ngModel)]="indice" name="indice" style="width: 100%;" class="form-control text-input" id="percentualJuros" />
+                                      <span class="input-group-addon">%</span>
+
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-md-1">
+                              <div class="form-group">
+                                  <label> </label>
+                                  <div class="input-group">
+                                      <button type="button" (click)="buscarValores(ciclo.value)" class="btn btn-info" style="margin-top: 10px;"><i class="fa fa-check"></i>  </button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+       
+
+
+              <div class="row" style="margin-top: 20px;">
+                  <div class="col-12">
+                      <div id="accordionexample" class="accordion" role="tablist" aria-multiselectable="true">
+                          <div class="card">
+                              <div class="card-header" style="background-color: #00a6d0;" role="tab" id="headingOne">
+                                  <h5 class="mb-0">
+                                      <a style="color: white" data-toggle="collapse" data-parent="#accordionexample" href="#collapseexaOne" aria-expanded="true" aria-controls="collapseexaOne">
+                                          Receitas
+                                      </a>
+                                  </h5>
+                              </div>
+
+                              <div id="collapseexaOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+
+                                  <div class="card-block" style="margin-top: -20px;">
+                                      <div class="table-responsive m-t-20">
+                                          <table *ngIf="results != []" id="demo" style="font-size: 13px;" class="table m-b-0 toggle-arrow-tiny color-table muted-table" data-page-size="5">
+                                              <thead>
+                                                  <tr>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;"></th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Jan</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Fev</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Mar</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Abr</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Mai</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Jun</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Jul</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Ago</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Set</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Out</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Nov</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #5dd262;">Dez</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr *ngFor="let row of receitas">
+                                                      <td style="background-color: #5dd262; color: white; font-weight: initial;">{{ row.centro }}</td>
+                                                      <td style="text-align: center;">{{ row.jan }}</td>
+                                                      <td style="text-align: center;">{{ row.fev }}</td>
+                                                      <td style="text-align: center;">{{ row.mar }}</td>
+                                                      <td style="text-align: center;">{{ row.abr }}</td>
+                                                      <td style="text-align: center;">{{ row.mai }}</td>
+                                                      <td style="text-align: center;">{{ row.jun }}</td>
+                                                      <td style="text-align: center;">{{ row.jul }}</td>
+                                                      <td style="text-align: center;">{{ row.ago }}</td>
+                                                      <td style="text-align: center;">{{ row.set }}</td>
+                                                      <td style="text-align: center;">{{ row.out }}</td>
+                                                      <td style="text-align: center;">{{ row.nov }}</td>
+                                                      <td style="text-align: center;">{{ row.dez }}</td>
+                                                  </tr>
+                                              </tbody>
+                                              <tfoot>
+                                                  <tr *ngFor="let row1 of totalReceitas">
+                                                      <th rowspan="1" colspan="1" style="background-color: #5dd262; color: white;">Total</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jan }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.fev }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mar }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.abr }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mai }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jun }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jul }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.ago }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.set }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.out }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.nov }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.dez }}</th>
+                                                  </tr>
+                                              </tfoot>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-header" style="background-color: #00a6d0;" role="tab" id="headingTwo">
+                                  <h5 class="mb-0">
+                                      <a style="color: white;" class="collapsed" data-toggle="collapse" data-parent="#accordionexample" href="#collapseexaTwo" aria-expanded="false" aria-controls="collapseexaTwo">
+                                          Despesas com Pessoal
+                                      </a>
+                                  </h5>
+                              </div>
+                              <div id="collapseexaTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                  <div class="card-block" style="margin-top: -20px;">
+                                      <div class="table-responsive m-t-20">
+                                          <table *ngIf="results != []" id="demo" style="font-size: 13px;" class="table m-b-0 toggle-arrow-tiny color-table muted-table" data-page-size="5">
+                                              <thead>
+                                                  <tr>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;"></th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jan</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Fev</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mar</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Abr</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mai</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jun</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jul</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Ago</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Set</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Out</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Nov</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Dez</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr *ngFor="let row of pessoal">
+                                                      <td style="background-color: #d9534f; color: white; font-weight: initial;">{{ row.centro }}</td>
+                                                      <td style="text-align: center;">{{ row.jan }}</td>
+                                                      <td style="text-align: center;">{{ row.fev }}</td>
+                                                      <td style="text-align: center;">{{ row.mar }}</td>
+                                                      <td style="text-align: center;">{{ row.abr }}</td>
+                                                      <td style="text-align: center;">{{ row.mai }}</td>
+                                                      <td style="text-align: center;">{{ row.jun }}</td>
+                                                      <td style="text-align: center;">{{ row.jul }}</td>
+                                                      <td style="text-align: center;">{{ row.ago }}</td>
+                                                      <td style="text-align: center;">{{ row.set }}</td>
+                                                      <td style="text-align: center;">{{ row.out }}</td>
+                                                      <td style="text-align: center;">{{ row.nov }}</td>
+                                                      <td style="text-align: center;">{{ row.dez }}</td>
+                                                  </tr>
+                                              </tbody>
+                                              <tfoot>
+                                                  <tr *ngFor="let row1 of totalPessoal">
+                                                      <th rowspan="1" colspan="1" style="background-color: #d9534f; color: white;">Total</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jan }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.fev }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mar }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.abr }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mai }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jun }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jul }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.ago }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.set }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.out }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.nov }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.dez }}</th>
+                                                  </tr>
+                                              </tfoot>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-header" style="background-color: #00a6d0;" role="tab" id="headingThree">
+                                  <h5 class="mb-0">
+                                      <a class="collapsed" style="color: white;" data-toggle="collapse" data-parent="#accordionexample" href="#collapseexaThree" aria-expanded="false" aria-controls="collapseexaThree">
+                                          Despesas com Materiais
+                                      </a>
+                                  </h5>
+                              </div>
+                              <div id="collapseexaThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                  <div class="card-block" style="margin-top: -20px;">
+                                      <div class="table-responsive m-t-20">
+                                          <table *ngIf="results != []" id="demo" style="font-size: 13px;" class="table m-b-0 toggle-arrow-tiny color-table muted-table" data-page-size="5">
+                                              <thead>
+                                                  <tr>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;"></th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jan</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Fev</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mar</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Abr</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mai</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jun</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jul</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Ago</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Set</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Out</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Nov</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Dez</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr *ngFor="let row of materiais">
+                                                      <td style="background-color: #d9534f; color: white; font-weight: initial;">{{ row.centro }}</td>
+                                                      <td style="text-align: center;">{{ row.jan }}</td>
+                                                      <td style="text-align: center;">{{ row.fev }}</td>
+                                                      <td style="text-align: center;">{{ row.mar }}</td>
+                                                      <td style="text-align: center;">{{ row.abr }}</td>
+                                                      <td style="text-align: center;">{{ row.mai }}</td>
+                                                      <td style="text-align: center;">{{ row.jun }}</td>
+                                                      <td style="text-align: center;">{{ row.jul }}</td>
+                                                      <td style="text-align: center;">{{ row.ago }}</td>
+                                                      <td style="text-align: center;">{{ row.set }}</td>
+                                                      <td style="text-align: center;">{{ row.out }}</td>
+                                                      <td style="text-align: center;">{{ row.nov }}</td>
+                                                      <td style="text-align: center;">{{ row.dez }}</td>
+                                                  </tr>
+                                              </tbody>
+                                              <tfoot>
+                                                  <tr *ngFor="let row1 of totalMateriais">
+                                                      <th rowspan="1" colspan="1" style="background-color: #d9534f; color: white;">Total</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jan }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.fev }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mar }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.abr }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mai }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jun }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jul }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.ago }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.set }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.out }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.nov }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.dez }}</th>
+                                                  </tr>
+                                              </tfoot>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-header" style="background-color: #00a6d0;" role="tab" id="headingFour">
+                                  <h5 class="mb-0">
+                                      <a class="collapsed" style="color: white;" data-toggle="collapse" data-parent="#accordionexample" href="#collapseexaFour" aria-expanded="false" aria-controls="collapseexaFour">
+                                          Despesas Gerais
+                                      </a>
+                                  </h5>
+                              </div>
+                              <div id="collapseexaFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                                  <div class="card-block" style="margin-top: -20px;">
+                                      <div class="table-responsive m-t-20">
+                                          <table *ngIf="results != []" id="demo" style="font-size: 13px;" class="table m-b-0 toggle-arrow-tiny color-table muted-table" data-page-size="5">
+                                              <thead>
+                                                  <tr>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;"></th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jan</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Fev</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mar</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Abr</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mai</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jun</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jul</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Ago</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Set</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Out</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Nov</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Dez</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr *ngFor="let row of gerais">
+                                                      <td style="background-color: #d9534f; color: white; font-weight: initial;">{{ row.centro }}</td>
+                                                      <td style="text-align: center;">{{ row.jan }}</td>
+                                                      <td style="text-align: center;">{{ row.fev }}</td>
+                                                      <td style="text-align: center;">{{ row.mar }}</td>
+                                                      <td style="text-align: center;">{{ row.abr }}</td>
+                                                      <td style="text-align: center;">{{ row.mai }}</td>
+                                                      <td style="text-align: center;">{{ row.jun }}</td>
+                                                      <td style="text-align: center;">{{ row.jul }}</td>
+                                                      <td style="text-align: center;">{{ row.ago }}</td>
+                                                      <td style="text-align: center;">{{ row.set }}</td>
+                                                      <td style="text-align: center;">{{ row.out }}</td>
+                                                      <td style="text-align: center;">{{ row.nov }}</td>
+                                                      <td style="text-align: center;">{{ row.dez }}</td>
+                                                  </tr>
+                                              </tbody>
+                                              <tfoot>
+                                                  <tr *ngFor="let row1 of totalGerais">
+                                                      <th rowspan="1" colspan="1" style="background-color: #d9534f; color: white;">Total</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jan }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.fev }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mar }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.abr }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mai }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jun }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jul }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.ago }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.set }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.out }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.nov }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.dez }}</th>
+                                                  </tr>
+                                              </tfoot>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-header" style="background-color: #00a6d0;" role="tab" id="headingFive">
+                                  <h5 class="mb-0">
+                                      <a class="collapsed" style="color: white;" data-toggle="collapse" data-parent="#accordionexample" href="#collapseexaFive" aria-expanded="false" aria-controls="collapseexaFive">
+                                          Custos Indiretos
+                                      </a>
+                                  </h5>
+                              </div>
+                              <div id="collapseexaFive" class="collapse" role="tabpanel" aria-labelledby="headingFive">
+                                  <div class="card-block" style="margin-top: -20px;">
+                                      <div class="table-responsive m-t-20">
+                                          <table *ngIf="results != []" id="demo" style="font-size: 13px;" class="table m-b-0 toggle-arrow-tiny color-table muted-table" data-page-size="5">
+                                              <thead>
+                                                  <tr>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;"></th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jan</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Fev</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mar</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Abr</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mai</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jun</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jul</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Ago</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Set</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Out</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Nov</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Dez</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr *ngFor="let row of indiretos">
+                                                      <td style="background-color: #d9534f; color: white; font-weight: initial;">{{ row.centro }}</td>
+                                                      <td style="text-align: center;">{{ row.jan }}</td>
+                                                      <td style="text-align: center;">{{ row.fev }}</td>
+                                                      <td style="text-align: center;">{{ row.mar }}</td>
+                                                      <td style="text-align: center;">{{ row.abr }}</td>
+                                                      <td style="text-align: center;">{{ row.mai }}</td>
+                                                      <td style="text-align: center;">{{ row.jun }}</td>
+                                                      <td style="text-align: center;">{{ row.jul }}</td>
+                                                      <td style="text-align: center;">{{ row.ago }}</td>
+                                                      <td style="text-align: center;">{{ row.set }}</td>
+                                                      <td style="text-align: center;">{{ row.out }}</td>
+                                                      <td style="text-align: center;">{{ row.nov }}</td>
+                                                      <td style="text-align: center;">{{ row.dez }}</td>
+                                                  </tr>
+                                              </tbody>
+                                              <tfoot>
+                                                  <tr *ngFor="let row1 of totalIndiretos">
+                                                      <th rowspan="1" colspan="1" style="background-color: #d9534f; color: white;">Total</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jan }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.fev }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mar }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.abr }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mai }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jun }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jul }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.ago }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.set }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.out }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.nov }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.dez }}</th>
+                                                  </tr>
+                                              </tfoot>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-header" style="background-color: #00a6d0;" role="tab" id="headingSeven">
+                                  <h5 class="mb-0">
+                                      <a class="collapsed" style="color: white;" data-toggle="collapse" data-parent="#accordionexample" href="#collapseexaSeven" aria-expanded="false" aria-controls="collapseexaSeven">
+                                          Rateio dos Departamentos
+                                      </a>
+                                  </h5>
+                              </div>
+                              <div id="collapseexaSeven" class="collapse" role="tabpanel" aria-labelledby="headingSeven">
+                                  <div class="card-block" style="margin-top: -20px;">
+                                      <div class="table-responsive m-t-20">
+                                          <table *ngIf="results != []" id="demo" style="font-size: 13px;" class="table m-b-0 toggle-arrow-tiny color-table muted-table" data-page-size="5">
+                                              <thead>
+                                                  <tr>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;"></th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jan</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Fev</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mar</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Abr</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Mai</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jun</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Jul</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Ago</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Set</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Out</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Nov</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #d9534f;">Dez</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr *ngFor="let row of rateioDepartamento">
+                                                      <td style="background-color: #d9534f; color: white; font-weight: initial;">{{ row.centro }}</td>
+                                                      <td style="text-align: center;">{{ row.jan }}</td>
+                                                      <td style="text-align: center;">{{ row.fev }}</td>
+                                                      <td style="text-align: center;">{{ row.mar }}</td>
+                                                      <td style="text-align: center;">{{ row.abr }}</td>
+                                                      <td style="text-align: center;">{{ row.mai }}</td>
+                                                      <td style="text-align: center;">{{ row.jun }}</td>
+                                                      <td style="text-align: center;">{{ row.jul }}</td>
+                                                      <td style="text-align: center;">{{ row.ago }}</td>
+                                                      <td style="text-align: center;">{{ row.set }}</td>
+                                                      <td style="text-align: center;">{{ row.out }}</td>
+                                                      <td style="text-align: center;">{{ row.nov }}</td>
+                                                      <td style="text-align: center;">{{ row.dez }}</td>
+                                                  </tr>
+                                              </tbody>
+                                              <tfoot>
+                                                  <tr *ngFor="let row1 of totalRateioDepartamento">
+                                                      <th rowspan="1" colspan="1" style="background-color: #d9534f; color: white;">Total</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jan }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.fev }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mar }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.abr }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.mai }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jun }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.jul }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.ago }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.set }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.out }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.nov }}</th>
+                                                      <th rowspan="1" colspan="1" style="text-align: center;">{{ row1.dez }}</th>
+                                                  </tr>
+                                              </tfoot>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-header" style="background-color: #00a6d0;" role="tab" id="headingSix">
+                                  <h5 class="mb-0">
+                                      <a class="collapsed" style="color: white;" data-toggle="collapse" data-parent="#accordionexample" href="#collapseexaSix" aria-expanded="false" aria-controls="collapseexaSix">
+                                          Total dos Custos e Despesas
+                                      </a>
+                                  </h5>
+                              </div>
+                              <div id="collapseexaSix" class="collapse" role="tabpanel" aria-labelledby="headingSix">
+                                  <div class="card-block" style="margin-top: -20px;">
+                                      <div class="table-responsive m-t-20">
+                                          <table *ngIf="totalCustosDespesas != []" id="demo" style="font-size: 13px;" class="table m-b-0 toggle-arrow-tiny color-table muted-table" data-page-size="5">
+                                              <thead>
+                                                  <tr>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;"></th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Jan</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Fev</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Mar</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Abr</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Mai</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Jun</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Jul</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Ago</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Set</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Out</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Nov</th>
+                                                      <th data-toggle="true" style="text-align: center; background-color: #00a6d0;">Dez</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr *ngFor="let row of totalCustosDespesas">
+                                                      <td style="background-color: #00a6d0; color: white; font-weight: initial; text-align: center;">{{ row.centro }}</td>
+                                                      <td style="text-align: center;">{{ row.jan }}</td>
+                                                      <td style="text-align: center;">{{ row.fev }}</td>
+                                                      <td style="text-align: center;">{{ row.mar }}</td>
+                                                      <td style="text-align: center;">{{ row.abr }}</td>
+                                                      <td style="text-align: center;">{{ row.mai }}</td>
+                                                      <td style="text-align: center;">{{ row.jun }}</td>
+                                                      <td style="text-align: center;">{{ row.jul }}</td>
+                                                      <td style="text-align: center;">{{ row.ago }}</td>
+                                                      <td style="text-align: center;">{{ row.set }}</td>
+                                                      <td style="text-align: center;">{{ row.out }}</td>
+                                                      <td style="text-align: center;">{{ row.nov }}</td>
+                                                      <td style="text-align: center;">{{ row.dez }}</td>
+                                                  </tr>
+                                                  <tr>
+
+                                                      <td style="text-align: center; font-size: 15px; background-color: #00a6d0; color: white;" colspan="13"><b>Media:  {{ media }}</b></td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+
+
+
+                      <div class="card-block">
+                          <div div class="row">
+                              <div class="col-4" style="margin-top: 30px;">
+
+                                  <h4 class="card-title">Custos e Despesas</h4>
+
+                                  <google-chart [data]="pieChartData"></google-chart>
+
+                              </div>
+
+                              <div class="col-8" style="margin-top: 30px;">
+
+                                  <h4 *ngIf="ciclo.value == 0" class="card-title">Calcular valor da mensalidade: Educação Infantil </h4>
+                                  <h4 *ngIf="ciclo.value == 1" class="card-title">Calcular valor da mensalidade: Ensino Fundamental I </h4>
+                                  <h4 *ngIf="ciclo.value == 2" class="card-title">Calcular valor da mensalidade: Ensino Fundamental II </h4>
+                                  <h4 *ngIf="ciclo.value == 3" class="card-title">Calcular valor da mensalidade: Ensino Médio </h4>
+
+                                  <div div class="row">
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label class="control-label">Total de Vagas</label>
+                                              <input type="text" [(ngModel)]="vagas"
+                                                     id="vagas"
+                                                     name="vagas"
+                                                     (blur)="calcularPagantes()"
+                                                     class="form-control text-input" />
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label class="control-label">Bolsistas Integrais</label>
+                                              <input type="text" [(ngModel)]="bolsistas"
+                                                     id="bolsistas"
+                                                     name="bolsistas"
+                                                     (blur)="calcularPagantes()"
+                                                     class="form-control text-input" />
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label class="control-label">Pagantes</label>
+                                              <input type="text" [(ngModel)]="pagantes"
+                                                     id="pagantes"
+                                                     name="pagantes"
+                                                     disabled
+                                                     class="form-control text-input" />
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br />
+                                  <div div class="row">
+                                      <div class="col-md-2">
+                                          <div class="form-group">
+                                              <label class="control-label">Imposto</label>
+                                              <div class="input-group">
+                                                  <input type="text" [(ngModel)]="imposto"
+                                                         id="imposto"
+                                                         name="imposto"
+                                                         (blur)="calculaProjecao()"
+                                                         class="form-control text-input" />
+                                                  <span class="input-group-addon">%</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                              <label class="control-label">Margem Lucro Markup</label>
+                                              <div class="input-group">
+                                                  <input type="text" [(ngModel)]="margemLucro"
+                                                         id="margemLucro"
+                                                         name="margemLucro"
+                                                         (blur)="calculaProjecao()"
+                                                         class="form-control text-input" />
+                                                  <span class="input-group-addon">%</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-2">
+                                          <div class="form-group">
+                                              <label class="control-label">Parcelas</label>
+                                              <input type="text" [(ngModel)]="parcelas"
+                                                     id="parcelas"
+                                                     name="parcelas"
+                                                     (blur)="calculaProjecao()"
+                                                     class="form-control text-input" />
+                                          </div>
+                                      </div>
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                              <label class="control-label">Percentual Mercado</label>
+                                              <div class="input-group">
+                                                  <input type="text" [(ngModel)]="percentualMercado"
+                                                         id="percentualMercado"
+                                                         name="percentualMercado"
+                                                         (blur)="calcularReajusteMercado()"
+                                                         class="form-control text-input" />
+                                                  <span class="input-group-addon">%</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br />
+                                  <div class="row">
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label class="control-label">Valor da Anuidade</label>
+                                              <div class="input-group">
+                                                  <span class="input-group-addon">R$</span>
+                                                  <input type="text" [(ngModel)]="valorAnuidade"
+                                                         id="valorAnuidade"
+                                                         name="valorAnuidade"
+                                                         disabled
+                                                         class="form-control text-input" />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label class="control-label">Valor Mensalidade</label>
+                                              <div class="input-group">
+                                                  <span class="input-group-addon">R$</span>
+                                                  <input type="text" [(ngModel)]="valorMensalidadeParcela"
+                                                         id="valorMensalidadeParcela"
+                                                         name="valorMensalidadeParcela"
+                                                         disabled
+                                                         class="form-control text-input" />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label class="control-label">Mensalidade 2017</label>
+                                              <div class="input-group">
+                                                  <span class="input-group-addon">R$</span>
+                                                  <input type="text" [(ngModel)]="valorMensalidadeAtual"
+                                                         id="valorMensalidadeAtual"
+                                                         name="valorMensalidadeAtual"
+                                                         disabled
+                                                         class="form-control text-input" />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <div class="form-group">
+                                              <label class="control-label">Mensalidade Mercado</label>
+                                              <div class="input-group">
+                                                  <span class="input-group-addon">R$</span>
+                                                  <input type="text" [(ngModel)]="valorMensalidadeComReajusteMercado"
+                                                         id="valorMensalidadeComReajusteMercado"
+                                                         name="valorMensalidadeComReajusteMercado"
+                                                         disabled
+                                                         class="form-control text-input" />
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+        <form novalidate [formGroup]="nacionalidadeForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+                <div class="col-md-2">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                        <label class="control-label" for="codigo">Código</label>
+                        <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                        <span class="text-danger" *ngIf="displayMessage.codigo">
+                            <p [innerHTML]="displayMessage.codigo"></p>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                      <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoCaged }">
+                          <label class="control-label" for="codigoCaged">Código CAGED</label>
+                          <input type="text" autocomplete="off" id="codigoCaged" name="codigoCaged" class="form-control text-input" formControlName="codigoCaged" />
+                          <span class="text-danger" *ngIf="displayMessage.codigoCaged">
+                              <p [innerHTML]="displayMessage.codigoCaged"></p>
+                          </span>
+                      </div>
+                </div>
+
+                <div class="col-md-2">
+                      <div class="form-group">
+                          <label>País</label>
+                          <select class="custom-select col-md-12" id="paisId" name="paisId" formControlName="paisId">
+                              <option *ngFor="let pais of paises" [ngValue]="pais.id">{{ pais.descricao }}</option>
+                          </select>
+                          <span class="text-danger" *ngIf="displayMessage.paisId">
+                              <p [innerHTML]="displayMessage.paisId"></p>
+                          </span>
+                      </div>
+                  </div>
+
+                  <div class="col-md-1">
+                      <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                          <label class="control-label" for="sigla">Sigla</label>
+                          <input type="text" autocomplete="off" id="sigla" name="sigla" class="form-control text-input" formControlName="sigla" />
+                          <span class="text-danger" *ngIf="displayMessage.sigla">
+                              <p [innerHTML]="displayMessage.sigla"></p>
+                          </span>
+                      </div>
+                  </div>
+
+                <div class="col-md-5">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                        <label class="control-label" for="descricao">Descrição</label>
+                        <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                        <span class="text-danger" *ngIf="displayMessage.descricao">
+                            <p [innerHTML]="displayMessage.descricao"></p>
+                        </span>
+                    </div>
+                </div>
+              
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

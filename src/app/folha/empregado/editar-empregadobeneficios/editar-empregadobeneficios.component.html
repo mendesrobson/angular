@@ -1,0 +1,47 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Admissão</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form novalidate (ngSubmit)="editarBeneficios()" [formGroup]="beneficiosForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-12">
+              <div class="form-group">
+                  <label class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" formControlName="valeTransporte" (ngModelChange)="empregado.valeTransporte = $event"
+                        [checkBoxSet]="empregado.valeTransporte">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">Vale Transporte ?</span>
+                    </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Alterar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

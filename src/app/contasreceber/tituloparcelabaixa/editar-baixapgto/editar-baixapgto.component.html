@@ -1,0 +1,228 @@
+<div class="modal" data-backdrop="static">
+
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Forma Pagamento</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" (ngSubmit)="adicionarBaixaPgto()" novalidate [formGroup]="baixaPgtoForm">
+        <div class="form-body col-12">
+          <div class="row p-t-20">
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Tipo de Pagamento</label>
+                <select class="custom-select col-md-12" id="siglaTipoPagamento" name="siglaTipoPagamento" formControlName="siglaTipoPagamento"
+                   (ngModelChange)="siglaTipoPagamento = $event" (ngModelChange)="buscarChequeFolha($event)">
+                  <option *ngFor="let row of tipoPagamento" [ngValue]="row.sigla">{{row.descricao}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Conta</label>
+                <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId"
+                   formControlName="contaCorrenteId" [disableControl]="siglaTipoPagamento != 'CC'">
+                  <option *ngFor="let contaCorrente of contaCorrentes" [ngValue]="contaCorrente.id">{{contaCorrente.descricao}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label" for="valor">Valor Baixa</label>
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input type="text" disabled autocomplete="off" id="valor" currencyMask name="valor" class="form-control text-input" formControlName="valor"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Historico Padrão</label>
+                <select class="custom-select col-md-12" id="historicoPadraoId" name="historicoPadraoId" formControlName="historicoPadraoId">
+                  <option *ngFor="let historicoPadrao of historicoPadraos" [ngValue]="historicoPadrao.id">{{historicoPadrao.descricao}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3" *ngIf="(siglaTipoPagamento == 'CART' || siglaTipoPagamento == 'CARD') && natureza == 'receber'">
+              <div class="form-group">
+                <label>Adm de Cartão</label>
+                <select class="custom-select col-md-12" id="administradoraCartaoId" name="administradoraCartaoId" formControlName="administradoraCartaoId">
+                  <option *ngFor="let administradoraCartao of administradoraCartaos" [ngValue]="administradoraCartao.id">{{administradoraCartao.nomeFantasia}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3" *ngIf="(siglaTipoPagamento == 'CART' || siglaTipoPagamento == 'CARD') && natureza == 'receber'">
+              <div class="form-group">
+                <label class="control-label" for="codigoAprovacao">Código Aprovação</label>
+                <div class="input-group">
+                  <input type="text" autocomplete="off" id="codigoAprovacao" name="codigoAprovacao" class="form-control text-input"
+                    formControlName="codigoAprovacao" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3" *ngIf="(siglaTipoPagamento == 'CART') && natureza == 'receber'">
+              <div class="form-group">
+                <label class="control-label" for="quantidadeParcelas">Quantidade Parcelas</label>
+                <div class="input-group">
+                  <input type="number" autocomplete="off" min="1" onlyNumber="true" id="quantidadeParcelas" name="quantidadeParcelas"
+                    class="form-control text-input" formControlName="quantidadeParcelas" />
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-3" *ngIf="(siglaTipoPagamento == 'CART') && natureza == 'receber'">
+              <div class="form-check">
+                <label class="custom-control custom-checkbox" style="margin-top: 30px">
+                  <input type="checkbox" class="custom-control-input" formControlName="parceladoPelaAdministradora" (ngModelChange)="parceladoPelaAdministradora = $event"
+                    [checkBoxSet]="baixaPgtoForm.parceladoPelaAdministradora">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Parc. Administradora</span>
+                </label>
+              </div>
+            </div>
+
+
+            <div class="col-md-3" *ngIf="siglaTipoPagamento == 'CHQ' && natureza == 'receber'">
+              <div class="form-group">
+                <label>Banco</label>
+                <select class="custom-select col-md-12" id="bancoId" name="bancoId" formControlName="bancoId">
+                  <option *ngFor="let banco of bancos" [ngValue]="banco.id">{{banco.descricao}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3" *ngIf="siglaTipoPagamento == 'CHQ' && natureza == 'receber'">
+              <div class="form-group">
+                <label class="control-label" for="agencia">Agência</label>
+                <div class="input-group">
+                  <input type="text" autocomplete="off" id="agencia" name="agencia" class="form-control text-input" formControlName="agencia"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3" *ngIf="siglaTipoPagamento == 'CHQ' && natureza == 'receber'">
+              <div class="form-group">
+                <label class="control-label" for="conta">Conta</label>
+                <div class="input-group">
+                  <input type="text" autocomplete="off" id="conta" name="conta" class="form-control text-input" formControlName="conta"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3" *ngIf="siglaTipoPagamento == 'CHQ' && natureza == 'receber'">
+              <div class="form-group">
+                <label class="control-label" for="cheque">Cheque</label>
+                <div class="input-group">
+                  <input type="text" autocomplete="off" id="cheque" name="cheque" class="form-control text-input" formControlName="cheque"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8" *ngIf="siglaTipoPagamento == 'CHQ' && natureza == 'receber'">
+              <div class="form-group">
+                <label class="control-label" for="emitente">Emitente</label>
+                <div class="input-group">
+                  <input type="text" autocomplete="off" id="emitente" name="emitente" class="form-control text-input" formControlName="emitente"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4" *ngIf="siglaTipoPagamento == 'CHQ' && natureza == 'receber'">
+              <div class="form-group">
+                <label class="control-label" for="dataDeposito">Data para Depósito</label>
+                <input type="date" autocomplete="off" id="dataDeposito" name="dataDeposito" class="form-control text-input" formControlName="dataDeposito"
+                />
+              </div>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="table-responsive" *ngIf="natureza == 'pagar' && chequeFolhas != null && (siglaTipoPagamento == 'CHQP' || siglaTipoPagamento == 'CHQT')">
+              <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="chequeFolhas" #mf="mfDataTable" [mfRowsOnPage]="5"
+                (mfSelectedEntities)="setSelectedEntities($event)">
+                <thead>
+                  <tr>
+                    <th>
+                      <mfRowSelectorHead></mfRowSelectorHead>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="banco">Banco</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="agencia">Agência</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="conta">Conta Corrente</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="numCheque">Nr. Cheque</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="valor">Valor</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="dataDeposito">Data p/ Depósito</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="situacao">Situacao</mfDefaultSorter>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="chequeFolhas != null">
+                  <tr *ngFor="let cFolha of chequeFolhas let i = index" [attr.data-index]="i" style="cursor:pointer">
+                    <td>
+                      <mfRowSelector [entity]="cFolha" [checkboxId]="ndx"></mfRowSelector>
+                    </td>
+                    <td>{{ cFolha.banco }}</td>
+                    <td>{{ cFolha.agencia }}</td>
+                    <td>{{ cFolha.conta }}</td>
+                    <td>{{ cFolha.numCheque }}</td>
+                    <td>{{ cFolha.valor }}</td>
+                    <td>{{ cFolha.dataDeposito }}</td>
+                    <td>{{ cFolha.situacao }}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row button-group">
+                <div class="col-lg-4 col-md-6 align-content-lg-end">
+                  <button type="button" class="btn btn-block btn-secondary" *ngIf="visible" (click)="close()">
+                    <i class="fa fa-mail-reply"></i> Cancelar</button>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                  <button type="submit" [disabled]='!baixaPgtoForm.valid' class="btn btn-block btn-success">
+                    <i class="fa fa-check"></i> Gravar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

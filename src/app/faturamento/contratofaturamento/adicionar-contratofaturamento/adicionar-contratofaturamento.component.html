@@ -1,0 +1,540 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header" [style.display]="visible">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block" [style.display]="visible">
+        <form class="form-horizontal" novalidate (ngSubmit)="adicionarContratoFaturamento()" [formGroup]="contratoFaturamentoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId"
+                    (ngModelChange)="ConsultaEmpresa($event)">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{
+                      grupoEmpresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId"
+                    (ngModelChange)="ConsultaClienteAndEvento($event)">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                  <label class="control-label" for="codigo">Código</label>
+                  <input type="text" [disableControl]="!maskValid" #focusCodigo [textMask]="{ mask: codMask }"
+                    autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                  <span class="text-danger" *ngIf="displayMessage.codigo">
+                    <p [innerHTML]="displayMessage.codigo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <!-- <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label" for="sigla">Sigla</label>
+                  <input type="text" id="sigla" name="sigla" class="form-control text-input" formControlName="sigla" />
+                  <span class="text-danger" *ngIf="displayMessage.sigla">
+                    <p [innerHTML]="displayMessage.sigla"></p>
+                  </span>
+                </div>
+              </div> -->
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="descricao">Descrição</label>
+                  <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input"
+                    formControlName="descricao" />
+                  <span class="text-danger" *ngIf="displayMessage.descricao">
+                    <p [innerHTML]="displayMessage.descricao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <!-- <div class="col-md-6">
+                <div class="form-group">
+                  <label>Cliente s</label>
+                  <select class="custom-select col-md-12" id="clienteId" name="clienteId" formControlName="clienteId">
+                    <option *ngFor="let cliente of clientes" [ngValue]="cliente.id">{{ cliente.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.clienteId">
+                    <p [innerHTML]="displayMessage.clienteId"></p>
+                  </span>
+                </div>
+              </div> -->
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="clienteId">Cliente</label>
+                  <dx-drop-down-box [(value)]="gridBoxValue" valueExpr="id" [deferRendering]="false" displayExpr="cliente"
+                    placeholder="Selecionar..." [showClearButton]="true" [dataSource]="gridDataSource" formControlName="clienteId">
+                    <div *dxTemplate="let data of 'content'">
+
+                      <dx-data-grid [dataSource]="gridDataSource" [columns]="['codigo','cliente']" [selection]="{ mode: 'single' }"
+                        [hoverStateEnabled]="true" [paging]="{ enabled: true, pageSize: 10 }" [filterRow]="{ visible: true }"
+                        [scrolling]="{ mode: 'infinite' }" [(selectedRowKeys)]="gridSelectedRowKeys" [height]="345">
+                      </dx-data-grid>
+                    </div>
+                  </dx-drop-down-box>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Tipo Contrato</label>
+                  <select class="custom-select col-md-12" id="tipoContratoId" name="tipoContratoId" formControlName="tipoContratoId">
+                    <option *ngFor="let tipoContrato of tipoContratos" [ngValue]="tipoContrato.id">{{
+                      tipoContrato.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.tipoContratoId">
+                    <p [innerHTML]="displayMessage.tipoContratoId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Situação Contrato</label>
+                  <select class="custom-select col-md-12" id="situacaoContratoId" name="situacaoContratoId"
+                    formControlName="situacaoContratoId">
+                    <option *ngFor="let situacaoContrato of situacaoContratos" [ngValue]="situacaoContrato.id">{{
+                      situacaoContrato.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.situacaoContratoId">
+                    <p [innerHTML]="displayMessage.situacaoContratoId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Evento Faturamento</label>
+                  <select class="custom-select col-md-12" id="eventoFaturamentoId" name="eventoFaturamentoId"
+                    formControlName="eventoFaturamentoId">
+                    <option *ngFor="let eventoFaturamento of eventoFaturamentos" [ngValue]="eventoFaturamento.id">{{
+                      eventoFaturamento.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.eventoFaturamentoId">
+                    <p [innerHTML]="displayMessage.eventoFaturamentoId"></p>
+                  </span>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label" for="dataEmissao">Data Emissão</label>
+                  <input type="date" autocomplete="off" id="dataEmissao" name="dataEmissao" class="form-control text-input"
+                    formControlName="dataEmissao" />
+                  <span class="text-danger" *ngIf="displayMessage.dataEmissao">
+                    <p [innerHTML]="displayMessage.dataEmissao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label" for="mesAnoInicio">Mês de Início</label>
+                  <input type="text" autocomplete="off" [textMask]="{ mask: mesAnoMask }" id="mesAnoInicio" name="mesAnoInicio"
+                    class="form-control text-input" formControlName="mesAnoInicio" />
+                  <span class="text-danger" *ngIf="displayMessage.mesAnoInicio">
+                    <p [innerHTML]="displayMessage.mesAnoInicio"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Dia Vencimento</label>
+                  <select class="custom-select col-md-12" id="diaVencimento" name="diaVencimento" formControlName="diaVencimento">
+                    <option *ngFor="let row of selectDiaVencimento" [ngValue]="row.id">{{row.value}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.diaVencimento">
+                    <p [innerHTML]="displayMessage.diaVencimento"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label" for="mesInicioFaturamento">Início de Faturamento</label>
+                  <input type="text" autocomplete="off" [textMask]="{ mask: mesAnoMask }" id="mesInicioFaturamento"
+                    name="mesInicioFaturamento" class="form-control text-input" formControlName="mesInicioFaturamento" />
+                  <span class="text-danger" *ngIf="displayMessage.mesInicioFaturamento">
+                    <p [innerHTML]="displayMessage.mesInicioFaturamento"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-check" style="margin-top: 30px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="definirDataTermino"
+                      (ngModelChange)="contratoFaturamento.definirDataTermino = $event" checkBoxSet>
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Definir Data Término</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataTermino">Data Término</label>
+                  <input type="text" autocomplete="off" [disableControl]="contratoFaturamento.definirDataTermino != 'S'"
+                    [textMask]="{ mask: mesAnoMask }" id="dataTermino" name="dataTermino" class="form-control text-input"
+                    formControlName="dataTermino" />
+                  <span class="text-danger" *ngIf="displayMessage.dataTermino">
+                    <p [innerHTML]="displayMessage.dataTermino"></p>
+                  </span>
+                </div>
+              </div>
+
+              <!-- <div class="col-md-2">
+                <div class="form-group">
+                  <label>Qtd. Dia Vencimento</label> -->
+              <!--Mês Vencimento-->
+              <!-- <input type="number" id="qtdeDiaVencimento" name="qtdeDiaVencimento" class="form-control text-input" formControlName="qtdeDiaVencimento"
+                    [min]="0" onlyNumber="true" /> -->
+              <!--span class="text-danger" *ngIf="displayMessage.qtdeDiaVencimento">
+                    <p [innerHTML]="displayMessage.qtdeDiaVencimento"></p>
+                  </span-->
+              <!-- </div>
+              </div> -->
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label" for="valorContrato">Valor Contrato</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" autocomplete="off" currencyMask id="valorContrato" name="valorContrato" class="form-control text-input"
+                      formControlName="valorContrato" [min]="1" />
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.valorContrato">
+                    <p [innerHTML]="displayMessage.valorContrato"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label" for="valorOriginal">Valor Original</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" autocomplete="off" currencyMask id="valorOriginal" name="valorOriginal" class="form-control text-input"
+                      formControlName="valorOriginal" />
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.valorOriginal">
+                    <p [innerHTML]="displayMessage.valorOriginal"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-check" style="margin-top: 30px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="descontoAdimplencia"
+                      (ngModelChange)="contratoFaturamento.descontoAdimplencia = $event" checkBoxSet>
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Desconto Adimplência</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="percentual">Percentual</label>
+                  <div class="input-group">
+                    <input type="text" autocomplete="off" currencyMask [disableControl]="contratoFaturamento.descontoAdimplencia != 'S'"
+                      id="percentual" name="percentual" class="form-control text-input" formControlName="percentual" />
+                    <span class="input-group-addon">%</span>
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.percentual">
+                    <p [innerHTML]="displayMessage.percentual"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label" for="copiaContrato">Cópia do Contrato</label>
+                  <div class="input-group">
+                    <input type="text" autocomplete="off" id="copiaContratoFile" style="height: 38px;" name="copiaContratoFile"
+                      class="form-control text-input" formControlName="copiaContratoFile" />
+                    <span class="input-group-btn">
+                      <button type="button" style="height: 38px;" class="btn btn-default ig-mid-btn">
+                        <label class="btn btn-default btn-file">
+                          <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>
+                          <input type="file" (change)="adicionarCopiaContrato($event)" style="height: 38px;" id="copiaContrato"
+                            name="copiaContrato" class="form-control text-input" />
+                        </label>
+                      </button>
+                    </span>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" style="height: 38px;" (click)="visualizarCopiaContrato(this.contratoFaturamento.arquivoCopiaContrato)">
+                        <i class="fa fa-file-o" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.copiaContrato">
+                    <p [innerHTML]="displayMessage.copiaContrato"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label" for="documentoVinculado">Documento Vinculado</label>
+                  <div class="input-group">
+                    <input type="text" autocomplete="off" id="documentoVinculadoFile" style="height: 38px;" name="documentoVinculadoFile"
+                      class="form-control text-input" formControlName="documentoVinculadoFile" />
+                    <span class="input-group-btn">
+                      <button type="button" style="height: 38px;" class="btn btn-default ig-mid-btn">
+                        <label class="btn btn-default btn-file">
+                          <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>
+                          <input type="file" style="height: 38px;" style="height: 8px" (change)="adicionarDocumentoVinculado($event)"
+                            id="documentoVinculado" name="documentoVinculado" class="form-control text-input" />
+                        </label>
+                      </button>
+                    </span>
+                    <span class="input-group-btn">
+                      <button type="button" style="height: 38px;" class="btn btn-default" (click)="visualizarDocumentoVinculado(this.contratoFaturamento.arquivoDocumentoVinculado)">
+                        <i class="fa fa-file-o" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.documentoVinculado">
+                    <p [innerHTML]="displayMessage.documentoVinculado"></p>
+                  </span>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-12">
+                <div class="card color-bordered-table info-bordered-table">
+
+                  <div class="card-header">
+                    <h4 class="m-b-0 text-white">Excedente de Contrato</h4>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="row p-t-20">
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label" for="numeroContratado">Número Contratado</label>
+                          <input type="number" autocomplete="off" id="numeroContratado" name="numeroContratado" class="form-control text-input"
+                            formControlName="numeroContratado" />
+                          <span class="text-danger" *ngIf="displayMessage.numeroContratado">
+                            <p [innerHTML]="displayMessage.numeroContratado"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="adicionalFuncionarios"
+                              (ngModelChange)="contratoFaturamento.adicionalFuncionarios = $event" checkBoxSet>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Adicional Funcionários</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label" for="valorAdicionalEmpregado">Valor Adicional por Empregado</label>
+                          <div class="input-group">
+                            <span class="input-group-addon">R$</span>
+                            <input type="text" autocomplete="off" currencyMask [disableControl]="contratoFaturamento.adicionalFuncionarios != 'S'"
+                              id="valorAdicionalEmpregado" name="valorAdicionalEmpregado" class="form-control text-input"
+                              formControlName="valorAdicionalEmpregado" />
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.valorAdicionalEmpregado">
+                            <p [innerHTML]="displayMessage.valorAdicionalEmpregado"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="card color-bordered-table info-bordered-table">
+
+                  <div class="card-header">
+                    <h4 class="m-b-0 text-white">Adicional Anual</h4>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="row p-t-20">
+
+                      <div class="col-md-4">
+                        <div class="form-check">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="cobrarAdicionalAnual"
+                              checkBoxSet>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Cobrar Adicional Anual</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-check">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="valorUltimoFaturamento"
+                              checkBoxSet>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Valor Ultimo Faturamento</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-check">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="proporcionalDataInicio"
+                              checkBoxSet>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Proporcional Data Início</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <br /><br />
+
+                      <div class="col-md-3">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="percentualValorContrato"
+                              (ngModelChange)="contratoFaturamento.percentualValorContrato = $event" checkBoxSet>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Percentual Valor Contrato</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label" for="percentualCobrado">Percentual Cobrado</label>
+                          <div class="input-group">
+                            <input type="text" autocomplete="off" currencyMask [disableControl]="contratoFaturamento.percentualValorContrato != 'S'"
+                              id="percentualCobrado" name="percentualCobrado" class="form-control text-input"
+                              formControlName="percentualCobrado" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.percentualCobrado">
+                            <p [innerHTML]="displayMessage.percentualCobrado"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="valorFixo"
+                              (ngModelChange)="contratoFaturamento.valorFixo = $event" checkBoxSet>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Valor Fixo</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label" for="valor">Valor</label>
+                          <div class="input-group">
+                            <span class="input-group-addon">R$</span>
+                            <input type="text" autocomplete="off" currencyMask [disableControl]="contratoFaturamento.valorFixo != 'S'"
+                              id="valor" name="valor" class="form-control text-input" formControlName="valor" />
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.valor">
+                            <p [innerHTML]="displayMessage.valor"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="faturarComContrato"
+                              (ngModelChange)="contratoFaturamento.faturarComContrato = $event" checkBoxSet>
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Faturar Com Contrato</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="control-label" for="iniciaEm">Inicia Em</label>
+                          <input type="text" autocomplete="off" [disableControl]="contratoFaturamento.faturarComContrato != 'S'"
+                            [textMask]="{ mask: mesAnoMask }" id="iniciaEm" name="iniciaEm" class="form-control text-input"
+                            formControlName="iniciaEm" />
+                          <span class="text-danger" *ngIf="displayMessage.iniciaEm">
+                            <p [innerHTML]="displayMessage.iniciaEm"></p>
+                          </span>
+                        </div>
+                      </div>
+
+
+                      <br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+
+
+              <div class="col-md-12">
+                <div class="row button-group">
+
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+
+                  <div class="col-lg-2 col-md-6">
+                    <button type="submit" [disabled]='!contratoFaturamentoForm.valid' class="btn btn-block btn-success">
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

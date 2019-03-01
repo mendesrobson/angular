@@ -1,0 +1,131 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" novalidate (ngSubmit)="adicionarHistoricoPadrao()" [formGroup]="historicoPadraoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <dx-select-box placeholder="Selecione.." [items]="grupoEmpresas" displayExpr="pessoa.nome" valueExpr="id"
+                    [searchEnabled]="true" (ngModelChange)="ConsultaEmpresa($event)" formControlName="grupoEmpresaId">
+                  </dx-select-box>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <dx-select-box placeholder="Selecione.." [items]="empresas" displayExpr="pessoa.nome" valueExpr="id"
+                    [searchEnabled]="true" formControlName="empresaId" (ngModelChange)="ConsultaSelectEmpresa($event)">
+                  </dx-select-box>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                  <label class="control-label" for="codigo">Código</label>
+                  <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input"
+                    formControlName="codigo" />
+                  <span class="text-danger" *ngIf="displayMessage.codigo">
+                    <p [innerHTML]="displayMessage.codigo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                  <label class="control-label" for="sigla">Sigla</label>
+                  <input type="text" autocomplete="off" id="sigla" name="sigla" class="form-control text-input"
+                    formControlName="sigla" />
+                  <span class="text-danger" *ngIf="displayMessage.sigla">
+                    <p [innerHTML]="displayMessage.sigla"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Historico Padrão Pai</label>
+
+                  <dx-drop-down-box valueExpr="id" [(value)]="treeBoxValue" formControlName="historicoPadraoPaiId"
+                    displayExpr="descricao" [showClearButton]="true" [dataSource]="historicosPadroes" (onValueChanged)="syncTreeViewSelection($event)">
+
+                    <div *dxTemplate="let data of 'content'">
+                      <dx-tree-view [dataSource]="historicosPadroes" [height]="150" expandedExpr="expanded"
+                        itemHoldTimeout="750" dataStructure="plain" keyExpr="id" parentIdExpr="historicoPadraoPaiId"
+                        selectNodesRecursive="true" selectionMode="single" displayExpr="descricao" [selectByClick]="true"
+                        (onContentReady)="$event.component.selectItem(treeBoxValue)" (onItemSelectionChanged)="treeView_itemSelectionChanged($event)"
+                        noDataText="Nenhum dado para exibir">
+                      </dx-tree-view>
+                    </div>
+                  </dx-drop-down-box>
+
+                  <span class="text-danger" *ngIf="displayMessage.historicoPadraoPaiId">
+                    <p [innerHTML]="displayMessage.historicoPadraoPaiId"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                  <label class="control-label" for="descricao">Descrição</label>
+                  <input type="text" id="descricao" autocomplete="off" name="descricao" class="form-control text-input"
+                    formControlName="descricao" />
+                  <span class="text-danger" *ngIf="displayMessage.descricao">
+                    <p [innerHTML]="displayMessage.descricao"></p>
+                  </span>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-12">
+                <div class="row p-t-20">
+                  <div class="col-md-6">
+                    <app-lista-historicocentrocusto></app-lista-historicocentrocusto>
+                  </div>
+                  <div class="col-md-6">
+                    <app-lista-historicocentroresultado></app-lista-historicocentroresultado>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-12">
+                <div class="row button-group">
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+                  <div class="col-lg-2 col-md-6">
+                    <button type="submit" [disabled]='!historicoPadraoForm.valid' class="btn btn-block btn-success">
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

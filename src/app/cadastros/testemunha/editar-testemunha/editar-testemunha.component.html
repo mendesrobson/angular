@@ -1,0 +1,134 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+            <div class="card-block">
+                <form class="form-horizontal" novalidate (ngSubmit)="editarTestemunha()" [formGroup]="testemunhaForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+                            <div class="alert alert-danger" *ngIf="errors.length > 0">
+                                <h3 id="msgRetorno">Opa! Alguma coisa não deu certo:</h3>
+                                <ul>
+                                    <li *ngFor="let error of errors">{{ error }}</li>
+                                </ul>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{grupoEmpresa.pessoa.nome}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                                        <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{empresa.pessoa.nome}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                        <p [innerHTML]="displayMessage.empresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                    <label class="control-label" for="codigo">Código</label>
+                                    <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                                    <span class="text-danger" *ngIf="displayMessage.codigo">
+                                        <p [innerHTML]="displayMessage.codigo"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="nome">Nome</label>
+                                    <input type="text" autocomplete="off" id="nome" name="nome" class="form-control text-input" formControlName="nome" />
+                                    <span class="text-danger" *ngIf="displayMessage.nome">
+                                        <p [innerHTML]="displayMessage.nome"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="cpf">CPF</label>
+                                    <input type="text" autocomplete="off" [textMask]="{mask: cpfMask}" id="cpf" name="cpf" class="form-control text-input" formControlName="cpf"
+                                    />
+                                    <span class="text-danger" *ngIf="displayMessage.cpf">
+                                        <p [innerHTML]="displayMessage.cpf"></p>
+                                    </span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.rg }">
+                                    <label for="rg">RG</label>
+                                    <input type="text" autocomplete="off" [textMask]="{mask: rgMask}" id="rg" name="rg" class="form-control text-input" formControlName="rg" />
+                                    <span class="text-danger" *ngIf="displayMessage.rg">
+                                        <p [innerHTML]="displayMessage.rg"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.orgaoEmissor }">
+                                    <label for="orgaoEmissor">Orgão Emissor</label>
+                                    <input type="text" autocomplete="off" id="orgaoEmissor" name="orgaoEmissor" class="form-control text-input" formControlName="orgaoEmissor" />
+                                    <span class="text-danger" *ngIf="displayMessage.orgaoEmissor">
+                                        <p [innerHTML]="displayMessage.orgaoEmissor"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Estado Emissor</label>
+                                    <select class="custom-select col-md-12" id="ufId" name="ufId" formControlName="ufId">
+                                        <option *ngFor="let uf of ufs" [ngValue]="uf.id">{{uf.descricao}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.ufId">
+                                        <p [innerHTML]="displayMessage.ufId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="row button-group">
+
+                                    <div class="col-lg-2 col-md-6 align-content-lg-end">
+                                        <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                                            <i class="fa fa-mail-reply"></i> Cancelar</button>
+                                    </div>
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="submit"  [disabled]='!testemunhaForm.valid' class="btn btn-block btn-success">
+                                            <i class="fa fa-check"></i> Gravar</button>
+                                    </div>
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="button" class="btn btn-block btn-danger" [disabled]='!removerVisivel' (click)="remover(testemunha.id)">
+                                            <i class="fa fa-times"></i> Remover</button>
+                                    </div>
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="button" class="btn btn-block btn-success" [disabled]="!reativarVisivel" (click)="reativar(testemunha.id)">
+                                            <i class="fa fa-retweet"></i> Reativar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

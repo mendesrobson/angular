@@ -1,0 +1,79 @@
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+      <h3 class="text-themecolor m-b-0 m-t-0">Cadastro de Categoria Contas a Pagar</h3>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:void(0)">Faturamento</a></li>
+        <li class="breadcrumb-item active">Categoria Contas a Pagar</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="m-b-0 text-white">Cadastro</h4>
+        </div>
+        <div class="card-block">
+          <form class="form-horizontal" [formGroup]="categoriaContaPagarForm">
+            <div class="form-body col-12">
+              <div class="row p-t-20">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Grupo</label>
+                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                      <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{grupoEmpresa.pessoa.nome}}</option>
+                  </select>
+  
+                  </div>
+                </div>
+  
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Empresa</label>
+                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                      <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{empresa.pessoa.nome}}</option>
+                  </select>
+                   
+                  </div>
+                </div>
+  
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="control-label" for="codigo">Código</label>
+                    <input type="text" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                 </div>
+                </div>
+  
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label" for="codigo">Descrição</label>
+                    <input type="text" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                   
+                  </div>
+                </div>
+  
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Tipo</label>
+                    <select class="custom-select col-md-12" id="tipo" [(ngModel)]="categoriaContaPagar.tipo" name="tipo" formControlName="tipo">
+                      <option *ngFor="let tipo of tiposCategoria" [ngValue]="tipo.sigla">{{tipo.descricao}}</option>
+                    </select>
+                  </div>
+                </div>
+  
+                <div class="col-md-2" *ngIf="categoriaContaPagar.tipo == 'NTOT'">
+                  <div class="form-group">
+                    <label>Subordinada a</label>
+                    <select class="custom-select col-md-12" id="categoriaContaPagarPaiId" name="categoriaContaPagarPaiId" formControlName="categoriaContaPagarPaiId">
+                      <option *ngFor="let categoria of categoriaContaPagarPai" [ngValue]="categoria.id">{{categoria.descricao}}</option>
+                    </select>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

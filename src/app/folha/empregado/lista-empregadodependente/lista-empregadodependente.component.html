@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-12" style="padding: 0px">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+                
+        <div class="col-lg-4 col-md-10 align-content-lg-end">
+          <div class="row button-group">
+            <div class="">
+              <button type="button" class="btn btn-block btn-success" (click)="showModal('modalAdicionar')">
+                <i class="fa fa-plus"></i> Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="row p-t-5">
+            <div class="table-responsive">
+              <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+                [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                  <tr>
+                      <th>
+                          <mfDefaultSorter by="EnderecoPrincipal">Nome do dependente</mfDefaultSorter>
+                      </th>
+                      <th>
+                          <mfDefaultSorter by="Cep">Parentesco</mfDefaultSorter>
+                      </th>
+                      <th>
+                          Ações
+                      </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngFor="let row of empregadoComponent.empregado.empregadoDependente" style="cursor:pointer">
+                    <td> {{ row.nomeDependente }} </td>
+                    <td *ngIf="row.parentesco != null">{{ row.parentesco.descricao }}</td>
+                    <td>
+                      <label (click)="editarEmpregadoDependente(row)" data-toggle="modal" data-target=".modal-cargocbo-edit">
+                        <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                      </label>
+                      <span style="padding-right:2px"></span>
+                      <label (click)="inativarEmpregadoDependente(row)" style="cursor:pointer" title="Inativar">
+                        <i class="fa fa-trash-o text-danger"></i>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-adicionar-empregadodependente *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-empregadodependente>
+<app-editar-empregadodependente *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-empregadodependente>

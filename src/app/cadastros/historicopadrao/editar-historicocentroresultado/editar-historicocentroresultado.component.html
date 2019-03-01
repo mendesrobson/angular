@@ -1,0 +1,64 @@
+<div class="modal" data-backdrop="static">
+
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myLargeModalLabel">Centro de Resultado</h4>
+        <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+      </div>
+  
+      <div class="card-block">
+  
+  
+  
+        <form class="form-horizontal" novalidate (ngSubmit)="editarHistoricoCentroResultado()" [formGroup]="historicoCentroResultadoForm">
+          <div class="form-body">
+            <div class="row p-t-20">
+  
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" for="centroResultadoId">Centro de Resultado</label>
+                  <select class="custom-select col-md-12" id="centroResultadoId" name="centroResultadoId" formControlName="centroResultadoId">
+                    <option *ngFor="let centro of centroResultados" [ngValue]="centro.id">{{ centro.codigo }} - {{ centro.descricao }}</option>
+                  </select>
+                </div>
+              </div>
+  
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" for="percentual">Percentual</label>
+                  <div class="input-group">
+                    <input type="number" autocomplete="off" min="0" id="percentual" name="percentual" onlyNumber="true" class="form-control text-input" formControlName="percentual"
+                    />
+                    <span class="input-group-addon">%</span>
+                  </div>
+                </div>
+              </div>
+  
+  
+  
+              <div class="col-md-12">
+                <div class="row button-group">
+                  <div class="col-lg-3 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+                  <div class="col-lg-3 col-md-6">
+                    <button type="button" (click)="editarHistoricoCentroResultado()" [disabled]='!historicoCentroResultadoForm.valid' class="btn btn-block btn-success"
+                      data-dismiss="modal">
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+                </div>
+              </div>
+  
+  
+              <br>
+  
+  
+            </div>
+          </div>
+        </form>
+  
+      </div>
+    </div>
+  </div>

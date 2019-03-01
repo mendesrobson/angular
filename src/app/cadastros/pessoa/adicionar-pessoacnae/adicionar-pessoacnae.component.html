@@ -1,0 +1,88 @@
+<div class="modal" data-backdrop="static">
+
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Cnae</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarPessoaCnae()" [formGroup]="pessoaCnaeForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                <label class="control-label" for="codigo">Código</label>
+                <input type="text" autocomplete="off" id="codigo" name="codigo" [textMask]="{ mask: cnaeMask }" (blur)="ConsultaCnae($event.target.value)" class="form-control text-input"
+                  formControlName="codigo" />
+                <span class="text-danger" *ngIf="displayMessage.codigo">
+                  <p [innerHTML]="displayMessage.codigo"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                <label class="control-label" for="descricao">Descrição</label>
+                <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                <span class="text-danger" *ngIf="displayMessage.descricao">
+                  <p [innerHTML]="displayMessage.descricao"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="dataInicio">Data Início</label>
+                <input type="date" autocomplete="off" id="dataInicio" name="dataInicio" class="form-control text-input" formControlName="dataInicio" />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="dataFim">Data Final</label>
+                <input type="date" autocomplete="off" id="dataFim" name="dataFim" class="form-control text-input" formControlName="dataFim" />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Tipo</label>
+                <select class="custom-select col-md-12" id="atividade" name="atividade" formControlName="atividade">
+                  <option value="principal">Atividade Principal</option>
+                  <option value="secundaria">Atividade Secundária</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.atividade">
+                  <p [innerHTML]="displayMessage.atividade"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" [disabled]='!pessoaCnaeForm.valid' class="btn btn-block btn-success" (click)="adicionarPessoaCnae()">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>

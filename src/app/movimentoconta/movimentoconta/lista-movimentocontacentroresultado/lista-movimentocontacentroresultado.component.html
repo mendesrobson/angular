@@ -1,0 +1,68 @@
+<div class="col-md-4">
+    <div class="row button-group">
+        <div class="">
+            <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target=".modal-centroResultado" (click)="modalAddVisible = true"
+                [disabled]="!permitirEditar">
+                <i class="fa fa-plus"></i> Adicionar Centro Resultado</button>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+        [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+        <thead>
+            <tr>
+                <th>
+                    <mfDefaultSorter by="centroResultado.codigo">Centro Resultado</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="centroResultado.descricao">Descrição</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="percentual">%</mfDefaultSorter>
+                </th>
+                <th>
+                    Ações
+                </th>
+            </tr>
+        </thead>
+        <tbody *ngIf="mf.data != null">
+            <tr *ngFor="let centroResultado of mf.data">
+
+                <td *ngIf="centroResultado.centroResultado != null">
+                    {{ centroResultado.centroResultado.codigo }}
+                </td>
+                <td *ngIf="centroResultado.centroResultado != null">
+                    {{ centroResultado.centroResultado.descricao }}
+                </td>
+                <td *ngIf="centroResultado.centroResultado != null">
+                    {{ centroResultado.percentual }}
+                </td>
+                <td *ngIf="centroResultado.centroResultado != null && permitirEditar ==true"> 
+
+                    <label (click)="editarCentroResultado(centroResultado)" data-toggle="modal" data-target=".modal-centroResultado-edit">
+                        <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                    </label>
+                    <span style="padding-right:2px"></span>
+                    <label (click)="inativarCentroResultado(centroResultado)" style="cursor:pointer" title="Inativar">
+                        <i class="fa fa-trash-o text-danger"></i>
+                    </label>
+
+                </td>
+
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<app-adicionar-movimentocontacentroresultado *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-movimentocontacentroresultado>
+
+<app-editar-movimentocontacentroresultado *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-movimentocontacentroresultado>

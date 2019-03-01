@@ -1,0 +1,109 @@
+<!--div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+        <h3 class="text-themecolor m-b-0 m-t-0">Cadastro de Conta Corrente</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="javascript:void(0)">Faturamento</a>
+            </li>
+            <li class="breadcrumb-item active">Conta Corrente</li>
+        </ol>
+    </div>
+</div-->
+
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-block">
+                <form class="form-horizontal" novalidate [formGroup]="contaCorrenteForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{grupoEmpresa.pessoa.nome}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{empresa.pessoa.nome}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Banco</label>
+                                    <select class="custom-select col-md-12" id="bancoId" name="bancoId" formControlName="bancoId">
+                                        <option *ngFor="let banco of bancos" [ngValue]="banco.id">{{banco.descricao}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Agência</label>
+                                    <select class="custom-select col-md-md-12" id="agenciaId" name="agenciaId" formControlName="agenciaId">
+                                        <option *ngFor="let agencia of agencias" [ngValue]="agencia.id">{{agencia.descricao}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="codigo">Código</label>
+                                    <input type="text" name="codigo" class="form-control text-input" id="codigo" formControlName="codigo" />
+                                    <span class="text-danger" *ngIf="displayMessage.codigo">
+                                        <p [innerHTML]="displayMessage.codigo"></p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="descricao">Descrição</label>
+                                    <input type="text" name="descricao" class="form-control text-input" id="descricao" formControlName="descricao" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="cnpj">CNPJ</label>
+                                    <input type="text" name="cnpj" class="form-control text-input" id="cnpj" formControlName="cnpj" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nomeEmpresa">Nome Empresa</label>
+                                    <input type="text" name="nomeEmpresa" class="form-control text-input" id="nomeEmpresa" formControlName="nomeEmpresa" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="conta">Conta</label>
+                                    <input type="text" name="conta" class="form-control text-input" id="conta" formControlName="conta" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="digito">Dígito</label>
+                                    <input type="text" name="ContaCorrenteViewModel.digito" class="form-control text-input" id="digito" formControlName="digito"
+                                    />
+
+                                </div>
+                            </div>
+                            <!--</div>
+                              </div> -->
+
+                            <!-- <app-lista-dadoscobranca></app-lista-dadoscobranca> -->
+
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

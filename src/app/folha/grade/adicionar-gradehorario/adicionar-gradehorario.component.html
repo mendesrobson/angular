@@ -1,0 +1,95 @@
+<div class="m-t-40">
+  <div class="d-flex">
+    <div class="col-lg-4 col-md-10 align-content-lg-end">
+      <div class="row button-group">
+        <div class="">
+                <button type="button" class="btn btn-success" (click)="openModal(true)">
+                        <i class="fa fa-plus"></i>Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" data-backdrop="static" [ngStyle]="{'display': modalIsOpen ? 'block' : 'none', 'opacity': 1}">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Adicionar Horário</h4>
+            <button type="button" (click)="close()" class="close">×</button>
+        </div>
+
+        <div class="card-block">
+            <form class="form-horizontal" novalidate (ngSubmit)="adicionarCalendario()" [formGroup]="calendarioForm">
+                <div class="form-body col-12">
+                    <div class="row p-t-20">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="horarioInicio">Horário Inicio
+                                    <span style="color:red">*</span>
+                                </label>
+                                <ngb-timepicker [(ngModel)]="hrInicio" autocomplete="off" formControlName="horarioInicio"></ngb-timepicker>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="intervaloInicio">Intervalo Inicio</label>
+                                <ngb-timepicker [(ngModel)]="intInicio" autocomplete="off" formControlName="intervaloInicio"></ngb-timepicker>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="intervaloFim">Intervalo Fim</label>
+                                <ngb-timepicker [(ngModel)]="intFim" autocomplete="off" formControlName="intervaloFim"></ngb-timepicker>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" for="horarioFim">Horário Fim
+                                    <span style="color:red">*</span>
+                                </label>
+                                <ngb-timepicker [(ngModel)]="hrFim" autocomplete="off" formControlName="horarioFim"></ngb-timepicker>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label" for="tipo">Tipo</label>
+                                <select class="custom-select col-md-12" id="tipo" name="tipo" formControlName="tipo">
+                                    <option *ngFor="let calendarios of calendario" [ngValue]="calendarios.tipo">{{ calendarios.tipo}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pb-5 mt-1">
+                            <label>Repetir:&nbsp;
+                                <span style="color:red">*</span>
+                            </label>
+                            <br/>
+                            <label *ngFor="let semana of diasSemana" class="custom-control custom-checkbox" style="margin-top: 30px">
+                                <input type="checkbox" class="custom-control-input" value="{{semana.dia}}" name="{{semana.id}}" [(ngModel)]="semana[semana.id]"
+                                    formControlName="{{semana.dia.toLowerCase()}}" />
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">{{semana.dia}}</span>
+                            </label>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row button-group">
+                                <div class="col-lg-4 col-md-6 align-content-lg-end">
+                                    <button type="button" class="btn btn-block btn-secondary" (click)="close()">
+                                        <i class="fa fa-mail-reply"></i> Cancelar</button>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <button type="submit" class="btn btn-block btn-success">
+                                        <i class="fa fa-check"></i> Gravar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

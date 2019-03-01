@@ -1,0 +1,74 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Endereço</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form novalidate (ngSubmit)="editarEmpregadoOrgaoClasse()" [formGroup]="empregadoOrgaoClasseForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label" for="numeroInscricao">Número Inscrição</label>
+                <input type="text" autocomplete="off" id="numeroInscricao" name="numeroInscricao" maxlength="50" class="form-control text-input" formControlName="numeroInscricao" />
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label" for="orgaoEmissor">Órgão Emissor</label>
+                <input type="text" autocomplete="off" id="orgaoEmissor" name="orgaoEmissor" class="form-control text-input" maxlength="100" formControlName="orgaoEmissor" />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>UF</label>
+                <select class="custom-select col-md-12" id="ufId" name="ufId" formControlName="ufId">
+                  <option *ngFor="let ufs of uf" [ngValue]="ufs.id">{{ ufs.descricao }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="dataExpedicao">Expedição</label>
+                <input type="date" autocomplete="off" id="dataExpedicao" name="dataExpedicao" class="form-control text-input" formControlName="dataExpedicao" />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="dataValidade">Validade</label>
+                <input type="date" autocomplete="off" id="dataValidade" name="dataValidade" class="form-control text-input" formControlName="dataValidade" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Alterar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

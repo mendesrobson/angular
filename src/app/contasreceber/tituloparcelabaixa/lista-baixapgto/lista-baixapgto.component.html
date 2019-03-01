@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <!-- <div class="m-t-40"> -->
+        <div class="d-flex">
+          <div class="col-md-10 align-content-lg-end">
+            <div class="row button-group">
+              <div class="">
+                <button type="button" class="btn btn-block btn-success" [disabled]="tituloParcelaBaixaComponent.Habilitar" (click)="showModal('modalAdicionar')"> <!--[disabled]="tituloParcelaBaixaComponent.Habilitar"-->
+                  <i class="fa fa-plus"></i> Adicionar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+
+        <div class="table-responsive">
+          <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="tipoPagamento">Tipo de Pagamento</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="valor">Valor</mfDefaultSorter>
+                </th>
+
+                <th>
+                  <mfDefaultSorter by="historicoPadrao.descricao">Histórico Padrão</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="contaCorrente.descricao">Conta</mfDefaultSorter>
+                </th>
+                <th>
+                  Ações
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngIf="tituloParcelaBaixaComponent.BaixaPagarReceberPgtos != null">
+
+              <tr *ngFor="let row of tituloParcelaBaixaComponent.BaixaPagarReceberPgtos" style="cursor:pointer">
+                <td>{{ row.tipoPagamento}}</td>
+                <td>{{ row.valor | currency:'BRL':'symbol'}}</td>
+                <td *ngIf="row.historicoPadrao != null || row.historicoPadrao != undefined">
+                    {{ row.historicoPadrao.descricao }}
+                </td>
+                <td *ngIf="row.contaCorrente != null || row.contaCorrente != undefined">
+                  {{ row.contaCorrente.descricao}}
+                </td>
+                <td *ngIf="!habilitarEditar">
+                  <label (click)="editarBaixapgto(row)" data-toggle="modal">
+                    <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                  </label> 
+                  <span style="padding-right:2px"></span>
+                  &nbsp;
+                  <label (click)="inativarBaixaPgto(row)" style="cursor:pointer" title="Inativar">
+                    <i class="fa fa-trash-o text-danger"></i>
+                  </label>
+                </td>
+                <td *ngIf="habilitarEditar">
+                  <label (click)="consultaBaixapgto(row)" data-toggle="modal">
+                      <i class="fa fa-search text-info" style="cursor:pointer"></i>
+                    </label>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-adicionar-baixapgto *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-baixapgto>
+<app-editar-baixapgto *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-baixapgto>
+<app-consultar-baixapgto *ngIf="modalConsultarVisible != false" [(visible)]="modalConsultarVisible"></app-consultar-baixapgto>

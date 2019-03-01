@@ -1,0 +1,256 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor m-b-0 m-t-0">Cadastro de Lançamento</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:void(0)">Faturamento</a>
+      </li>
+      <li class="breadcrumb-item active">Lançamento</li>
+    </ol>
+  </div>
+</div>
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+        <form class="form-horizontal" [formGroup]="lancamentoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{grupoEmpresa.pessoa.nome}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId" (ngModelChange)="ConsultaCliente($event)">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{empresa.pessoa.nome}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Cliente</label>
+                  <select class="custom-select col-md-12" id="clienteId" name="clienteId" formControlName="clienteId">
+                    <option *ngFor="let cliente of clientes" [value]="cliente.id">{{cliente.pessoa.nome}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Evento</label>
+                  <select class="custom-select col-md-12" id="eventoFaturamentoId" name="eventoFaturamentoId" formControlName="eventoFaturamentoId">
+                    <option *ngFor="let evento of eventos" [value]="evento.id">{{evento.descricao}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-check" style="margin-top: 30px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="fixo" [checkBoxSet]="lancamento.fixo">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description"> Fixo? </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label" for="codigo">Código</label>
+                  <input type="text" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="descricao">Descrição</label>
+                  <input type="text" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check" style="margin-top: 30px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="faturarContrato" [checkBoxSet]="lancamento.faturarContrato">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description"> Faturar com Contrato?</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Contrato</label>
+                  <select class="custom-select col-md-12" id="contratoFaturamentoId" name="contratoFaturamentoId" formControlName="contratoFaturamentoId">
+                    <option *ngFor="let contrato of contratos" [value]="contrato.id">{{contrato.descricao}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label" for="dataLancamento">Data de Lançamento</label>
+                  <my-date-picker name="dataLancamento" [options]="myDatePickerOptions" formControlName="dataLancamento"></my-date-picker>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label" for="dataVencimento">Data de Vencimento</label>
+                  <my-date-picker name="dataVencimento" [options]="myDatePickerOptions" [selDate]="01.01.2016" formControlName="dataVencimento"></my-date-picker>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label" for="dataEncerramento">Data de Encerramento</label>
+                  <my-date-picker name="dataEncerramento" [options]="myDatePickerOptions" formControlName="dataEncerramento"></my-date-picker>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="quantidade">Quantidade</label>
+                  <input type="number" min="1" id="quantidade" name="quantidade" class="form-control text-input" formControlName="quantidade"
+                  />
+
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label" for="percentual">Percentual</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="percentual" name="percentual" class="form-control text-input" formControlName="percentual"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label" for="valorUnitario">Valor Unitário</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="valorUnitario" name="valorUnitario" class="form-control text-input" formControlName="valorUnitario"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label" for="valorTotal">Valor Total</label>
+                  <div class="input-group">
+                    <input type="text" currencyMask id="valorTotal" name="valorTotal" class="form-control text-input" formControlName="valorTotal"
+                    />
+                    <span class="input-group-addon">R$</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check" style="margin-top: 30px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="geradoPeloContrato" [checkBoxSet]="lancamento.geradoPeloContrato">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Gerado pelo Contrato?</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">
+                    <b>Impostos</b>
+                  </label>
+
+                  <div class="input-group">
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label class="control-label" for="aliquotaIRRF">Alíquota IRRF</label>
+                        <div class="input-group">
+                          <input type="text" currencyMask id="aliquotaIRRF" name="aliquotaIRRF" class="form-control text-input" formControlName="aliquotaIRRF"
+                          />
+                          <span class="input-group-addon">%</span>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label class="control-label" for="aliquotaISS">Alíquota ISS</label>
+                        <div class="input-group">
+                          <input type="text" currencyMask id="aliquotaISS" name="aliquotaISS" class="form-control text-input" formControlName="aliquotaISS"
+                          />
+                          <span class="input-group-addon">%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label class="control-label" for="aliquotaPIS">Alíquota PIS</label>
+                        <div class="input-group">
+                          <input type="text" currencyMask id="aliquotaPIS" name="aliquotaPIS" class="form-control text-input" formControlName="aliquotaPIS"
+                          />
+                          <span class="input-group-addon">%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label class="control-label" for="aliquotaCOFINS">Alíquota COFINS</label>
+                        <div class="input-group">
+                          <input type="text" currencyMask id="aliquotaCOFINS" name="aliquotaCOFINS" class="form-control text-input" formControlName="aliquotaCOFINS"
+                          />
+                          <span class="input-group-addon">%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label class="control-label" for="aliquotaCSLL">Alíquota CSLL</label>
+                        <div class="input-group">
+                          <input type="text" currencyMask id="aliquotaCSLL" name="aliquotaCSLL" class="form-control text-input" formControlName="aliquotaCSLL"
+                          />
+                          <span class="input-group-addon">%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

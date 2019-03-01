@@ -1,0 +1,96 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Admissão</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form novalidate (ngSubmit)="editarAdmissao()" [formGroup]="admissaoForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+                <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.dataAdmissao }">
+                        <label class="control-label" for="dataAdmissao">Data de Admissão</label>
+                        <input type="date" autocomplete="off" id="dataAdmissao" name="dataAdmissao" class="form-control text-input" formControlName="dataAdmissao"
+                        />
+                        <span class="text-danger" *ngIf="displayMessage.dataAdmissao">
+                          <p [innerHTML]="displayMessage.dataAdmissao"></p>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.dataExameMedico }">
+                      <label class="control-label" for="dataExameMedico">Data do Exame Médico</label>
+                      <input type="date" autocomplete="off" id="dataExameMedico" name="dataExameMedico" class="form-control text-input" formControlName="dataExameMedico"
+                      />
+                      <span class="text-danger" *ngIf="displayMessage.dataExameMedico">
+                        <p [innerHTML]="displayMessage.dataExameMedico"></p>
+                      </span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="recebeSalarioHabitacao" (ngModelChange)="empregado.recebeSalarioHabitacao = $event"
+                              [checkBoxSet]="empregado.recebeSalarioHabitacao">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Recebe Salário Habilitado ?</span>
+                          </label>
+          
+                          <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" formControlName="recebeSeguroDesemprego" (ngModelChange)="empregado.recebeSeguroDesemprego = $event"
+                                [checkBoxSet]="empregado.recebeSeguroDesemprego">
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">Recebe Seguro Desemprego ?</span>
+                          </label>
+          
+                          <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" formControlName="recebeAdiantamento" (ngModelChange)="empregado.recebeAdiantamento = $event"
+                                [checkBoxSet]="empregado.recebeAdiantamento">
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">Recebe Adiantamento ?</span>
+                          </label>
+                    </div>
+                </div>
+          
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="control-label" for="percentual">Percentual</label>
+                      <div class="input-group">
+                        <input type="text" autocomplete="off" currencyMask id="percentual" name="percentual" class="form-control text-input" formControlName="percentual"
+                        [disableControl]="empregado.recebeAdiantamento != 'S'"
+                        />
+                        <span class="input-group-addon">%</span>
+                      </div>
+                    </div>
+                </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Alterar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

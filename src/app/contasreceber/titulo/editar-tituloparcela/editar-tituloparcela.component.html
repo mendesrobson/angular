@@ -1,0 +1,189 @@
+<div class="modal" data-backdrop="static">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Parcela</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+
+      <form class="form-horizontal" novalidate (ngSubmit)="editarParcela()" [formGroup]="parcelaForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="contaCorrenteId">Conta Corrente</label>
+                <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                  <option *ngFor="let conta of contaCorrentes" [ngValue]="conta.id">{{ conta.descricao }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                <label class="control-label" for="dataVencimento">Data de Vencimento</label>
+                <input type="date" autocomplete="off" id="dataVencimento" name="dataVencimento" class="form-control text-input" formControlName="dataVencimento"
+                />
+                <span class="text-danger" *ngIf="displayMessage.dataVencimento">
+                  <p [innerHTML]="displayMessage.dataVencimento"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="documento">Documento</label>
+                <div class="input-group">
+                  <input type="number" autocomplete="off" id="documento" name="documento" readonly class="form-control text-input" formControlName="documento"
+                  />
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="numero">Numero</label>
+                <div class="input-group">
+                  <input type="number" autocomplete="off" id="numero" name="numero" readonly class="form-control text-input" formControlName="numero" />
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="valorBruto">Valor Bruto</label>
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input type="number" autocomplete="off" id="valorBruto" name="valorBruto" readonly class="form-control text-input" formControlName="valorBruto"
+                  />
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="valorDesconto">Valor Desconto</label>
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input type="number" autocomplete="off" id="valorDesconto" name="valorDesconto" readonly class="form-control text-input" formControlName="valorDesconto"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="valorLiquido">Valor Liquido</label>
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input type="number" autocomplete="off" id="valorLiquido" name="valorLiquido" readonly class="form-control text-input" formControlName="valorLiquido"
+                  />
+
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="natureza == 'pagar'" class="col-md-12">
+              <div class="card color-bordered-table info-bordered-table">
+                <div class="card-header">
+                  <h4 class="m-b-0 text-write">Pagamento via Arquivo de Remessa</h4>
+                </div>
+                <br>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <div class="form-check">
+                      <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" formControlName="flagPagamentoRemessa" [checkBoxSet]="parcela.flagPagamentoRemessa">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Pagamento de Parcela via Remessa?</span>
+
+                      </label>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label" for="codigoBarra">Código de Barras</label>
+                    <div class="input-group">
+                      <input type="text" autocomplete="off" id="codigoBarra" name="codigoBarra" class="form-control text-input" formControlName="codigoBarra" />
+
+                    </div>
+                    <span class="text-danger" *ngIf="codigoBarraRequerido">
+                      <p>Código de Barras requirido</p>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label" for="nossoNumero">Nosso Nro.</label>
+                    <div class="input-group">
+                      <input type="text" autocomplete="off" id="nossoNumero" name="nossoNumero" class="form-control text-input" formControlName="nossoNumero" />
+
+                    </div>
+                    <span class="text-danger" *ngIf="nossoNumeroRequerido">
+                      <p>Nosso Número requirido</p>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label" for="quantidadeMoeda">Qtde. Moeda</label>
+                    <div class="input-group">
+                      <input type="text" autocomplete="off" id="quantidadeMoeda" name="quantidadeMoeda" class="form-control text-input" formControlName="quantidadeMoeda"
+                      />
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label" for="codigoMoeda">Código Moeda</label>
+                    <div class="input-group">
+                      <input type="text" autocomplete="off" id="codigoMoeda" name="codigoMoeda" class="form-control text-input" formControlName="codigoMoeda" />
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="editarParcela()" [disabled]='!parcelaForm.valid' class="btn btn-block btn-success" data-dismiss="modal">
+                <i class="fa fa-check"></i> Editar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

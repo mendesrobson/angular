@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="card col-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <div class="m-t-40">
+          <div class="d-flex">
+            <div class="col-lg-3 col-md-4 align-content-lg-end">
+              <div class="row button-group">
+                <div>
+                  <button type="button" class="btn btn-success" (click)="cadastrarFornecedor()">
+                    <i class="fa fa-plus"></i> Cadastrar </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3" [formGroup]="fornecedorForm">
+              <div>
+                <dx-select-box placeholder="Selecione o grupo" [items]="grupoEmpresas" displayExpr="pessoa.nome"
+                  valueExpr="id" [searchEnabled]="true" (ngModelChange)="ConsultaEmpresa($event)" formControlName="grupoEmpresaId">
+                </dx-select-box>
+              </div>
+            </div>
+
+            <div class="col-md-3" [formGroup]="fornecedorForm">
+              <div>
+                <dx-select-box placeholder="Selecione a empresa" [items]="empresas" displayExpr="pessoa.nome" valueExpr="id"
+                  [searchEnabled]="true" (ngModelChange)="ConsultaSelectEmpresa($event)" formControlName="empresaId">
+                </dx-select-box>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="float-right padd-left15">
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  <i class="fa fa-list"></i>
+                </button>
+
+
+                <div class="dropdown-menu animated flipInY">
+                  <a class="dropdown-item" ngbTooltip="Excel" (click)="gerarExcel(table,'tablefornecedor')">
+                    <i class="fa fa-file-excel-o"> &nbsp;Excel</i>
+                  </a>
+                  <a class="dropdown-item" (click)="gerarPDF('tablefornecedor');" ngbTooltip="PDF">
+                    <i class="fa fa-file-pdf-o">&nbsp;PDF</i>
+                  </a>
+                </div>
+              </div>
+
+              <div class="form-group float-right padd-left15">
+                <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..." class="form-control"
+                  autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+
+          <table #table id="tablefornecedor" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery"
+            #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="id">Código</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="nome">Nome</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="excluido">Status</mfDefaultSorter>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let fornecedor of mf.data" (click)="editarFornecedor(fornecedor.pessoaId)" style="cursor:pointer">
+                <td>{{ fornecedor.pessoa.codigo }}</td>
+                <td>{{ fornecedor.pessoa.nome }}</td>
+
+                <td>
+                  <div *ngIf="fornecedor.excluido === 'N'" class="label label-table label-success">Ativo</div>
+                  <div *ngIf="fornecedor.excluido === 'S'" class="label label-table label-danger">Inativo</div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,449 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" novalidate (ngSubmit)="editarParametroFaturamento()" [formGroup]="parametroFaturamentoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{grupoEmpresa.pessoa.nome}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{empresa.pessoa.nome}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check" style="margin-top: 20px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="faturarClientesConstituicao" [checkBoxSet]="parametroFaturamento.faturarClientesConstituicao"
+                      (ngModelChange)="parametroFaturamento.faturarClientesConstituicao = $event">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Faturar Clientes em Constituição</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check" style="margin-top: 20px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="faturarInativos" [checkBoxSet]="parametroFaturamento.faturarInativos"
+                      (ngModelChange)="parametroFaturamento.faturarInativos = $event">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Faturar clientes inativos</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check" style="margin-top: 20px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="emiteAvisosReajustes" [checkBoxSet]="parametroFaturamento.emiteAvisosReajustes"
+                      (ngModelChange)="parametroFaturamento.emiteAvisosReajustes = $event">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Receber avisos de reajustes vencidos</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check" style="margin-top: 20px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="fechamentoMes" [checkBoxSet]="parametroFaturamento.fechamentoMes"
+                      (ngModelChange)="parametroFaturamento.fechamentoMes = $event">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Permitir incluir ou alterar o lançamento de eventos em competências já faturadas</span>
+                  </label>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-check" style="margin-top: 20px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="gerarComFaturasVencidas" [checkBoxSet]="parametroFaturamento.gerarComFaturasVencidas"
+                      (ngModelChange)="parametroFaturamento.gerarComFaturasVencidas = $event">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Gerar faturas com parcelas vencidas</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="quantidadeParcelasEmAberto">Qtd. de Parcelas em Aberto</label>
+                  <input type="number" min="0" onlyNumber="true" [disableControl]="parametroFaturamento.gerarComFaturasVencidas != 'S'" id="quantidadeParcelasEmAberto"
+                    name="quantidadeParcelasEmAberto" class="form-control text-input" formControlName="quantidadeParcelasEmAberto"
+                  />
+                  <!-- <span class="text-danger" *ngIf="displayMessage.quantidadeParcelasEmAberto">
+                            <p [innerHTML]="displayMessage.quantidadeParcelasEmAberto"></p>
+                          </span> -->
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-check" style="margin-top: 20px;">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="calcularDescontosAdimplentes" [checkBoxSet]="parametroFaturamento.calcularDescontosAdimplentes"
+                      (ngModelChange)="parametroFaturamento.calcularDescontosAdimplentes = $event">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Considerar desconto para adimplentes</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Considerar Desconto Para</label>
+                  <select class="custom-select col-md-12" [disableControl]="parametroFaturamento.calcularDescontosAdimplentes != 'S'" id="considerarDescontoPara"
+                    name="considerarDescontoPara" formControlName="considerarDescontoPara" (ngModelChange)="parametroFaturamento.considerarDescontoPara = $event">
+                    <option>Todos Clientes</option>
+                    <option>Cada Contrato</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.considerarDescontoPara">
+                    <p [innerHTML]="displayMessage.considerarDescontoPara"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="quantidadeMesesDesconto">Meses para Desconto</label>
+                  <input type="number" min="0" onlyNumber="true" [disableControl]="parametroFaturamento.considerarDescontoPara != 'Todos Clientes'"
+                    id="quantidadeMesesDesconto" name="quantidadeMesesDesconto" class="form-control text-input" formControlName="quantidadeMesesDesconto"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.quantidadeMesesDesconto">
+                    <p [innerHTML]="displayMessage.quantidadeMesesDesconto"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label" for="percentual">Percentual Desconto</label>
+                  <div class="input-group">
+                    <input type="text" currencyMask [disableControl]="parametroFaturamento.considerarDescontoPara != 'Todos Clientes'" id="percentual"
+                      name="percentual" class="form-control text-input" formControlName="percentual" />
+                    <span class="input-group-addon">%</span>
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.percentual">
+                    <p [innerHTML]="displayMessage.percentual"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="col-md-12">
+                <div class="card color-bordered-table info-bordered-table">
+
+                  <div class="card-header">
+                    <h4 class="m-b-0 text-white">Informações para geração do Título</h4>
+                  </div>
+                  <br>
+                  <div class="col-md-12">
+                    <div class="row p-t-20">
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Configuração de Pagamento</label>
+                          <select class="custom-select col-md-12" id="configuracaoPagamentoId" name="configuracaoPagamentoId" formControlName="configuracaoPagamentoId">
+                            <option *ngFor="let configuracaoPagamento of configuracaoPagamentos" [value]="configuracaoPagamento.id">{{ configuracaoPagamento.descricao }}</option>
+                          </select>
+                          <span class="text-danger" *ngIf="displayMessage.configuracaoPagamentoId">
+                            <p [innerHTML]="displayMessage.configuracaoPagamentoId"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Conta Corrente</label>
+                          <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                            <option *ngFor="let contaCorrente of contaCorrentes" [ngValue]="contaCorrente.id">{{contaCorrente.descricao}}</option>
+                          </select>
+                          <span class="text-danger" *ngIf="displayMessage.contaCorrenteId">
+                            <p [innerHTML]="displayMessage.contaCorrenteId"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="calcularJuros" [checkBoxSet]="parametroFaturamento.calcularJuros"
+                              (ngModelChange)="parametroFaturamento.calcularJuros = $event">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Calcular Juros? </span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="percentualJuros">Percentual Juros</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask [disableControl]="parametroFaturamento.calcularJuros != 'S'" id="percentualJuros" name="percentualJuros"
+                              class="form-control text-input" formControlName="percentualJuros" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.percentualJuros">
+                            <p [innerHTML]="displayMessage.percentualJuros"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="calcularMulta" [checkBoxSet]="parametroFaturamento.calcularMulta"
+                              (ngModelChange)="parametroFaturamento.calcularMulta = $event">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Calcular Multa? </span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="percentualMulta">Percentual Multa</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask [disableControl]="parametroFaturamento.calcularMulta != 'S'" id="percentualMulta" name="percentualMulta"
+                              class="form-control text-input" formControlName="percentualMulta" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.percentualMulta">
+                            <p [innerHTML]="displayMessage.percentualMulta"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="card color-bordered-table info-bordered-table">
+
+                  <div class="card-header">
+                    <h4 class="m-b-0 text-white">Impostos</h4>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="row p-t-20">
+
+                      <div class="col-md-1">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="crf" [checkBoxSet]="parametroFaturamento.crf" (ngModelChange)="parametroFaturamento.crf = $event">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">CRF</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="percentualJuros">Alíquota CRF</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask [disableControl]="parametroFaturamento.crf != 'S'" id="aliquotaCRF" name="aliquotaCRF" class="form-control text-input"
+                              formControlName="aliquotaCRF" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.aliquotaCRF">
+                            <p [innerHTML]="displayMessage.aliquotaCRF"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" [disableControl]="parametroFaturamento.crf != 'N'" class="custom-control-input" formControlName="pis"
+                              [checkBoxSet]="parametroFaturamento.pis" (ngModelChange)="parametroFaturamento.pis = $event">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">PIS</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="percentualJuros">Alíquota PIS</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask [disableControl]="parametroFaturamento.pis != 'S'" id="aliquotaPIS" name="aliquotaPIS" class="form-control text-input"
+                              formControlName="aliquotaPIS" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.aliquotaPIS">
+                            <p [innerHTML]="displayMessage.aliquotaPIS"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" [disableControl]="parametroFaturamento.crf != 'N'" class="custom-control-input" formControlName="cofins"
+                              [checkBoxSet]="parametroFaturamento.cofins" (ngModelChange)="parametroFaturamento.cofins = $event">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">COFINS</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="percentualJuros">Alíquota COFINS</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask [disableControl]="parametroFaturamento.cofins != 'S'" id="aliquotaCOFINS" name="aliquotaCOFINS"
+                              class="form-control text-input" formControlName="aliquotaCOFINS" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.aliquotaCOFINS">
+                            <p [innerHTML]="displayMessage.aliquotaCOFINS"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" [disableControl]="parametroFaturamento.crf != 'N'" class="custom-control-input" formControlName="csll"
+                              [checkBoxSet]="parametroFaturamento.csll" (ngModelChange)="parametroFaturamento.csll = $event">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">CSLL</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="percentualJuros">Alíquota CSLL</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask [disableControl]="parametroFaturamento.csll != 'S'" id="aliquotaCSLL" name="aliquotaCSLL"
+                              class="form-control text-input" formControlName="aliquotaCSLL" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.aliquotaCSLL">
+                            <p [innerHTML]="displayMessage.aliquotaCSLL"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="iss" [checkBoxSet]="parametroFaturamento.iss" (ngModelChange)="parametroFaturamento.iss = $event">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">ISS</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="percentualJuros">Alíquota ISS</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask [disableControl]="parametroFaturamento.iss != 'S'" id="aliquotaISS" name="aliquotaISS" class="form-control text-input"
+                              formControlName="aliquotaISS" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-1">
+                        <div class="form-check" style="margin-top: 30px;">
+                          <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" formControlName="inss" [checkBoxSet]="parametroFaturamento.inss" (ngModelChange)="parametroFaturamento.inss = $event">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">INSS</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="percentualJuros">Alíquota INSS</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask [disableControl]="parametroFaturamento.inss != 'S'" id="aliquotaINSS" name="aliquotaINSS"
+                              class="form-control text-input" formControlName="aliquotaINSS" />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label" for="aliquotaRetencaoFonte">Alíquota IRRF</label>
+                          <div class="input-group">
+                            <input type="text" currencyMask id="aliquotaRetencaoFonte" name="aliquotaRetencaoFonte" class="form-control text-input" formControlName="aliquotaRetencaoFonte"
+                            />
+                            <span class="input-group-addon">%</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label" for="valorMinimoIRRF">Valor Minimo IRRF</label>
+                          <div class="input-group">
+                            <span class="input-group-addon">R$</span>
+                            <input type="text" currencyMask id="valorMinimoIRRF" name="valorMinimoIRRF" class="form-control text-input" formControlName="valorMinimoIRRF"
+                            />
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.valorMinimoIRRF">
+                            <p [innerHTML]="displayMessage.valorMinimoIRRF"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="control-label" for="valorMinimoCRF">Valor Minimo CRF</label>
+                          <div class="input-group">
+                            <span class="input-group-addon">R$</span>
+                            <input type="text" currencyMask id="valorMinimoCRF" name="valorMinimoCRF" class="form-control text-input" formControlName="valorMinimoCRF"
+                            />
+                          </div>
+                          <span class="text-danger" *ngIf="displayMessage.valorMinimoCRF">
+                            <p [innerHTML]="displayMessage.valorMinimoCRF"></p>
+                          </span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

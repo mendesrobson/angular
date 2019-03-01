@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-block">
+
+        <div class="col-md-10 align-content-lg-end">
+          <div class="row button-group">
+            <div class="">
+              <button type="button" class="btn btn-block btn-success" (click)="showModal('modalAdicionar')">
+                <i class="fa fa-plus"></i> Adicionar Desconto Parcela</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+            [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="desconto">Desconto</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="valorDesconto">Valor</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="percentualDesconto">Percentual</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="dataLimiteDesconto">Dt. Limite do Desconto</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="dataPrevisaoDesconto">Dt. Previsão do Desconto</mfDefaultSorter>
+                </th>
+                <th>
+                  Ações
+                </th>
+
+              </tr>
+            </thead>
+            <tbody *ngIf="tituloComponent.Titulo.parcela[ind] != null">
+              <tr *ngFor="let descontoparcela of tituloComponent.Titulo.parcela[ind].parcelaDesconto">
+                <td>{{ descontoparcela.desconto.descricao }}</td>
+                <td>{{ descontoparcela.valorDesconto | currency:'BRL':'symbol' }}</td>
+                <td>{{ descontoparcela.percentualDesconto }}%</td>
+                <td>{{ descontoparcela.dataLimiteDesconto | date:'dd/MM/yyyy' }}</td>
+                <td>{{ descontoparcela.dataPrevisaoDesconto | date:'dd/MM/yyyy' }}</td>
+                <td>
+                  <label (click)="editarParcelaDesconto(descontoparcela)" data-toggle="modal" data-target=".modal-descontoparcela-edit">
+                    <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                  </label>
+                  <span style="padding-right:2px"></span>
+                  <label (click)="inativarParcelaDesconto(descontoparcela)" style="cursor:pointer" title="Inativar">
+                    <i class="fa fa-trash-o text-danger"></i>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-adicionar-tituloparceladesconto *ngIf="modalAddVisible != false" [ind]="ind" [(visible)]="modalAddVisible"></app-adicionar-tituloparceladesconto>
+
+<app-editar-tituloparceladesconto *ngIf="modalEditVisible != false" [ind]="ind" [(visible)]="modalEditVisible"></app-editar-tituloparceladesconto>

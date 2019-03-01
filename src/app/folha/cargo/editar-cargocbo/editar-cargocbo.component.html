@@ -1,0 +1,70 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Cargo Cbo</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="editarCargoCbo()" [formGroup]="cargoCboForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>CBO</label>
+                <select class="custom-select col-md-12" id="cboId" name="cboId" formControlName="cboId">
+                  <option *ngFor="let cbo of cbos" [ngValue]="cbo.id">{{ cbo.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.cboId">
+                  <p [innerHTML]="displayMessage.cboId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6"></div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.dataInicial }">
+                <label class="control-label" for="dataInicial">Data Inicial</label>
+                <input type="date" autocomplete="off" id="dataInicial" name="dataInicial" class="form-control text-input" formControlName="dataInicial" />
+                <span class="text-danger" *ngIf="displayMessage.dataInicial">
+                  <p [innerHTML]="displayMessage.dataInicial"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.dataFinal }">
+                <label class="control-label" for="dataFinal">Data Final</label>
+                <input type="date" autocomplete="off" id="dataFinal" name="dataFinal" class="form-control text-input" formControlName="dataFinal" />
+                <span class="text-danger" *ngIf="displayMessage.dataFinal">
+                  <p [innerHTML]="displayMessage.dataFinal"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="editarCargoCbo()" [disabled]='!cargoCboForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Alterar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

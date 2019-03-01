@@ -1,0 +1,80 @@
+<div class="row">
+    <!--Cadastro Administradora de Cartão-->
+    <div class="card col-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-block" style="display: inline;">
+                <div class="m-t-40">
+                    <div class="d-flex">
+                        <div class="col-md-6 align-content-lg-end">
+                            <div class="row button-group">
+                                <div>
+                                    <button type="button" class="btn btn-success" (click)="cadastrarAdministradoraCartao()">
+                                        <i class="fa fa-plus"></i>&nbsp;&nbsp;Cadastrar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group float-right padd-left15">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-list"></i>
+                                </button>
+                                <div class="dropdown-menu animated flipInY">
+                                    <a class="dropdown-item" (click)="gerarExcel(table,'tableadmcartao');" ngbTooltip="Excel">
+                                        <i class="fa fa-file-excel-o"> &nbsp;Excel</i>
+                                    </a>
+                                    <a class="dropdown-item" (click)="gerarPDF('tableadmcartao');" ngbTooltip="PDF">
+                                        <i class="fa fa-file-pdf-o">&nbsp;PDF</i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="form-group float-right padd-left15">
+                                <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..." class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table #table id="tableadmcartao" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery"
+                        #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    <mfDefaultSorter by="codigo">Código</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="nomeFantasia">Nome</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="excluido">Status</mfDefaultSorter>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let administradoraCartao of mf.data" (click)="editarAdministradoraCartao(administradoraCartao.id)" style="cursor:pointer">
+
+                                <td>{{ administradoraCartao.codigo }}</td>
+                                <td>{{ administradoraCartao.nomeFantasia }}</td>
+                                <td>
+                                    <div *ngIf="administradoraCartao.excluido == 'N'" class="label label-table label-success">Ativo</div>
+                                    <div *ngIf="administradoraCartao.excluido == 'S'" class="label label-table label-danger">Inativo</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator [rowsOnPageSet]="[]"></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

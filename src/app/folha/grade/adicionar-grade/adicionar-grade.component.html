@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+
+            <div class="card-block">
+
+                <form novalidate (ngSubmit)="adicionarGrade()" [formGroup]="gradeForm">
+                    <div class="form-body col-md-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Tipo Jornada</label>
+                                    <select class="custom-select col-md-12" id="tipoJornadaId" name="tipoJornadaId" formControlName="tipoJornadaId">
+                                        <option *ngFor="let tipoJornada of tipoJornadas" [ngValue]="tipoJornada.id">{{ tipoJornada.descricao }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.tipoJornadaId">
+                                        <p [innerHTML]="displayMessage.tipoJornadaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                        <p [innerHTML]="displayMessage.empresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                    <label class="control-label" for="totalHorasMes">Total Horas Mês</label>
+                                    <input type="text" autocomplete="off" id="totalHorasMes" name="totalHorasMes" class="form-control text-input" formControlName="totalHorasMes"
+                                    />
+                                    <span class="text-danger" *ngIf="displayMessage.totalHorasMes">
+                                        <p [innerHTML]="displayMessage.totalHorasMes"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Turno</label>
+                                    <select aria-placeholder="Selecione o Turno" class="custom-select col-md-6" id="turno" name="turno" formControlName="turno">
+
+                                        <option value="1">Diurno</option>
+                                        <option value="2">Matutino</option>
+                                        <option value="3">Vespertino</option>
+                                        <option value="4">Noturno</option>
+                                        <option value="5">Integral</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.turno">
+                                        <p [innerHTML]="displayMessage.turno"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                                    <label class="control-label" for="descricao">Descrição</label>
+                                    <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                                    <span class="text-danger" *ngIf="displayMessage.descricao">
+                                        <p [innerHTML]="displayMessage.descricao"></p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <app-adicionar-gradehorario></app-adicionar-gradehorario>
+
+                    <dx-scheduler [dataSource]="apontamentoData" [views]='["week"]' [endDayHour]='24' currentView="week" [currentDate]="dataAtual"
+                        [startDayHour]="7" [height]="600" (onAppointmentRendered)="apontamentoRendered($event)">
+                        <dxo-editing #editingOptions [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true" [allowResizing]="false" [allowDragging]="false"></dxo-editing>
+                    </dx-scheduler>
+
+                    <div class="col-md-12">
+                        <div class="row button-group">
+                            <div class="col-lg-2 col-md-6 align-content-lg-end">
+                                <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                                    <i class="fa fa-mail-reply"></i> Cancelar</button>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <button type="submit" class="btn btn-block btn-success" [disabled]='!gradeForm.valid'>
+                                    <i class="fa fa-check"></i> Gravar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <!--Fim card-block-->
+
+        </div>
+        <!--Fim card-->
+    </div>
+    <!--Fim col-12-->
+</div>
+<!--Fim row-->

@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="card col-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <div class="m-t-40">
+          <div class="d-flex">
+            <div class="col-md-6 align-content-lg-end">
+              <div class="row button-group">
+
+                <div class="">
+                  <button type="button" class="btn btn-success" (click)="cadastrarExposicaoAgenteNocivo()">
+                    <i class="fa fa-plus"></i> Cadastrar </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="btn-group float-right padd-left15">
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-list"></i>
+                </button>
+                <div class="dropdown-menu animated flipInY">
+                  <a class="dropdown-item" (click)="gerarExcel(table,'tableExposicaoAgenteNocivo');" ngbTooltip="Excel">
+                    <i class="fa fa-file-excel-o"> &nbsp;Excel</i>
+                  </a>
+                  <a class="dropdown-item" (click)="gerarPDF('tableExposicaoAgenteNocivo');" ngbTooltip="PDF">
+                    <i class="fa fa-file-pdf-o">&nbsp;PDF</i>
+                  </a>
+                </div>
+              </div>
+              <div class="form-group float-right padd-left15">
+                <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..." class="form-control" autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table #table id="tableExposicaoAgenteNocivo" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery"
+            #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="codigo">Código</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="sigla">Sigla</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="descricao">Descricao</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="status">Status</mfDefaultSorter>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let exposicaoagentenocivo of mf.data" (click)="editarExposicaoAgenteNocivo(exposicaoagentenocivo.id)" style="cursor:pointer">
+                <td>{{ exposicaoagentenocivo.codigo }}</td>
+                <td>{{ exposicaoagentenocivo.sigla }}</td>
+                <td>{{ exposicaoagentenocivo.descricao }}</td>
+                <td>
+                  <div *ngIf="exposicaoagentenocivo.excluido == 'N'" class="label label-table label-success">Ativo</div>
+                  <div *ngIf="exposicaoagentenocivo.excluido == 'S'" class="label label-table label-danger">Inativo</div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

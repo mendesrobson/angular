@@ -1,0 +1,24 @@
+[{
+	"id": "M",
+	"valor": "Mensal"
+},
+     {
+	"id": "B",
+	"valor": "Bimestral"
+},
+     {
+	"id": "T",
+	"valor": "Trimestral"
+},
+     {
+	"id": "S",
+	"valor": "Semestral"
+},
+     {
+	"id": "A",
+	"valor": "Anual"
+},
+     {
+	"id": "DT",
+	"valor": "Data Base"
+}]

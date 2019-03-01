@@ -1,0 +1,52 @@
+<div class="modal" data-backdrop="static">
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myLargeModalLabel">Registro Leiaute Arquivo Bancário</h4>
+            <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+        </div>
+        <div class="card-block">
+            <form class="form-horizontal" novalidate (ngSubmit)="registroLeiauteArquivoBancario()" [formGroup]="regLeiauteArquivoBancarioForm">
+                <div class="form-body col-12">
+                    <div class="row p-t-20">
+
+                        <div class="col-md-4">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                <label class="control-label" for="codigo">Código</label>
+                                <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                                <span class="text-danger" *ngIf="displayMessage.codigo">
+                                    <p [innerHTML]="displayMessage.codigo"></p>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="control-label" for="descricao">Descrição</label>
+                                <input type="text" autocomplete="off" name="descricao" class="form-control text-input" formControlName="descricao" />
+                                <span class="text-danger" *ngIf="displayMessage.descricao">
+                                    <p [innerHTML]="displayMessage.descricao"></p>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row button-group">
+                                <div class="col-lg-3 col-md-6 align-content-lg-end">
+                                    <button type="button" class="btn btn-block btn-secondary" *ngIf="visible" (click)="close()">
+                                        <i class="fa fa-mail-reply"></i> Cancelar</button>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <button type="button" (click)="registroLeiauteArquivoBancario()" [disabled]='!regLeiauteArquivoBancarioForm.valid' class="btn btn-block btn-success"
+                                        data-dismiss="modal">
+                                        <i class="fa fa-check"></i> Gravar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

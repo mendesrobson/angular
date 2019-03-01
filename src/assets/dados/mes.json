@@ -1,0 +1,48 @@
+[{
+	"id": "JAN",
+	"valor": "Janeiro"
+},
+     {
+	"id": "FEV",
+	"valor": "Fevereiro"
+},
+     {
+	"id": "MAR",
+	"valor": "Março"
+},
+     {
+	"id": "ABR",
+	"valor": "Abril"
+},
+     {
+	"id": "MAI",
+	"valor": "Maio"
+},
+     {
+	"id": "JUN",
+	"valor": "Junho"
+},
+     {
+	"id": "JUL",
+	"valor": "Julho"
+},
+     {
+	"id": "AGO",
+	"valor": "Agosto"
+},
+     {
+	"id": "SET",
+	"valor": "Setembro"
+},
+     {
+	"id": "OUT",
+	"valor": "Outubro"
+},
+     {
+	"id": "NOV",
+	"valor": "Novembro"
+},
+     {	
+    "id": "DEZ",
+	"valor": "Dezembro"
+}]

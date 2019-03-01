@@ -1,0 +1,54 @@
+<div class="row" style="margin-bottom: 30px;">
+  <div class="col-12 padd-left0 padd-right0">
+    <div class="">
+      <div class="card-block">
+
+        <div class="table-responsive">
+            <dx-data-grid id="gridContainer"
+            [dataSource]="chequeProprioComponent.ChequeTalao.chequeFolha"
+            [masterDetail]="{ enabled: true, template: 'detail' }"
+            keyExpr="id"
+            [showBorders]="true">
+        
+            <dxi-column dataField="banco" caption="Banco"></dxi-column>
+            <dxi-column dataField="agencia" caption="Agência"></dxi-column>
+            <dxi-column dataField="conta" caption="Conta Corrente"></dxi-column>
+            <dxi-column dataField="numCheque" caption="Nr. Cheque" [width]="170"></dxi-column>
+            <dxi-column dataField="valor" caption="Valor" [width]="125"></dxi-column>
+            <dxi-column dataField="dataDeposito" caption="Data p/ Depósito" dataType="date"></dxi-column>
+            <dxi-column dataField="situacao" caption="Situação"></dxi-column>
+            
+            <div *dxTemplate="let employee of 'detail'">
+                
+                <div class="col-md-12 row" style="padding: 0px; margin: 0px;">
+                  
+                      <div class="col-10"></div>
+
+                      <div class="col-2" style="padding: 0px;">
+                        <button type="button" class="btn btn-block btn-success" (click)="gerarHistorico(employee.data)">
+                          <i class="fa fa-plus"></i> Cadastrar Histórico</button>
+                      </div>
+                  
+                </div>
+                  
+
+                <div class="master-detail-caption">Nr. Cheque: {{ employee.data.numCheque }}</div>
+                <dx-data-grid
+                    [dataSource]="employee.data.chequeFolhaHistorico"
+                    [showBorders]="true"
+                    [columnAutoWidth]="true">
+                        <dxi-column dataField="dataEmissao" dataType="date" caption="Data de emissão"></dxi-column>
+                        <dxi-column dataField="situacaoCheque.descricao" caption="Situação"></dxi-column>
+                        <dxi-column dataField="observacao" caption="Observação"></dxi-column>
+                </dx-data-grid>
+            </div> 
+        </dx-data-grid>
+
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<app-adicionar-chequehistorico *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-chequehistorico>

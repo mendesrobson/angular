@@ -1,0 +1,67 @@
+<div class="modal" data-backdrop="static">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Centro Custo</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarCentroCusto()" [formGroup]="tituloCentroCustoForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="centroCustoId">Centro Custo</label>
+                <select class="custom-select col-md-12" id="centroCustoId" name="centroCustoId" formControlName="centroCustoId">
+                  <option *ngFor="let centroCusto of centroCustos" [ngValue]="centroCusto.id">{{ centroCusto.codigo }} - {{ centroCusto.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.centroCustoId">
+                  <p [innerHTML]="displayMessage.centroCustoId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="percentual">Percentual</label>
+                <div class="input-group">
+                  <input type="number" autocomplete="off" min="0" max="100" id="percentual" name="percentual" class="form-control text-input" formControlName="percentual"
+                  />
+                  <span class="input-group-addon">%</span>
+
+                </div>
+                <span class="text-danger" *ngIf="displayMessage.percentual">
+                  <p [innerHTML]="displayMessage.percentual"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="adicionarCentroCusto()" [disabled]='!tituloCentroCustoForm.valid' class="btn btn-block btn-success"
+                data-dismiss="modal">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>

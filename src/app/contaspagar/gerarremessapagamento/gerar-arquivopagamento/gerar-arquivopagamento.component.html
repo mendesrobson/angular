@@ -1,0 +1,203 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Gerar Remessa de Pagamentos</h4>
+      </div>
+      <div class="card-block">
+        <form class="form-horizontal" novalidate [formGroup]="filtroRemessaPagamentoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                  <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                  <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+                </div>
+
+                <div class="col-md-4">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId" (ngModelChange)="ConsultaSelectEmpresa($event)">
+                  <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                  <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+                </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Conta</label>
+                  <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                    <option *ngFor="let contaCorrente of contaCorrentes" [ngValue]="contaCorrente.id">{{ contaCorrente.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.contaCorrenteId">
+                    <p [innerHTML]="displayMessage.contaCorrenteId"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-8">
+                  <div class="form-group">
+                      <label for="fornecedor">Fornecedor</label>
+                <!-- <div class="form-group">
+                  <label for="fornecedor">Fornecedor</label>
+                  <angular2-multiselect class="custom-select" [data]="dropdownList" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
+                    formControlName="fornecedores">
+                  </angular2-multiselect>
+                </div> -->
+                    <dx-drop-down-box
+                      [(value)]="gridBoxValue"
+                      valueExpr="id"
+                      displayExpr="fornecedor"
+                      placeholder="Selecionar..."
+                      [showClearButton]="true"
+                      [dataSource]="gridDataSource">
+  
+                          <div *dxTemplate="let data of 'content'">
+                              <dx-data-grid
+                                      [dataSource]="gridDataSource"
+                                      [columns]="['fornecedor']"
+                                      [selection]="{ mode: 'multiple' }"
+                                      [hoverStateEnabled]="true"
+                                      [paging]="{ enabled: true, pageSize: 10 }"
+                                      [filterRow]="{ visible: true }"
+                                      [scrolling]="{ mode: 'infinite' }"
+                                      [height]="345"
+                                      [(selectedRowKeys)]="gridBoxValue">
+                              </dx-data-grid>
+                          </div>
+                      </dx-drop-down-box>
+
+                    
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataVencimentoInicial">Data do Vencimento Inicial</label>
+                  <dx-date-box [value]="now" name="dataVencimentoInicial" style="width: 100%" displayFormat="dd/MM/yyyy" formControlName="dataVencimentoInicial"
+                  (onValueChanged)="definirValor($event)"
+                  (onValueChanged)="refazerFiltro = false"></dx-date-box>
+                  <span class="text-danger" *ngIf="displayMessage.dataVencimentoInicial">
+                      <p [innerHTML]="displayMessage.dataVencimentoInicial"></p>
+                  </span>
+              </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataVencimentoFinal">Data do Vencimento Final</label>
+                  <dx-date-box [value]="now" [min]="minDate" style="width: 100%" displayFormat="dd/MM/yyyy" name="dataVencimentoFinal" type="date" formControlName="dataVencimentoFinal" (onValueChanged)="refazerFiltro = false"></dx-date-box>
+                  <span class="text-danger" *ngIf="displayMessage.dataVencimentoFinal">
+                      <p [innerHTML]="displayMessage.dataVencimentoFinal"></p>
+                  </span>
+              </div>
+              </div>
+              <div class="col-md-4">
+                <button type="button" [disabled]='!filtroRemessaPagamentoForm.valid' style="margin-top: 27px" class="btn btn-block btn-block"
+                  (click)="filtrarPagamentos()">
+                  <i class="fa fa-refresh"></i> Filtrar </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div *ngIf="carregarTable != false">
+          <div class="col-md-12">
+            <div>
+              <div [ngBusy]="{busy: busy, message: 'Por favor, aguarde...', backdrop: false, delay: 600, minDuration: 600}">
+                <div class="col-md-12">
+                  <div *ngIf="mostrarAviso">
+                    <div class="alert alert-warning">
+                      <strong>Atenção!</strong> Não foi encontrado um leiaute bancário válido para o banco da conta escolhida.
+                    </div>
+                  </div>
+                </div>
+                <div class="row button-group">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label" for="dataPagamento">Data p/ Pagamento</label>
+                            <dx-date-box [value]="now" [min]="minDatePagamento" style="width: 100%" displayFormat="dd/MM/yyyy" name="dataPagamento" type="date" formControlName="dataPagamento" (onValueChanged)="refazerFiltro = false"></dx-date-box>
+                            <span class="text-danger" *ngIf="displayMessage.dataPagamento">
+                                <p [innerHTML]="displayMessage.dataPagamento"></p>
+                            </span>
+                        </div>
+                    </div>
+                  <div class="col-md-4">
+                    <button type="button" [disabled]="mostrarAviso"  style="margin-top: 35px" class="btn btn-block btn-success" (click)="gerarArquivoRemessa()">
+                      <i class="fa fa-align-justify"></i> Gerar Remessa</button>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1">
+                      <button class="btn btn-info" (click)="gerarExcel(table,'tableArquivopagamento');">
+                        <i class="fa fa-file-excel-o"></i> Excel</button>
+                    </div>
+                    <div class="col-md-1">
+                      <button class="btn btn-info" (click)="gerarPDF('tableArquivopagamento');">
+                        <i class="fa fa-file-pdf-o"></i> PDF</button>
+                    </div>
+                  </div>
+                  <br/>
+                <div class="table-responsive">
+                  <table #table id="tableArquivopagamento" *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable"
+                    [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                    <thead>
+                      <tr>
+                        <th>
+                          <mfRowSelectorHead></mfRowSelectorHead>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="numero">Nro. Parcela</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="nomeCedente">Fornecedor</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="dataVencimento">Dt. Vencimento</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="valorBruto">R$ Bruto</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="valorDesconto">R$ Desconto</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="valorLiquido">R$ Liquido</mfDefaultSorter>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let parcelaremessa of mf.data">
+                        <td>
+                          <mfRowSelector [entity]="parcelaremessa" [checkboxId]="ndx"></mfRowSelector>
+                        </td>
+                        <td>{{ parcelaremessa.nroParcela }}</td>
+                        <td>{{ parcelaremessa.nomeCedente }}</td>
+                        <td>{{ parcelaremessa.dataVencimento | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ parcelaremessa.valorBruto | currency:'BRL':'symbol'}}</td>
+                        <td>{{ parcelaremessa.valorDesconto | currency:'BRL':'symbol'}}</td>
+                        <td>{{ parcelaremessa.valorLiquido| currency:'BRL':'symbol' }}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="5">
+                          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

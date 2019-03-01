@@ -1,0 +1,114 @@
+<div class="modal" data-backdrop="static">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myLargeModalLabel">Contato Colaborador</h4>
+        <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+      </div>
+      <div class="card-block">
+        <form class="form-horizontal" novalidate (ngSubmit)="adicionarPessoaContato()" [formGroup]="pessoaContatoForm">
+          <div class="form-body">
+            <div class="row p-t-20">
+  
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.descricaoTel }">
+                      <label class="control-label" for="descricaoTel">Telefone</label>
+                      <input type="text" autocomplete="off" id="descricaoTel" [textMask]="{ mask: telMask }" name="descricaoTel" class="form-control text-input" formControlName="descricaoTel"
+                      />
+                      <span class="text-danger" *ngIf="displayMessage.descricaoTel">
+                        <p [innerHTML]="displayMessage.descricaoTel"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.descricaoCel }">
+                      <label class="control-label" for="descricaoCel">Celular</label>
+                      <input type="text" autocomplete="off" id="descricaoCel" [textMask]="{ mask: celMask }" name="descricaoCel" class="form-control text-input" formControlName="descricaoCel"
+                      />
+                      <span class="text-danger" *ngIf="displayMessage.descricaoCel">
+                        <p [innerHTML]="displayMessage.descricaoCel"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.descricaoMail }">
+                      <label class="control-label" for="descricaoMail">E-mail</label>
+                       <input type="text" autocomplete="off" id="descricaoMail" name="descricaoMail" placeholder="exemplo@email.com" class="form-control text-input" (blur)="validarEmail($event)"
+                        formControlName="descricaoMail" />
+                      <span class="text-danger" *ngIf="displayMessage.descricaoMail">
+                        <p [innerHTML]="displayMessage.descricaoMail"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.observacao }">
+                      <label class="control-label" for="observacao">Observação</label>
+                      <input type="text" autocomplete="off" id="observacao" name="observacao" class="form-control text-input" formControlName="observacao" />
+                      <span class="text-danger" *ngIf="displayMessage.observacao">
+                        <p [innerHTML]="displayMessage.observacao"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.nome }">
+                      <label class="control-label" for="nome">Nome</label>
+                      <input type="text" autocomplete="off" id="nome" name="nome" class="form-control text-input" formControlName="nome" />
+                      <span class="text-danger" *ngIf="displayMessage.nome">
+                        <p [innerHTML]="displayMessage.nome"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Cargo</label>
+                      <select class="custom-select col-md-12" id="cargoId" name="cargoId" formControlName="cargoId">
+                        <option *ngFor="let cargo of cargos" [ngValue]="cargo.id">{{ cargo.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.cargoId">
+                        <p [innerHTML]="displayMessage.cargoId"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Departamento</label>
+                      <select class="custom-select col-md-12" id="departamentoId" name="departamentoId" formControlName="departamentoId">
+                        <option *ngFor="let departamento of departamentos" [ngValue]="departamento.id">{{ departamento.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.departamentoId">
+                        <p [innerHTML]="displayMessage.departamentoId"></p>
+                      </span>
+                    </div>
+                  </div>
+  
+  
+            </div>
+          </div>
+  
+          <div class="form-actions">
+            <div class="row p-t-5">
+  
+              <div class="col-md-4">
+                <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                  <i class="fa fa-mail-reply"></i> Cancelar</button>
+              </div>
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <button type="button" (click)="adicionarPessoaContato()" [disabled]='!pessoaContatoForm.valid' class="btn btn-block btn-success">
+                  <i class="fa fa-check"></i> Gravar</button>
+              </div>
+              <div class="col-md-4"></div>
+              <br>
+  
+            </div>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,61 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Redefinir Senha do Usuário</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form novalidate (ngSubmit)="redefinirSenhaUsuario()" [formGroup]="usuarioForm">
+        <div class="form-body col-12">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.email }">
+                <label class="control-label" for="email">E-mail</label>
+                <input type="text" id="email" name="email" class="form-control text-input" formControlName="email" />
+                <span class="text-danger" *ngIf="displayMessage.email">
+                  <p [innerHTML]="displayMessage.email"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.senha }">
+                <label class="control-label" for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" class="form-control text-input" formControlName="senha" />
+                <span class="text-danger" *ngIf="displayMessage.senha">
+                  <p [innerHTML]="displayMessage.senha"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.senhaConfirmacao }">
+                <label class="control-label" for="senhaConfirmacao">Senha Confirmação</label>
+                <input type="password" id="senhaConfirmacao" name="senhaConfirmacao" class="form-control text-input" formControlName="senhaConfirmacao"
+                />
+                <span class="text-danger" *ngIf="displayMessage.senhaConfirmacao">
+                  <p [innerHTML]="displayMessage.senhaConfirmacao"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="row button-group">
+                <div class="col-md-2 align-content-lg-end">
+                  <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                    <i class="fa fa-mail-reply"></i> Cancelar</button>
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" class="btn btn-block btn-success" [disabled]='!usuarioForm.valid'>
+                    <i class="fa fa-check"></i> Gravar </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

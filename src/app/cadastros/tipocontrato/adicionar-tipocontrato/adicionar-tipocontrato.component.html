@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+            <div class="card-block">
+                <form class="form-horizontal" novalidate (ngSubmit)="adicionarTipoContrato()" [formGroup]="tipoContratoForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{grupoEmpresa.pessoa.nome}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId"><p [innerHTML]="displayMessage.grupoEmpresaId"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId" (ngModelChange)="OnChangeEmpresa($event)">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{empresa.pessoa.nome}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.empresaId"><p [innerHTML]="displayMessage.empresaId"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                    <label class="control-label" for="codigo">Código</label>
+                                    <input type="text" [disableControl]="!maskValid" #focusCodigo [textMask]="{ mask: codMask }" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                                    <span class="text-danger" *ngIf="displayMessage.codigo"><p [innerHTML]="displayMessage.codigo"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="nome">Sigla</label>
+                                    <input type="text" autocomplete="off" id="sigla" maxlength="10" name="sigla" class="form-control text-input" formControlName="sigla" />
+                                    <span class="text-danger" *ngIf="displayMessage.sigla"><p [innerHTML]="displayMessage.sigla"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="nome">Descrição</label>
+                                    <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                                    <span class="text-danger" *ngIf="displayMessage.descricao"><p [innerHTML]="displayMessage.descricao"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Periodicidade</label>
+                                    <select class="custom-select col-md-12" id="periodicidadeSigla" name="periodicidadeSigla" formControlName="periodicidadeSigla">
+                                        <option *ngFor="let periodicidade of periodicidades" [ngValue]="periodicidade.id">{{periodicidade.valor}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.periodicidadeSigla"><p [innerHTML]="displayMessage.periodicidadeId"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Tipo Reajuste</label>
+                                    <select class="custom-select col-md-12" id="tipoReajusteSigla" name="tipoReajusteSigla" formControlName="tipoReajusteSigla" (change)="tipoReajusteSigla = $event.target.value">
+                                        <option *ngFor="let tipoReajuste of tipoReajustes" [value]="tipoReajuste.id">{{tipoReajuste.valor}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.tipoReajusteSigla"><p [innerHTML]="displayMessage.tipoReajusteSigla"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Mês Base</label>
+                                    <select [disableControl]="!(tipoReajusteSigla=='DT')" class="custom-select col-md-12" id="mesBaseSigla" name="mesBaseSigla" formControlName="mesBaseSigla">
+                                        <option *ngFor="let mes of meses"[value]="mes.id">{{mes.valor}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.mesBaseSigla"><p [innerHTML]="displayMessage.mesBaseSigla"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Indexador</label>
+                                    <select class="custom-select col-md-12" id="indexadorSigla" name="indexadorSigla" formControlName="indexadorSigla">
+                                        <option *ngFor="let indexador of indexadores"[value]="indexador.id">{{indexador.valor}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.indexadorSigla"><p [innerHTML]="displayMessage.indexadorSigla"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2" *ngIf="indexadorSigla == 'IND'">
+                                <div class="form-group">
+                                    <label>Índice</label>
+                                    <select class="custom-select col-md-12" id="indiceId" name="indiceId" formControlName="indiceId">
+                                        <option *ngFor="let indice of indices" [ngValue]="indice.id">{{indice.descricao}}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.indiceId"><p [innerHTML]="displayMessage.indiceId"></p></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check" style="margin-top: 30px;">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" formControlName="proporcionalDataInicio" [checkBoxSet]="tipoContrato.proporcionalDataInicio">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description"> Proporcional data ínicio do contrato</span>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="row button-group">
+
+                                    <div class="col-lg-2 col-md-6 align-content-lg-end">
+                                        <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()"> <i class="fa fa-mail-reply"></i> Cancelar</button>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="submit" class="btn btn-block btn-success"><i class="fa fa-check"></i> Gravar</button>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ 

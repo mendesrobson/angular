@@ -1,0 +1,196 @@
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+        <h3 class="text-themecolor m-b-0 m-t-0">Faturamento</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="javascript:void(0)"></a>
+            </li>
+            <li class="breadcrumb-item active">Filtrar Faturamento</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-block">
+                <form class="form-horizontal" novalidate (ngSubmit)="filtrar()" [formGroup]="faturamentoForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-5">
+                            <div class="col-md-12">
+                                <div class="row p-t-20">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Grupo</label>
+
+                                            <dx-select-box placeholder="Selecione.." [items]="grupoEmpresas"
+                                                displayExpr="pessoa.nome" valueExpr="id" [searchEnabled]="true"
+                                                (ngModelChange)="ConsultaEmpresa($event)" formControlName="grupoEmpresaId">
+                                            </dx-select-box>
+
+                                            <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                                                <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Empresa</label>
+
+                                            <dx-select-box placeholder="Selecione.." [items]="empresas" displayExpr="pessoa.nome"
+                                                valueExpr="id" [searchEnabled]="true" (ngModelChange)="ConsultaCliente($event)"
+                                                formControlName="empresaId">
+                                            </dx-select-box>
+
+                                            <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                                <p [innerHTML]="displayMessage.empresaId"></p>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="optionsModelCliente">Cliente</label>
+                                            <dx-drop-down-box [(value)]="gridBoxValue" valueExpr="id" displayExpr="cliente"
+                                                placeholder="Selecionar..." [showClearButton]="true" [dataSource]="gridDataSource" formControlName="optionsModelCliente" >
+
+                                                <div *dxTemplate="let data of 'content'">
+                                                    <dx-data-grid [dataSource]="gridDataSource" [columns]="['codigo','cliente']"
+                                                        [selection]="{ mode: 'multiple' }" [hoverStateEnabled]="true"
+                                                        [paging]="{ enabled: true, pageSize: 10 }" [filterRow]="{ visible: true }"
+                                                        [scrolling]="{ mode: 'infinite' }" [height]="345"
+                                                        [(selectedRowKeys)]="gridBoxValue">
+                                                    </dx-data-grid>
+                                                </div>
+                                            </dx-drop-down-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="dataVencimentoInicial">Data do Vencimento
+                                                Inicial</label>
+                                            <dx-date-box type="date" width="100%" displayFormat="dd/MM/yyyy"
+                                                formControlName="dataVencimentoInicial" (onValueChanged)="definirValor($event)"
+                                                (onValueChanged)="refazerFiltro = false"></dx-date-box>
+                                            <span class="text-danger" *ngIf="displayMessage.dataVencimentoInicial">
+                                                <p [innerHTML]="displayMessage.dataVencimentoInicial"></p>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="dataVencimentoFinal">Data do Vencimento
+                                                Final</label>
+                                            <dx-date-box [min]="minDate" [max]="maxDate" type="date"
+                                                width="100%" displayFormat="dd/MM/yyyy" formControlName="dataVencimentoFinal"
+                                                (onValueChanged)="refazerFiltro = false"></dx-date-box>
+                                            <span class="text-danger" *ngIf="displayMessage.dataVencimentoFinal">
+                                                <p [innerHTML]="displayMessage.dataVencimentoFinal"></p>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="dataEncerramento">Data de Encerramento</label>
+                                            <dx-date-box [value]="now" type="date" width="100%" displayFormat="dd/MM/yyyy"
+                                                formControlName="dataEncerramento" (onValueChanged)="refazerFiltro = false"
+                                                [disableControl]="valorRadio != 'lancamento'"></dx-date-box>
+                                            <span class="text-danger" *ngIf="displayMessage.dataEncerramento">
+                                                <p [innerHTML]="displayMessage.dataEncerramento"></p>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="card color-bordered-table info-bordered-table">
+                                            <div class="form-check" style="margin-top: 25px;">
+                                                <div class="col-12">
+
+                                                    <label class="custom-control custom-radio">
+                                                        <input name="radio" type="radio" class="custom-control-input"
+                                                            value="lancamento" checked (change)="setarValorFiltro($event)">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description">A Faturar</span>
+                                                    </label>
+
+                                                    <label class="custom-control custom-radio">
+                                                        <input name="radio" type="radio" class="custom-control-input"
+                                                            value="faturamento" (change)="setarValorFiltro($event)">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description">Faturados</span>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <div class="card color-bordered-table info-bordered-table">
+                                            <div class="form-check" style="margin-top: 25px;">
+                                                <div class="col-12">
+
+                                                    <label class="custom-control custom-radio">
+                                                        <input name="radio2" type="radio" class="custom-control-input"
+                                                            value="ambos" checked (change)="setarValorFiltroFat($event)">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description">Ambos</span>
+                                                    </label>
+
+                                                    <label class="custom-control custom-radio">
+                                                        <input name="radio2" type="radio" class="custom-control-input"
+                                                            value="faturadoContrato" (change)="setarValorFiltroFat($event)">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description">Faturar Contrato</span>
+                                                    </label>
+
+                                                    <label class="custom-control custom-radio">
+                                                        <input name="radio2" type="radio" class="custom-control-input"
+                                                            value="lancamentoFixo" (change)="setarValorFiltroFat($event)">
+                                                        <span class="custom-control-indicator"></span>
+                                                        <span class="custom-control-description">Faturar Lançamento</span>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="submit" [disabled]='!faturamentoForm.valid' class="btn btn-block btn-success">
+                                            <i class="fa fa-check"></i> Filtrar</button>
+                                    </div>
+
+                                    <div *ngIf="(refazerFiltro == true)" class="col-md-12">
+
+                                        <div *ngIf="(valorRadio == 'lancamento')">
+                                            <app-lista-lancamento [dadosFiltro]="filtros"></app-lista-lancamento>
+                                        </div>
+
+                                        <div *ngIf="(valorRadio == 'faturamento')">
+                                            <app-lista-faturamento [dadosFiltro]="filtros"></app-lista-faturamento>
+                                        </div>
+
+                                    </div>
+
+                                    <div *ngIf="(refazerFiltro == false)" class="col-md-12">
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

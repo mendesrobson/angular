@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="m-b-0 text-white">Cadastro</h4>
+          </div>
+          <div class="card-block">
+              <form class="form-horizontal" novalidate (ngSubmit)="editarTestemunha()" [formGroup]="testemunhaForm">
+                  <div class="form-body col-12">
+                      <div class="row p-t-20">
+
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label>Grupo</label>
+                                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                                      <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{grupoEmpresa.pessoa.nome}}</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label>Empresa</label>
+                                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                      <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{empresa.pessoa.nome}}</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label class="control-label" for="codigo">Código</label>
+                                  <input type="text" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                              </div>
+                          </div>
+
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="control-label" for="nome">Nome</label>
+                                  <input type="text" id="nome" name="nome" class="form-control text-input" formControlName="nome" />
+                              </div>
+                          </div>
+
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label for="cpf">CPF</label>
+                                  <input type="text" [textMask]="{mask: cpfMask}" id="cpf" name="cpf" class="form-control text-input" formControlName="cpf"
+                                  />
+
+                              </div>
+                          </div>
+
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label for="rg">RG</label>
+                                  <input type="text" [textMask]="{mask: rgMask}" id="rg" name="rg" class="form-control text-input" formControlName="rg" />
+                              </div>
+                          </div>
+
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label for="orgaoEmissor">Orgão Emissor</label>
+                                  <input type="text" id="orgaoEmissor" name="orgaoEmissor" class="form-control text-input" formControlName="orgaoEmissor" />
+
+                              </div>
+                          </div>
+
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label>Estado Emissor</label>
+                                  <select class="custom-select col-md-12" id="ufId" name="ufId" formControlName="ufId">
+                                      <option *ngFor="let uf of ufs" [ngValue]="uf.id">{{uf.descricao}}</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

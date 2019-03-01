@@ -1,0 +1,113 @@
+  <div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="m-b-0 text-white">Cadastro</h4>
+        </div>
+        <div class="card-block">
+  
+          <form class="form-horizontal" [formGroup]="centroResultadoForm">
+            <div class="form-body col-12">
+              <div class="row p-t-20">
+  
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Grupo</label>
+                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                      <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                      <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Empresa</label>
+                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                      <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                      <p [innerHTML]="displayMessage.empresaId"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Classificação</label>
+                    <select class="custom-select col-md-12" id="classificacaoCentroResultadoId" name="classificacaoCentroResultadoId" formControlName="classificacaoCentroResultadoId">
+                      <option *ngFor="let classificacaoCentroResultado of classificacaoCentroResultados" [ngValue]="classificacaoCentroResultado.id">{{ classificacaoCentroResultado.descricao }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.classificacaoCentroResultadoId">
+                      <p [innerHTML]="displayMessage.classificacaoCentroResultadoId"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Tipo de Centro</label>
+                    <select class="custom-select col-md-12" id="tipoCentroId" name="tipoCentroId" formControlName="tipoCentroId">
+                      <option *ngFor="let tipoCentro of tipoCentros" [ngValue]="tipoCentro.id">{{ tipoCentro.descricao }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.tipoCentroId">
+                      <p [innerHTML]="displayMessage.tipoCentroId"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Centro Resultado Pai</label>
+                    <select class="custom-select col-md-12" id="centroResultadoPaiId" name="centroResultadoPaiId" formControlName="centroResultadoPaiId">
+                      <option *ngFor="let centroResultadoPai of centroResultadoPais" [ngValue]="centroResultadoPai.id">{{ centroResultadoPai.descricao }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.centroResultadoPaiId">
+                      <p [innerHTML]="displayMessage.centroResultadoPaiId"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                    <label class="control-label" for="codigo">Código</label>
+                    <input type="text" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                    <span class="text-danger" *ngIf="displayMessage.codigo">
+                      <p [innerHTML]="displayMessage.codigo"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-3">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                    <label class="control-label" for="sigla">Sigla</label>
+                    <input type="text" id="sigla" name="sigla" class="form-control text-input" formControlName="sigla" />
+                    <span class="text-danger" *ngIf="displayMessage.sigla">
+                      <p [innerHTML]="displayMessage.sigla"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <div class="col-md-12">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                    <label class="control-label" for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" class="form-control" formControlName="descricao" rows="3"></textarea>
+                    <span class="text-danger" *ngIf="displayMessage.descricao">
+                      <p [innerHTML]="displayMessage.descricao"></p>
+                    </span>
+                  </div>
+                </div>
+  
+                <br /><br /><br />
+                <br /><br />
+    
+              </div>
+            </div>
+          </form>
+  
+        </div>
+      </div>
+    </div>
+  </div>

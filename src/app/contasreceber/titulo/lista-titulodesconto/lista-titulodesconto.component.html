@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <div class="col-md-10 align-content-lg-end">
+          <div class="row button-group">
+            <div>
+              <button type="button" *ngIf="!tituloId > 0" class="btn btn-block btn-success" (click)="showModal('modalAdicionar')">
+                <i class="fa fa-plus"></i> Adicionar Desconto</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+            [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="descricao">Descrição</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="percentualValor">Tipo Desconto</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="valorDesconto">Valor</mfDefaultSorter>
+                </th>
+                <th *ngIf="!tituloId > 0">
+                  Ações
+                </th>
+
+              </tr>
+            </thead>
+            <tbody *ngIf="mf.data != null">
+              <tr *ngFor="let tituloDesconto of mf.data">
+                <td>{{ tituloDesconto.desconto.descricao }}</td>
+                <td>{{ tituloDesconto.desconto.percentualValor }}</td>
+                <td>{{ tituloDesconto.valorDesconto }}</td>
+                <td *ngIf="!tituloId > 0">
+                  <label (click)="editarDesconto(tituloDesconto)" data-toggle="modal" data-target=".modal-desconto-edit">
+                    <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                  </label>
+                  <span style="padding-right:2px"></span>
+                  <label (click)="inativarTituloDesconto(tituloDesconto)" style="cursor:pointer" title="Inativar">
+                    <i class="fa fa-trash-o text-danger"></i>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-adicionar-titulodesconto *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-titulodesconto>
+
+<app-editar-titulodesconto *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-titulodesconto>

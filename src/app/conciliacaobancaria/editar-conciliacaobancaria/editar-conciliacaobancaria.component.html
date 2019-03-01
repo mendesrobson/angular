@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="m-b-0 text-white">Efetuar Conciliação Bancária</h4>
+          </div>
+          <div class="card-block">
+              <form class="form-horizontal" novalidate [formGroup]="movimentoContaForm">
+                  <div class="form-body col-12">
+                      <div class="row p-t-20">
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label class="control-label" for="codigo">Código</label>
+                                  <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>Grupo</label>
+                                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                                      <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label>Empresa</label>
+                                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                      <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tipo de Operação</label>
+                                <select class="custom-select col-md-12" id="siglaTipoOperacao" name="siglaTipoOperacao" formControlName="siglaTipoOperacao">
+                                    <option *ngFor="let tipoOperacao of tiposOperacao" [ngValue]="tipoOperacao.id">{{ tipoOperacao.valor }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="descricaoFornecedor">Fornecedor</label>
+                                <input type="text" autocomplete="off" id="descricaoFornecedor" name="descricaoFornecedor" class="form-control text-input" formControlName="descricaoFornecedor"
+                                />
+                            </div>
+                        </div>
+
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label>Conta</label>
+                                  <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                                      <option *ngFor="let contaCorrente of contasCorrente" [ngValue]="contaCorrente.id">{{ contaCorrente.descricao }}</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="col-md-2">
+                              <div class="form-group">
+                                  <label class="control-label" for="documento">Documento</label>
+                                  <input type="text" autocomplete="off" id="documento" name="documento" class="form-control text-input" formControlName="documento" />
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label class="control-label" for="dataEmissao">Data de Emissão</label>
+                                  <input type="date" autocomplete="off" id="dataEmissao" name="dataEmissao" class="form-control text-input" formControlName="dataEmissao" />
+                              </div>
+                          </div>
+                          
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                  <label class="control-label" for="valor">Valor</label>
+                                  <div class="input-group">
+                                      <span class="input-group-addon">R$</span>
+                                      <input type="text" autocomplete="off" currencyMask id="valor" name="valor" class="form-control text-input" formControlName="valor" />
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                  <label>Débito ou Crédito</label>
+                                  <select class="custom-select col-md-12" id="siglaDebitoCredito" name="siglaDebitoCredito" formControlName="siglaDebitoCredito">
+                                      <option value="D">Débito</option>
+                                      <option value="C">Crédito</option>
+                                  </select>
+                              </div>
+                          </div>
+                          
+                          
+                          <div class="col-md-4">
+                              <label class="custom-control custom-checkbox" style="margin-top: 30px">
+                                  <input type="checkbox" class="custom-control-input" formControlName="flagCreditoNaoIdentificado" [checkBoxSet]="movimentoConta.flagCreditoNaoIdentificado">
+                                  <span class="custom-control-indicator"></span>
+                                  <span class="custom-control-description">Crédito Não Identificado</span>
+                              </label>
+                          </div>
+                          <div class="col-12">
+                              <div class="row button-group">
+                                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                                      <button type="button" class="btn btn-block btn-secondary" (click)="voltar()">
+                                          <i class="fa fa-mail-reply"></i> Voltar</button>
+                                  </div>
+                                  <!-- <div class="col-lg-2 col-md-6">
+                                      <button type="submit"[disabled]='!movimentoContaForm.valid' class="btn btn-block btn-success">
+                                          <i class="fa fa-check"></i> Gravar</button>
+                                  </div> -->
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

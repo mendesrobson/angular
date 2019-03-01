@@ -1,0 +1,48 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Cargo Sindicato</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarSindicatoCargo()" [formGroup]="sindicatoCargoForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Cargo</label>
+                <select class="custom-select col-md-12" id="cargoId" name="cargoId" formControlName="cargoId">
+                  <option *ngFor="let cargo of cargos" [ngValue]="cargo.id">{{ cargo.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.cargoId">
+                  <p [innerHTML]="displayMessage.cargoId"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="adicionarSindicatoCargo()" [disabled]='!sindicatoCargoForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

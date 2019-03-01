@@ -1,0 +1,675 @@
+<div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor m-b-0 m-t-0">Cadastro Titulos</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:void(0)">Titulos a {{ tituloPagina }}</a>
+      </li>
+      <li class="breadcrumb-item active">Titulos</li>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" novalidate (ngSubmit)="editarTitulo()" [formGroup]="tituloForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                  <label class="control-label" for="codigo">Documento</label>
+                  <input type="text" autocomplete="off" id="documento" name="documento" class="form-control text-input" formControlName="documento"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.documento">
+                    <p [innerHTML]="displayMessage.documento"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome
+                      }}
+                    </option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId" (ngModelChange)="ConsultaSelectEmpresa($event)">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Tipo Documento</label>
+                  <select class="custom-select col-md-12" id="tipoDocumentoId" name="tipoDocumentoId" formControlName="tipoDocumentoId">
+                    <option *ngFor="let tipoDocumento of tipoDocumentos" [ngValue]="tipoDocumento.id">{{ tipoDocumento.descricao
+                      }}
+                    </option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.tipoDocumentoId">
+                    <p [innerHTML]="displayMessage.tipoDocumentoId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-8" *ngIf="titulo.naturezaId == 1">
+                <div class="form-group">
+                  <label>Cliente</label>
+                  <select class="custom-select col-md-12" id="clienteId" name="clienteId" formControlName="clienteId">
+                    <option *ngFor="let cliente of clientes" [ngValue]="cliente.id">{{ cliente.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.clienteId">
+                    <p [innerHTML]="displayMessage.clienteId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-8" *ngIf="titulo.naturezaId == 2">
+                <div class="form-group">
+                  <label>Fornecedor</label>
+                  <select class="custom-select col-md-12" id="fornecedorId" name="fornecedorId" formControlName="fornecedorId">
+                    <option *ngFor="let fornecedor of fornecedores" [ngValue]="fornecedor.id">{{ fornecedor.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.fornecedorId">
+                    <p [innerHTML]="displayMessage.fornecedorId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" for="anexo">Anexo Documento</label>
+                  <div class="input-group">
+                    <input type="text" id="anexoFile" name="anexoFile" class="form-control text-input" formControlName="anexoFile" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default ig-mid-btn">
+                        <label class="btn btn-default btn-file">
+                          <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>
+                          <input type="file" (change)="adicionarAnexo($event)" id="anexo" name="anexo" class="form-control text-input" />
+                        </label>
+                      </button>
+                    </span>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" (click)="visualizarAnexo(this.titulo.arquivoAnexo)">
+                        <i class="fa fa-file-o" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.anexo">
+                    <p [innerHTML]="displayMessage.anexo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.observacao }">
+                  <label class="control-label" for="observacao">Observação</label>
+                  <input style="height: 50px" type="text" autocomplete="off" id="observacao" name="observacao" class="form-control text-input"
+                    formControlName="observacao" />
+                  <span class="text-danger" *ngIf="displayMessage.observacao">
+                    <p [innerHTML]="displayMessage.observacao"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="padd-left15 padd-right15" style="width: 100%;">
+                <ul class="nav nav-tabs customtab2" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#titulo" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-home"></i>
+                      </span>
+                      <span class="hidden-xs-down">Detalhes Titulo</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#desconto" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Desconto</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#historicoPadrao" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-user"></i>
+                      </span>
+                      <span class="hidden-xs-down">Histórico Padrão</span>
+                    </a>
+                  </li>
+                  <li class="nav-item" (click)="gerarParcelas()">
+                    <a class="nav-link" data-toggle="tab" href="#parcela" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Parcela </span>
+                    </a>
+                  </li>
+                  <li class="nav-item" *ngIf="faturamento != null">
+                    <a class="nav-link" data-toggle="tab" href="#impostoFaturamento" role="tab" aria-expanded="true">
+                      <span class="hidden-sm-up">
+                        <i class="ti-email"></i>
+                      </span>
+                      <span class="hidden-xs-down">Imposto Faturamento</span>
+                    </a>
+                  </li>
+
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div class="tab-pane active" id="titulo" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="col-md-12">
+                        <div class="row p-t-20">
+
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Natureza</label>
+                              <select class="custom-select col-md-12" id="naturezaId" name="naturezaId" formControlName="naturezaId">
+                                <option *ngFor="let natureza of naturezas" [ngValue]="natureza.id">{{ natureza.descricao
+                                  }}
+                                </option>
+                              </select>
+                              <span class="text-danger" *ngIf="displayMessage.naturezaId">
+                                <p [innerHTML]="displayMessage.naturezaId"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Origem</label>
+                              <select class="custom-select col-md-12" id="origemId" name="origemId" formControlName="origemId">
+                                <option *ngFor="let origem of origems" [ngValue]="origem.id">{{ origem.descricao }}</option>
+                              </select>
+                              <span class="text-danger" *ngIf="displayMessage.origemId">
+                                <p [innerHTML]="displayMessage.origemId"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Conta</label>
+                              <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                                <option *ngFor="let contaCorrente of contaCorrentes" [ngValue]="contaCorrente.id">{{ contaCorrente.descricao
+                                  }}
+                                </option>
+                              </select>
+                              <span class="text-danger" *ngIf="displayMessage.contaCorrenteId">
+                                <p [innerHTML]="displayMessage.contaCorrenteId"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="codigo">Valor Bruto</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorBruto" (blur)="preencherValores()" name="valorBruto" class="form-control text-input"
+                                  formControlName="valorBruto" />
+                              </div>
+                              <span class="text-danger" *ngIf="displayMessage.valorBruto">
+                                <p [innerHTML]="displayMessage.valorBruto"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="codigo">Valor Desconto</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorDesconto" name="valorDesconto" class="form-control text-input"
+                                  formControlName="valorDesconto" />
+                              </div>
+                              <span class="text-danger" *ngIf="displayMessage.valorDesconto">
+                                <p [innerHTML]="displayMessage.valorDesconto"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="codigo">Valor Retenções</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorRetencoes" (blur)="preencherValores()" name="valorRetencoes"
+                                  class="form-control text-input" formControlName="valorRetencoes" />
+                              </div>
+                              <span class="text-danger" *ngIf="displayMessage.valorRetencoes">
+                                <p [innerHTML]="displayMessage.valorRetencoes"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="codigo">Valor Liquido</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorLiquido" name="valorLiquido" class="form-control text-input"
+                                  formControlName="valorLiquido" />
+                              </div>
+                              <span class="text-danger" *ngIf="displayMessage.valorLiquido">
+                                <p [innerHTML]="displayMessage.valorLiquido"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 10px">
+                            <div class="card color-bordered-table info-bordered-table">
+
+                              <div class="card-header">
+                                <h4 class="m-b-0 text-white">Configuração de Pagamento</h4>
+                              </div>
+                              <br>
+                              <div class="col-md-12">
+                                <div class="row p-t-20">
+
+                                  <div class="col-md-4">
+                                    <div class="form-group">
+                                      <label>Configuração de Pagamento</label>
+                                      <select class="custom-select col-md-12" id="configuracaoPagamentoId" (ngModelChange)="popularConfiguracaoPagamento($event)"
+                                        name="configuracaoPagamentoId" formControlName="configuracaoPagamentoId">
+                                        <option *ngFor="let configuracaoPagamento of configuracaoPagamentos" [ngValue]="configuracaoPagamento.id">{{
+                                          configuracaoPagamento.descricao }}</option>
+                                      </select>
+                                      <span class="text-danger" *ngIf="displayMessage.configuracaoPagamentoId">
+                                        <p [innerHTML]="displayMessage.configuracaoPagamentoId"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-2">
+                                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                      <label class="control-label" for="codigo">Qtd. Parcela</label>
+                                      <input type="number" autocomplete="off" min="0" id="quantidadeParcela" name="quantidadeParcela" class="form-control text-input"
+                                        onlyNumber="true" formControlName="quantidadeParcela" />
+                                      <span class="text-danger" *ngIf="displayMessage.quantidadeParcela">
+                                        <p [innerHTML]="displayMessage.quantidadeParcela"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-2">
+                                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                      <label class="control-label" for="codigo">Periodicidade</label>
+                                      <input type="number" autocomplete="off" min="0" id="periodicidade" name="periodicidade" class="form-control text-input" onlyNumber="true"
+                                        formControlName="periodicidade" />
+                                      <span class="text-danger" *ngIf="displayMessage.periodicidade">
+                                        <p [innerHTML]="displayMessage.periodicidade"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-4">
+                                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                      <label class="control-label" for="codigo">Data do Primeiro Vencimento</label>
+                                      <input type="date" autocomplete="off" id="dataPrimeiroVencimento" name="dataPrimeiroVencimento" class="form-control text-input"
+                                        formControlName="dataPrimeiroVencimento" />
+                                      <span class="text-danger" *ngIf="displayMessage.dataPrimeiroVencimento">
+                                        <p [innerHTML]="displayMessage.dataPrimeiroVencimento"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <!-- <div class="col-md-4">
+                                    <div class="form-group">
+                                      <label class="control-label" for="dataPrimeiroVencimento">Dia do Primeiro Vencimento</label>
+                                      <dx-select-box placeholder="Primeiro vencimento" [items]="selectDataVencimento" displayExpr="value" valueExpr="id" [searchEnabled]="true"
+                                        formControlName="dataPrimeiroVencimento">
+                                      </dx-select-box>
+                                      <span class="text-danger" *ngIf="displayMessage.dataPrimeiroVencimento">
+                                        <p [innerHTML]="displayMessage.dataPrimeiroVencimento"></p>
+                                      </span>
+                                    </div>
+                                  </div> -->
+
+                                  <div class="col-md-4">
+                                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                      <label class="control-label" for="codigo">Percentual Juros</label>
+                                      <div class="input-group">
+                                        <input type="text" autocomplete="off" currencyMask id="percentualJuros" name="percentualJuros" class="form-control text-input"
+                                          formControlName="percentualJuros" />
+                                        <span class="input-group-addon">%</span>
+                                      </div>
+                                      <span class="text-danger" *ngIf="displayMessage.percentualJuros">
+                                        <p [innerHTML]="displayMessage.percentualJuros"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-4">
+                                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                      <label class="control-label" for="codigo">Percentual Multa</label>
+                                      <div class="input-group">
+                                        <input type="text" autocomplete="off" currencyMask id="percentualMulta" name="percentualMulta" class="form-control text-input"
+                                          formControlName="percentualMulta" />
+                                        <span class="input-group-addon">%</span>
+                                      </div>
+                                      <span class="text-danger" *ngIf="displayMessage.percentualMulta">
+                                        <p [innerHTML]="displayMessage.percentualMulta"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label class="control-label">Data de Vencimento</label>
+                                      <div class="form-check">
+
+                                        <label class="custom-control custom-checkbox">
+                                          <input type="checkbox" [disableControlCheckBox]="diaUtil == 'S' || ultimoDiaMes == 'S'" class="custom-control-input" formControlName="manterDiaVencimento"
+                                            (ngModelChange)="manterDiaVencimento = $event" [checkBoxSet]="titulo.manterDiaVencimento">
+                                          <span class="custom-control-indicator"></span>
+                                          <span class="custom-control-description">Manter dia Vencimento?</span>
+                                        </label>
+
+                                        <label class="custom-control custom-checkbox">
+                                          <input type="checkbox" [disableControlCheckBox]="manterDiaVencimento == 'S' || ultimoDiaMes == 'S'" class="custom-control-input"
+                                            formControlName="diaUtil" (ngModelChange)="diaUtil = $event" [checkBoxSet]="titulo.diaUtil">
+                                          <span class="custom-control-indicator"></span>
+                                          <span class="custom-control-description">Manter dia Útil?</span>
+                                        </label>
+
+                                        <label class="custom-control custom-checkbox">
+                                          <input type="checkbox" [disableControlCheckBox]="diaUtil == 'S' || manterDiaVencimento == 'S'" class="custom-control-input"
+                                            formControlName="ultimoDiaMes" (ngModelChange)="ultimoDiaMes = $event" [checkBoxSet]="titulo.ultimoDiaMes">
+                                          <span class="custom-control-indicator"></span>
+                                          <span class="custom-control-description">Último dia Mês?</span>
+                                        </label>
+
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-2">
+                                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }" *ngIf="diaUtil =='S'">
+                                      <label class="control-label" for="codigo">Qtd. Dia Util</label>
+                                      <input type="number" autocomplete="off" min="0" id="numeroDiaUtil" name="numeroDiaUtil" class="form-control text-input" formControlName="numeroDiaUtil"
+                                      />
+                                      <span class="text-danger" *ngIf="displayMessage.numeroDiaUtil">
+                                        <p [innerHTML]="displayMessage.numeroDiaUtil"></p>
+                                      </span>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label class="control-label">Data de Previsão</label>
+                                      <div class="form-check">
+
+                                        <label class="custom-control custom-checkbox">
+                                          <input type="checkbox" [disableControlCheckBox]="antecipa == 'S'" class="custom-control-input" formControlName="posterga"
+                                            (ngModelChange)="posterga = $event" [checkBoxSet]="titulo.posterga">
+                                          <span class="custom-control-indicator"></span>
+                                          <span class="custom-control-description">Posterga?</span>
+                                        </label>
+
+                                        <label class="custom-control custom-checkbox">
+                                          <input type="checkbox" [disableControlCheckBox]="posterga == 'S'" class="custom-control-input" formControlName="antecipa"
+                                            (ngModelChange)="antecipa = $event" [checkBoxSet]="titulo.antecipa">
+                                          <span class="custom-control-indicator"></span>
+                                          <span class="custom-control-description">Antecipa?</span>
+                                        </label>
+
+                                        <label class="custom-control custom-checkbox">
+                                          <input type="checkbox" class="custom-control-input" formControlName="sabadoUtil" (ngModelChange)="sabadoUtil = $event" [checkBoxSet]="titulo.sabadoUtil">
+                                          <span class="custom-control-indicator"></span>
+                                          <span class="custom-control-description">Sábado dia Útil?</span>
+                                        </label>
+
+                                        <label class="custom-control custom-checkbox">
+                                          <input type="checkbox" class="custom-control-input" formControlName="domingoUtil" (ngModelChange)="domingoUtil = $event"
+                                            [checkBoxSet]="titulo.domingoUtil">
+                                          <span class="custom-control-indicator"></span>
+                                          <span class="custom-control-description">Domingo dia Útil?</span>
+                                        </label>
+
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="tab-pane" id="desconto" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="col-md-12">
+                        <div class="p-t-20">
+                          <div class="form-group">
+                            <div *ngIf="carregarDesconto == true">
+                              <app-lista-titulodesconto></app-lista-titulodesconto>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="tab-pane" id="historicoPadrao" role="tabpanel" aria-expanded="true">
+
+                    <div class="form-body">
+                      <div class="col-md-12">
+                        <div class="row p-t-20">
+
+                          <div class="col-md-12">
+                            <div *ngIf="permiteEditarTabHistoricoPadrao">
+                              <div class="alert alert-warning">
+                                <strong>Atenção!</strong> Não é permitido alterar o Histórico Padrão e Centros do Título.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>Histórico Padrão</label>
+                              <select class="custom-select col-md-12" id="historicoPadraoId" name="historicoPadraoId" formControlName="historicoPadraoId"
+                                (ngModelChange)="preencherHistorico($event)">
+                                <option *ngFor="let historicoPadrao of historicoPadraos" [ngValue]="historicoPadrao.id">{{
+                                  historicoPadrao.descricao }}</option>
+                              </select>
+                              <span class="text-danger" *ngIf="displayMessage.historicoPadraoId">
+                                <p [innerHTML]="displayMessage.historicoPadraoId"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="col-md-8">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                              <label class="control-label" for="codigo">Descrição</label>
+                              <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao"
+                              />
+                              <span class="text-danger" *ngIf="displayMessage.descricao">
+                                <p [innerHTML]="displayMessage.descricao"></p>
+                              </span>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12" *ngIf="carregaTituloCentro == true">
+                      <div class="row p-t-2">
+
+                        <div class="col-md-6">
+                          <app-lista-titulocentrocusto [(permitirEditar)]="permiteEditarTabHistoricoPadrao"> </app-lista-titulocentrocusto>
+                        </div>
+                        <div class="col-md-6">
+                          <app-lista-titulocentroresultado [(permitirEditar)]="permiteEditarTabHistoricoPadrao"> </app-lista-titulocentroresultado>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="tab-pane" id="parcela" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="col-md-12">
+                        <div class="p-t-20">
+                          <div class="form-group">
+                            <div *ngIf="carregarParcela == true">
+                              <app-lista-tituloparcela> </app-lista-tituloparcela>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="tab-pane" id="impostoFaturamento" role="tabpanel" aria-expanded="true">
+                    <div class="form-body">
+                      <div class="col-md-12">
+                        <div class="row p-t-20">
+                        
+                          <div class="col-md-2">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="valorTotalIrrf">IRRF</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorTotalIrrf" name="valorTotalIrrf" class="form-control text-input" formControlName="valorTotalIrrf"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="valorTotalPis">PIS</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorTotalPis" name="valorTotalPis" class="form-control text-input" formControlName="valorTotalPis"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="valorTotalCofins">COFINS</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorTotalCofins" name="valorTotalCofins" class="form-control text-input" formControlName="valorTotalCofins"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="valorTotalCsll">CSLL</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorTotalCsll" name="valorTotalCsll" class="form-control text-input" formControlName="valorTotalCsll"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="valorTotalCrf">CRF</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorTotalCrf" name="valorTotalCrf" class="form-control text-input" formControlName="valorTotalCrf"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-2">
+                            <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                              <label class="control-label" for="valorTotalIss">ISS</label>
+                              <div class="input-group">
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" autocomplete="off" currencyMask id="valorTotalIss" name="valorTotalIss" class="form-control text-input" formControlName="valorTotalIss"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+              </div>
+
+              <div class="col-md-12">
+                <div class="row button-group">
+
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+
+                  <div class="col-lg-2 col-md-6">
+                    <button type="submit" [disabled]='!tituloForm.valid' class="btn btn-block btn-success">
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+
+                  <div class="col-lg-2 col-md-6">
+                    <button type="button" class="btn btn-block btn-danger" [disabled]='!removerVisivel' (click)="remover(titulo.id)">
+                      <i class="fa fa-times"></i> Remover</button>
+                  </div>
+
+                  <div class="col-lg-2 col-md-6">
+                    <button type="button" class="btn btn-block btn-success" [disabled]="!reativarVisivel" (click)="reativar(titulo.id)">
+                      <i class="fa fa-retweet"></i> Reativar</button>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

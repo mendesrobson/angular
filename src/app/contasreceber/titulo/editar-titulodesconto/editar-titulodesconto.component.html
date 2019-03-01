@@ -1,0 +1,63 @@
+<div class="modal" data-backdrop="static">
+
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Desconto</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+
+      <form class="form-horizontal" novalidate (ngSubmit)="editarDesconto()" [formGroup]="tituloDescontoForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="descontoId">Desconto</label>
+                <select class="custom-select col-md-12" id="descontoId" name="descontoId" (ngModelChange)="onChange_Desconto($event)" formControlName="descontoId">
+                  <option *ngFor="let desconto of descontos" [ngValue]="desconto.id">{{ desconto.descricao }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="valorDesconto">Valor Desconto</label>
+                <div class="input-group">
+                  <span *ngIf="percOrValor == '$'" class="input-group-addon">R$</span>
+                  <input type="number" autocomplete="off" min="0" id="valorDesconto" name="valorDesconto" onlyNumber="true" class="form-control text-input" formControlName="valorDesconto"
+                  />
+                  <span *ngIf="percOrValor == '%'" class="input-group-addon">%</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="editarDesconto()" [disabled]='!tituloDescontoForm.valid' class="btn btn-block btn-success"
+                data-dismiss="modal">
+                <i class="fa fa-check"></i> Editar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

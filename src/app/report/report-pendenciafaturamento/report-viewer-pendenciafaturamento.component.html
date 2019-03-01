@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Pendência do Faturamento</h4>
+            </div>
+            <div class="card-block">
+                <form [formGroup]="filtroPendenciaFaturamentoForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-12">
+                                <div class="row p-t-20">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Grupo</label>
+                                            <dx-select-box placeholder="Grupo" [items]="grupoEmpresas" displayExpr="pessoa.nome" valueExpr="id" [searchEnabled]="true"
+                                                formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                                            </dx-select-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Empresa</label>
+                                            <dx-select-box placeholder="Empresa" [items]="empresas" displayExpr="pessoa.nome" valueExpr="id" [searchEnabled]="true" formControlName="empresaId"
+                                                (ngModelChange)="ConsultaSelectEmpresa($event)">
+                                            </dx-select-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="clienteId">Cliente</label>
+                                            <dx-drop-down-box [(value)]="gridBoxValue" valueExpr="id" displayExpr="cliente" placeholder="Selecionar..."
+                                                [showClearButton]="true" [dataSource]="gridDataSource" formControlName="clienteId">
+                                    
+                                                <div *dxTemplate="let data of 'content'">
+                                                    <dx-data-grid [dataSource]="gridDataSource" [columns]="['codigo','cliente']" [selection]="{ mode: 'multiple' }"
+                                                        [hoverStateEnabled]="true" [paging]="{ enabled: true, pageSize: 10 }" [filterRow]="{ visible: true }"
+                                                        [scrolling]="{ mode: 'infinite' }" [height]="345" [(selectedRowKeys)]="gridBoxValue">
+                                                    </dx-data-grid>
+                                                </div>
+                                            </dx-drop-down-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="dataCompetenciaInicial">Competência</label>
+                                            <dx-date-box  type="date" width="100%" displayFormat="MM/yyyy" maxZoomLevel="year" formControlName="dataCompetencia"
+                                                style="margin-top: 10px;" (onValueChanged)="definirDataMes($event)"></dx-date-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="dataVencimentoInicial">Vencimento Inicial</label>
+                                            <dx-date-box  type="date" width="100%" displayFormat="dd/MM/yyyy" formControlName="dataVencimentoInicial" style="margin-top: 10px;" (onValueChanged)="definirDataVenc($event)"></dx-date-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" >
+                                        <div class="form-group">
+                                            <label class="control-label" for="dataVencimentoFinal">Vencimento Final</label>
+                                            <dx-date-box  [min]="minDataVenc" type="date" width="100%" displayFormat="dd/MM/yyyy" formControlName="dataVencimentoFinal" style="margin-top: 10px;"></dx-date-box>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="control-label">Ordem</label>
+                                        <div class="card color-bordered-table info-bordered-table" style="border: 2px solid #ddd">
+                                            <div class="form-check" style="margin-top: 10px;">
+                                                <div class="col-12">
+                                                    <dx-radio-group formControlName="ordem"  [items]="ordens" [value]="ordens[0]" layout="horizontal">
+                                                    </dx-radio-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <!-- <label class="control-label">Opções</label>
+                                        <div class="card color-bordered-table info-bordered-table" style="border: 2px solid #ddd">
+                                            <div class="form-check" style="margin-top: 10px;">
+                                                <div class="col-6">
+                                                    <dx-check-box text="{{ opcoes[0] }}" layout="horizontal"
+                                                        formControlName="destacarLinha">
+                                                    </dx-check-box>
+                                                </div>                                                
+                                            </div>
+                                        </div> -->
+                                    </div>
+
+                                    <div class="col-md-4"></div>
+
+                                    <div class="col-md-2">
+                                        <div class="">
+                                            <button type="button" class="btn btn-block btn-success" (click)="gerarPendenciaFaturamento()">
+                                                <i class="fa fa-plus"></i> Gerar Relatório</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div #scripts>
+</div>
+<div #control style="width:100%; height: 1000px">
+    <div data-bind="dxReportViewer: $data"></div>
+</div>

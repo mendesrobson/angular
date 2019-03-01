@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-block">
+                <div class="col-lg-4 col-md-10 align-content-lg-end">
+                    <div class="row button-group">
+                        <div class="">
+                            <button type="button" class="btn btn-block btn-success" (click)="modalAddVisible = true">
+                                <i class="fa fa-plus"></i> Adicionar Item do Registro</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                        [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <mfDefaultSorter by="campo">Campo</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="tipo">Tipo</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="valor">Valor</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="posicaoInicial">Posição Inicial</mfDefaultSorter>
+                                </th>                                
+                                <th>
+                                    <mfDefaultSorter by="posicaoFinal">Posição Final</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    Ações
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="leiauteArquivoBancarioComponent.LeiauteArquivoBancario.regLeiauteArquivoBancario[ind] != null">
+                            <tr *ngFor="let itemregistro of leiauteArquivoBancarioComponent.LeiauteArquivoBancario.regLeiauteArquivoBancario[ind].iteRegLeiauteArquivoBancario">
+                                <td>{{ itemregistro.campo }}</td>
+                                <td>
+                                    <div *ngIf="itemregistro.tipo == 'A'">Alfanumérico</div>
+                                    <div *ngIf="itemregistro.tipo == 'N'">Numérico</div>
+                                </td>
+                                <td>{{ itemregistro.valor }}</td>
+                                <td>{{ itemregistro.posicaoInicial }}</td>
+                                <td>{{ itemregistro.posicaoFinal}}</td>
+                                <td>
+                                    <label (click)="editarItemRegistroLeiauteArquivoBancario(itemregistro)" style="cursor:pointer" title="Editar">
+                                        <i class="fa fa-pencil text-info"></i>
+                                    </label>
+                                    <span style="padding-right:2px"></span>
+                                    <label (click)="inativarItemRegistroLeiauteArquivoBancario(itemregistro)" style="cursor:pointer" title="Inativar">
+                                        <i class="fa fa-trash-o text-danger"></i>
+                                    </label>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-adicionar-itemregistroleiautearquivobancario *ngIf="modalAddVisible != false" [ind]="ind" [(visible)]="modalAddVisible"></app-adicionar-itemregistroleiautearquivobancario>
+<app-editar-itemregistroleiautearquivobancario *ngIf="modalEditVisible != false" [ind]="ind" [(visible)]="modalEditVisible"></app-editar-itemregistroleiautearquivobancario>
+

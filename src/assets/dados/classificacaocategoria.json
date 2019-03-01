@@ -1,0 +1,23 @@
+[
+    {
+        "id": "REC",
+        "valor": "Receitas"
+    },
+    {
+        "id": "ODES",
+        "valor": "Outras Despesas"
+    },
+    {
+        "id": "IMP",
+        "valor": "Impostos"
+    },
+    {
+        "id": "TAX",
+        "valor": "Taxas"
+    },
+    {
+        "id": "OUT",
+        "valor": "Outros"
+    }
+
+]

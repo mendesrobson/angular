@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+            <div class="card-block">
+
+                <form class="form-horizontal" [formGroup]="tipoAfastamentoForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                                        <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                        <p [innerHTML]="displayMessage.empresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                    <label class="control-label" for="codigo">Código</label>
+                                    <input type="text" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                                    <span class="text-danger" *ngIf='displayMessage.codigo'>
+                                        <p [innerHTML]="displayMessage.codigo"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                                    <label class="control-label" for="sigla">Sigla</label>
+                                    <input type="text" id="sigla" name="sigla" class="form-control text-input" formControlName="sigla" />
+                                    <span class="text-danger" *ngIf='displayMessage.sigla'>
+                                        <p [innerHTML]="displayMessage.sigla"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tipo de afastamento</label>
+                                    <select class="custom-select col-md-12" id="tipoDeAfastamento" name="tipoDeAfastamento" formControlName="tipoDeAfastamento">
+                                        <option *ngFor="let afastamento of afastamentos" [ngValue]="afastamento.id">{{ afastamento.valor }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.tipoDeAfastamento">
+                                        <p [innerHTML]="displayMessage.tipoDeAfastamento"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoESocial }">
+                                    <label class="control-label" for="codigoESocial">Código E-Social</label>
+                                    <input type="text" id="codigoESocial" maxlength="5" name="codigoESocial" class="form-control text-input" formControlName="codigoESocial"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.codigoESocial'>
+                                        <p [innerHTML]="displayMessage.codigoESocial"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.tipoSEFIP }">
+                                    <label class="control-label" for="tipoSEFIP">Código SEFIP</label>
+                                    <input type="text" id="tipoSEFIP" maxlength="10" minlength="10" name="tipoSEFIP" class="form-control text-input" formControlName="tipoSEFIP"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.tipoSEFIP'>
+                                        <p [innerHTML]="displayMessage.tipoSEFIP"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoRais }">
+                                    <label class="control-label" for="codigoRais">Código Rais</label>
+                                    <input type="text" id="codigoRais" maxlength="5" name="codigoRais" class="form-control text-input" formControlName="codigoRais"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.codigoRais'>
+                                        <p [innerHTML]="displayMessage.codigoRais"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-check" style="margin-top: 30px">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" formControlName="remuneracao" [checkBoxSet]="tipoAfastamento.remuneracao"
+                                            checkBoxSet>
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-description">Remunera?</span>
+                                    </label>
+                                    <span class="text-danger" *ngIf="displayMessage.remuneracao">
+                                        <p [innerHTML]="displayMessage.remuneracao"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                                    <label class="control-label" for="descricao">Descrição</label>
+                                    <input type="text" id="descricao" name="descricao" minlength="3" maxlength="100" class="form-control text-input" formControlName="descricao"
+                                    />
+                                    <span class="text-danger" *ngIf="displayMessage.descricao">
+                                        <p [innerHTML]="displayMessage.descricao"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

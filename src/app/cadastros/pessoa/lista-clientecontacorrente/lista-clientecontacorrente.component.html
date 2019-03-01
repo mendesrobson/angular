@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+
+        <div class="col-lg-4 col-md-10 align-content-lg-end">
+          <div class="row button-group">
+            <div class="">
+              <button type="button" class="btn btn-block btn-success" (click)="showModal('modalAdicionar')">
+                <i class="fa fa-plus"></i> Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="row p-t-5">
+            <div class="table-responsive">
+              <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+                [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                  <tr>
+                    <th>
+                      <mfDefaultSorter by="contaCorrente.banco.descricao">Banco</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="contaCorrente.numeroAgencia">Agência</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="contaCorrente.conta">Conta Corrente</mfDefaultSorter>
+                    </th>
+                    <th>
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let row of pessoaComponent.cliente.clienteContaCorrente">
+                  <tr *ngIf="row.contaCorrente != null" style="cursor:pointer">
+                    <td *ngIf="row.contaCorrente.banco != null">
+                      {{ row.contaCorrente.banco.descricao }}
+                    </td>
+                    <td>{{ row.contaCorrente.numeroAgencia }}</td>
+                    <td>{{ row.contaCorrente.conta }}</td>
+                    <td>
+                      <label (click)="editarClienteContaCorrente(row)" data-toggle="modal">
+                        <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                      </label>
+                      <span style="padding-right:2px"></span>
+                      <label (click)="inativarClienteContaCorrente(row)" style="cursor:pointer" title="Inativar">
+                        <i class="fa fa-trash-o text-danger"></i>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-editar-clientecontacorrente *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-clientecontacorrente>
+
+<app-adicionar-clientecontacorrente *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-clientecontacorrente>

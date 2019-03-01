@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card color-bordered-table info-bordered-table">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Detalhes do Leiaute </h4>
+            </div>
+            <br>
+            <div class="card-block col-md-12">
+                <div class="col-lg-4 col-md-10 align-content-lg-end">
+                    <div class="row button-group">
+                        <div>
+                            <button type="button" class="btn btn-block btn-success" (click)="modalAddVisible = true">
+                                <i class="fa fa-plus"></i> Adicionar Registro</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row p-t-5">
+
+                        <div class="table-responsive">
+                            <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+                                [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <mfDefaultSorter by="codigo">Código</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="descricao">Descrição</mfDefaultSorter>
+                                        </th>
+
+                                        <th>
+                                            Ações
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="leiauteArquivoBancarioComponent.LeiauteArquivoBancario.regLeiauteArquivoBancario != null">
+                                    <tr *ngFor="let registro of leiauteArquivoBancarioComponent.LeiauteArquivoBancario.regLeiauteArquivoBancario let i = index"
+                                        [attr.data-index]="i" style="cursor:pointer" (click)="onChange_RegistroLeiaute(i)">
+                                        <td>{{ registro.codigo }}</td>
+                                        <td>{{ registro.descricao }}</td>
+                                        <td>
+                                            <label (click)="editarRegistroLeiaute(registro)" style="cursor:pointer" title="Editar">
+                                                <i class="fa fa-pencil text-info"></i>
+                                            </label>
+                                            <span style="padding-right:2px"></span>
+                                            <label (click)="inativarRegistroLeiaute(registro)" style="cursor:pointer" title="Inativar">
+                                                <i class="fa fa-trash-o text-danger"></i>
+                                            </label>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <app-lista-itemregistroleiautearquivobancario [ind]="index"></app-lista-itemregistroleiautearquivobancario>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<app-adicionar-registroleiautearquivobancario *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-registroleiautearquivobancario>
+<app-editar-registroleiautearquivobancario *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-registroleiautearquivobancario>

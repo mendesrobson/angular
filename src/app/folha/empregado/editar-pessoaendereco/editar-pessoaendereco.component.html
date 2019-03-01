@@ -1,0 +1,179 @@
+<div class="modal" data-backdrop="static">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myLargeModalLabel">Endereço</h4>
+        <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+      </div>
+      <div class="card-block">
+        <form novalidate (ngSubmit)="editarPessoaEndereco()" [formGroup]="pessoaEnderecoForm">
+          <div class="form-body">
+            <div class="row p-t-20">
+  
+                <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.cep }">
+                      <label class="control-label" for="cep">CEP</label>
+                      <input type="text" autocomplete="off" [textMask]="{ mask: cepMask }" (blur)="ConsultaCEP($event.target.value)" id="cep" name="cep" class="form-control text-input"
+                        formControlName="cep" />
+                      <span class="text-danger" *ngIf="displayMessage.cep">
+                        <p [innerHTML]="displayMessage.cep"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-6">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.logradouro }">
+                      <label class="control-label" for="logradouro">Logradouro</label>
+                      <input type="text" autocomplete="off" id="logradouro" name="logradouro" class="form-control text-input" formControlName="logradouro" />
+                      <span class="text-danger" *ngIf="displayMessage.logradouro">
+                        <p [innerHTML]="displayMessage.logradouro"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-2">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.numero }">
+                      <label class="control-label" for="numero">Número</label>
+                      <input type="text" autocomplete="off" id="numero" name="numero" class="form-control text-input" formControlName="numero" />
+                      <span class="text-danger" *ngIf="displayMessage.numero">
+                        <p [innerHTML]="displayMessage.numero"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.complemento }">
+                      <label class="control-label" for="complemento">Complemento</label>
+                      <input type="text" autocomplete="off" id="complemento" name="complemento" class="form-control text-input" formControlName="complemento" />
+                      <span class="text-danger" *ngIf="displayMessage.complemento">
+                        <p [innerHTML]="displayMessage.complemento"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.bairro }">
+                      <label class="control-label" for="bairro">Bairro</label>
+                      <input type="text" autocomplete="off" id="bairro" name="bairro" class="form-control text-input" formControlName="bairro" />
+                      <span class="text-danger" *ngIf="displayMessage.bairro">
+                        <p [innerHTML]="displayMessage.bairro"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoMunicipio }">
+                      <label class="control-label" for="codigoMunicipio">Código Municipio (IBGE)</label>
+                      <input type="text" autocomplete="off" id="codigoMunicipio" name="codigoMunicipio" class="form-control text-input" formControlName="codigoMunicipio"
+                      />
+                      <span class="text-danger" *ngIf="displayMessage.codigoMunicipio">
+                        <p [innerHTML]="displayMessage.codigoMunicipio"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Cidade</label>
+                      <select class="custom-select col-md-12" id="localidadeId" name="localidadeId" formControlName="localidadeId">
+                        <option *ngFor="let localidade of localidadeEnderecos" [ngValue]="localidade.id">{{ localidade.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.localidadeId">
+                        <p [innerHTML]="displayMessage.localidadeId"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Estado</label>
+                      <select class="custom-select col-md-12" id="ufId" name="ufId" formControlName="ufId">
+                        <option *ngFor="let uf of ufEnderecos" [ngValue]="uf.id">{{ uf.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.ufId">
+                        <p [innerHTML]="displayMessage.ufId"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>País</label>
+                      <select class="custom-select col-md-12" id="paisId" name="paisId" formControlName="paisId">
+                        <option *ngFor="let pais of paisEnderecos" [ngValue]="pais.id">{{ pais.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.paisId">
+                        <p [innerHTML]="displayMessage.paisId"></p>
+                      </span>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <div class="form-check">
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" formControlName="enderecoPrincipal" [checkBoxSet]="endereco.enderecoPrincipal">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Endereço Principal?</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="col-md-12">
+                    <div class="form-group">  
+                      <label class="control-label">
+                        <b>Tipo Endereço</b>
+                      </label>
+                      <div class="form-check" style="margin-top: 20px;">
+      
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" 
+                          formControlName="enderecoCobranca" (ngModelChange)="enderecoCobranca = $event"
+                            [checkBoxSet]="endereco.enderecoCobranca">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Endereço Cobrança?</span>
+                        </label>
+      
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" formControlName="enderecoEntragaDocumento" (ngModelChange)="enderecoEntragaDocumento = $event"
+                            [checkBoxSet]="endereco.enderecoEntragaDocumento">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Endereço Entrega Documento?</span>
+                        </label>
+      
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" formControlName="enderecoFaturamento" (ngModelChange)="enderecoFaturamento = $event"
+                            [checkBoxSet]="endereco.enderecoFaturamento">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Endereço Faturamento?</span>
+                        </label>
+      
+                      </div>
+                    </div>
+                  </div>
+  
+            </div>
+          </div>
+  
+          <div class="form-actions">
+            <div class="row p-t-5">
+  
+              <div class="col-md-4">
+                <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                  <i class="fa fa-mail-reply"></i> Cancelar</button>
+              </div>
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <button type="submit" class="btn btn-block btn-success">
+                  <i class="fa fa-check"></i> Alterar</button>
+              </div>
+              <div class="col-md-4"></div>
+              <br>
+  
+            </div>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+  </div>

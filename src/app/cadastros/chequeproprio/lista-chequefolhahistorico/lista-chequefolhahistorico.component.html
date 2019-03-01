@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="card col-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-block">
+
+        <div class="col-lg-4 col-md-10 align-content-lg-end">
+          <div class="row button-group">
+            <div>
+              <button type="button" class="btn btn-block btn-success" (click)="showModal('modalAdicionar')">
+                <i class="fa fa-plus"></i> Adicionar Histórico</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+            [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <thead>
+              <tr>
+                <th>
+                  <mfDefaultSorter by="numCheque">Nr. Cheque</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="dataEmissao">Data Emissão</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="situacaoChequeId">Situação do Cheque</mfDefaultSorter>
+                </th>
+                <th>
+                  <mfDefaultSorter by="observacao">Observação</mfDefaultSorter>
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let chequeFolha of chequeProprioComponent.ChequeTalao.chequeFolha">
+              <tr *ngFor="let chequeFolhaHistorico of chequeFolha.chequeFolhaHistorico">
+                  <td>{{ chequeFolha.numCheque }}</td>
+                  <td>{{ chequeFolhaHistorico.dataEmissao | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ chequeFolhaHistorico.situacaoCheque.descricao }}</td>
+                  <td>{{ chequeFolhaHistorico.observacao }}</td>
+              </tr>
+          </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-adicionar-chequehistorico *ngIf="modalAddVisible != false" [ind]="ind" [(visible)]="modalAddVisible"></app-adicionar-chequehistorico>
+
+<!-- <app-editar-titulodesconto *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-titulodesconto> -->

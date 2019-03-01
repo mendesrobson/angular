@@ -1,0 +1,135 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Diretoria Sindical</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form novalidate (ngSubmit)="adicionarDiretoriaSindical()" [formGroup]="diretoriaSindicalForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                <label class="control-label" for="codigo">Código</label>
+                <input type="text" autocomplete="off" id="codigo" name="codigo" maxlength="20" class="form-control text-input" formControlName="codigo" />
+                <span class="text-danger" *ngIf="displayMessage.codigo">
+                  <p [innerHTML]="displayMessage.codigo"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                <label class="control-label" for="sigla">Sigla</label>
+                <input type="text" autocomplete="off" id="sigla" name="sigla" maxlength="20" class="form-control text-input" formControlName="sigla" />
+                <span class="text-danger" *ngIf="displayMessage.sigla">
+                  <p [innerHTML]="displayMessage.sigla"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.nome }">
+                <label class="control-label" for="nome">Nome</label>
+                <div class="input-group">
+                  <input type="text" autocomplete="off" id="nome" maxlength="100" name="nome" class="form-control text-input" formControlName="nome" />
+                </div>
+                <span class="text-danger" *ngIf="displayMessage.nome">
+                  <p [innerHTML]="displayMessage.nome"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Cargo</label>
+                <select class="custom-select col-md-12" id="cargoId" name="cargoId" formControlName="cargoId">
+                  <option *ngFor="let c of cargos" [ngValue]="c.id">{{ c.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.cargoId">
+                  <p [innerHTML]="displayMessage.cargoId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.mandatoInicio }">
+                <label class="control-label" for="mandatoInicio">Mandato Inicio</label>
+                <dx-date-box name="mandatoInicio" style="width: 100%" displayFormat="dd/MM/yyyy" formControlName="mandatoInicio">
+                </dx-date-box>
+                <span class="text-danger" *ngIf="displayMessage.mandatoInicio">
+                  <p [innerHTML]="displayMessage.mandatoInicio"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.mandatoFim }">
+                <label class="control-label" for="mandatoFim">Mandato Fim</label>
+                <dx-date-box name="mandatoFim" style="width: 100%" displayFormat="dd/MM/yyyy" formControlName="mandatoFim">
+                </dx-date-box>
+                <span class="text-danger" *ngIf="displayMessage.mandatoFim">
+                  <p [innerHTML]="displayMessage.mandatoFim"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.telefone }">
+                <label class="control-label" for="telefone">Telefone</label>
+                <input type="text" autocomplete="off" id="telefone" [textMask]="{ mask: telMask }" name="telefone" maxlength="20" class="form-control text-input" formControlName="telefone"
+                />
+                <span class="text-danger" *ngIf="displayMessage.telefone">
+                  <p [innerHTML]="displayMessage.telefone"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.celular }">
+                <label class="control-label" for="celular">Celular</label>
+                <input type="text" autocomplete="off" id="celular" [textMask]="{ mask: celMask }" name="celular" maxlength="20" class="form-control text-input" formControlName="celular" />
+                <span class="text-danger" *ngIf="displayMessage.celular">
+                  <p [innerHTML]="displayMessage.celular"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.email }">
+                <label class="control-label" for="email">Email</label>
+                <input type="text" autocomplete="off" placeholder="exemplo@email.com" (blur)="validarEmail(this)" id="email" 
+                name="email" maxlength="20" class="form-control text-input" formControlName="email" />
+                <span class="text-danger" *ngIf="displayMessage.email">
+                  <p [innerHTML]="displayMessage.email"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

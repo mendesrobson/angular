@@ -1,0 +1,73 @@
+<div class="modal" data-backdrop="static">
+
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Conta</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarEmpresaContaCorrente()" [formGroup]="empresaContaCorrenteForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Conta Corrente</label>
+                <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                  <option *ngFor="let contaCorrente of iContaCorrentes" [ngValue]="contaCorrente.id">{{ contaCorrente.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.contaCorrenteId">
+                  <p [innerHTML]="displayMessage.contaCorrenteId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                <label class="control-label" for="descricao">Descrição</label>
+                <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                <span class="text-danger" *ngIf="displayMessage.descricao">
+                  <p [innerHTML]="displayMessage.descricao"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="contaPrincipal" [checkBoxSet]="empresaContaCorrente.contaPrincipal">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Conta Principal?</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" [disabled]='!empresaContaCorrenteForm.valid' class="btn btn-block btn-success" (click)="adicionarEmpresaContaCorrente()">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>

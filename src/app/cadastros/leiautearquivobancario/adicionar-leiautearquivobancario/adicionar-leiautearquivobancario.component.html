@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+            <div class="card-block">
+
+                <form class="form-horizontal" novalidate (ngSubmit)="adicionarLeiauteArquivoBancario()" [formGroup]="leiauteArquivoBancarioForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <dx-select-box placeholder="Selecione.." [items]="grupoEmpresas" displayExpr="pessoa.nome" valueExpr="id"
+                                        [searchEnabled]="true" (ngModelChange)="ConsultaEmpresa($event)" formControlName="grupoEmpresaId">
+                                    </dx-select-box>
+                                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                                        <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <dx-select-box placeholder="Selecione.." [items]="empresas" displayExpr="pessoa.nome" valueExpr="id"
+                                        [searchEnabled]="true" formControlName="empresaId" (ngModelChange)="OnChangeEmpresa($event)">
+                                    </dx-select-box>
+                                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                        <p [innerHTML]="displayMessage.empresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="codigo">Código</label>
+                                    <input type="text" [disableControl]="!maskValid" #focusCodigo [textMask]="{ mask: codMask }" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                                    <span class="text-danger" *ngIf="displayMessage.codigo">
+                                        <p [innerHTML]="displayMessage.codigo"></p>
+                                    </span>
+                                </div>
+                            </div>
+    
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="descricao">Descrição</label>
+                                    <input type="text" autocomplete="off" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                                    <span class="text-danger" *ngIf="displayMessage.descricao">
+                                        <p [innerHTML]="displayMessage.descricao"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Banco</label>
+                                    <dx-select-box placeholder="Selecione.." [items]="bancos" displayExpr="descricao" valueExpr="id"
+                                        [searchEnabled]="true" formControlName="bancoId">
+                                    </dx-select-box>
+                                    <span class="text-danger" *ngIf="displayMessage.bancoId">
+                                        <p [innerHTML]="displayMessage.bancoId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="nomeArquivo">Nome do Arquivo</label>
+                                    <input type="text" autocomplete="off" id="nomeArquivo" name="nomeArquivo" class="form-control text-input" formControlName="nomeArquivo" />
+                                    <span class="text-danger" *ngIf="displayMessage.nomeArquivo">
+                                        <p [innerHTML]="displayMessage.nomeArquivo"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tipo do Arquivo</label>
+                                    <dx-select-box placeholder="Selecione.." [items]="tipoArquivos" displayExpr="descricao" valueExpr="id"
+                                        [searchEnabled]="true" formControlName="tipoArquivo">
+                                    </dx-select-box>
+                                    <span class="text-danger" *ngIf="displayMessage.tipoArquivo">
+                                        <p [innerHTML]="displayMessage.tipoArquivo"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <app-lista-registroleiautearquivobancario></app-lista-registroleiautearquivobancario>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="row button-group">
+
+                                    <div class="col-lg-2 col-md-6 align-content-lg-end">
+                                        <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                                            <i class="fa fa-mail-reply"></i> Cancelar</button>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-6">
+                                        <button type="submit" [disabled]='!leiauteArquivoBancarioForm.valid' class="btn btn-block btn-success">
+                                            <i class="fa fa-check"></i> Gravar</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

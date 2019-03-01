@@ -1,0 +1,115 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Capital Social</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="editarContrSindPatCapitalSocial()" [formGroup]="contrSindPatCapitalSocialForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+              <!-- <div class="col-md-6">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.ano }">
+                    <label class="control-label" for="ano">Ano</label>
+                    <input type="number" autocomplete="off" id="ano" name="ano" maxlength="4" class="form-control text-input" formControlName="ano" />
+                    <span class="text-danger" *ngIf="displayMessage.ano">
+                      <p [innerHTML]="displayMessage.ano"></p>
+                    </span>
+                  </div>
+                </div> -->
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="control-label" for="dataCompetencia">Ano</label>
+                      <dx-date-box width="100%" maxZoomLevel="decade" minZoomLevel="decade"
+                        displayFormat="year" formControlName="ano" style="margin-top: 10px;"></dx-date-box>
+                      <span class="text-danger" *ngIf="displayMessage.ano">
+                        <p [innerHTML]="displayMessage.ano"></p>
+                      </span>
+                  </div>
+                </div>
+    
+                <div class="col-md-6"></div>
+    
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label" for="capitalInicial">Capital Inicial</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">R$</span>
+                      <input type="text" autocomplete="off" currencyMask id="capitalInicial" name="capitalInicial" class="form-control text-input" formControlName="capitalInicial"
+                      />
+                    </div>
+                    <span class="text-danger" *ngIf="displayMessage.capitalInicial">
+                      <p [innerHTML]="displayMessage.capitalInicial"></p>
+                    </span>
+                  </div>
+                </div>
+    
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" for="capitalFinal">Capital Final</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" autocomplete="off" currencyMask id="capitalFinal" name="capitalFinal" class="form-control text-input" formControlName="capitalFinal"
+                    />
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.capitalFinal">
+                    <p [innerHTML]="displayMessage.capitalFinal"></p>
+                  </span>
+                </div>
+              </div>
+    
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="control-label" for="valor">Valor a adicionar</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">R$</span>
+                      <input type="text" autocomplete="off" currencyMask id="valor" name="valor" class="form-control text-input" formControlName="valor" />
+                    </div>
+                    <span class="text-danger" *ngIf="displayMessage.valor">
+                      <p [innerHTML]="displayMessage.valor"></p>
+                    </span>
+                  </div>
+                </div>
+    
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="{'has-error': displayMessage.percentual }">
+                    <label class="control-label" for="percentual">Percentual</label>
+                    <div class="input-group">
+                      <input type="text" autocomplete="off" currencyMask id="percentual" name="percentual" class="form-control text-input" formControlName="percentual"
+                      />
+                      <span class="input-group-addon">%</span>
+                    </div>
+                    <span class="text-danger" *ngIf="displayMessage.percentual">
+                      <p [innerHTML]="displayMessage.percentual"></p>
+                    </span>
+                  </div>
+                </div>
+    
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="editarContrSindPatCapitalSocial()" [disabled]='!contrSindPatCapitalSocialForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Alterar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

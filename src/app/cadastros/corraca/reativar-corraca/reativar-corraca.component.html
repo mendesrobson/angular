@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" [formGroup]="corRacaForm">
+          <div class="form-body col-md-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                  <label class="control-label" for="codigo">Código</label>
+                  <input type="text" id="codigo" name="codigo" minlength="2" maxlength="20" class="form-control text-input" formControlName="codigo"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.codigo">
+                    <p [innerHTML]="displayMessage.codigo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoNis }">
+                  <label class="control-label" for="codigoNis">Código NIS</label>
+                  <input type="text" id="codigoNis" name="codigoNis" class="form-control text-input" formControlName="codigoNis"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.codigoNis">
+                    <p [innerHTML]="displayMessage.codigoNis"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoESocial }">
+                  <label class="control-label" for="codigoESocial">Código E-Social</label>
+                  <input type="text" id="codigoESocial" name="codigoESocial" maxlength="5" class="form-control text-input" formControlName="codigoESocial"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.codigoESocial">
+                    <p [innerHTML]="displayMessage.codigoESocial"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                  <label class="control-label" for="sigla">Sigla</label>
+                  <input type="text" id="sigla" name="sigla" minlength="2" maxlength="20" class="form-control text-input" formControlName="sigla"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.sigla">
+                    <p [innerHTML]="displayMessage.sigla"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-10">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                  <label class="control-label" for="descricao">Descrição</label>
+                  <input type="text" id="descricao" name="descricao" minlength="3" maxlength="100" class="form-control text-input" formControlName="descricao"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.descricao">
+                    <p [innerHTML]="displayMessage.descricao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <br><br>
+
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

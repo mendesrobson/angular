@@ -1,0 +1,148 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" novalidate (ngSubmit)="adicionarCartao()" [formGroup]="cartaoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome
+                      }}
+                    </option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Bandeira Cartão</label>
+                  <select class="custom-select col-md-12" id="cartaoBandeiraId" name="cartaoBandeiraId" formControlName="cartaoBandeiraId">
+                    <option *ngFor="let cartaoBandeira of cartaoBandeiras" [ngValue]="cartaoBandeira.id">{{ cartaoBandeira.descricao
+                      }}
+                    </option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.cartaoBandeiraId">
+                    <p [innerHTML]="displayMessage.cartaoBandeiraId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="numero">Numero Cartão</label>
+                  <input type="text" autocomplete="off" [textMask]="{ mask: numCartaoMask }" id="numero" name="numero" class="form-control text-input"
+                    formControlName="numero" />
+                  <span class="text-danger" *ngIf="displayMessage.numero">
+                    <p [innerHTML]="displayMessage.numero"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataEmissao">Data Emissão</label>
+                  <input type="date" autocomplete="off" id="dataEmissao" name="dataEmissao" class="form-control text-input" formControlName="dataEmissao"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.dataEmissao">
+                    <p [innerHTML]="displayMessage.dataEmissao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataValidade">Data Validade</label>
+                  <input type="date" autocomplete="off" id="dataValidade" name="dataValidade" class="form-control text-input" formControlName="dataValidade"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.dataValidade">
+                    <p [innerHTML]="displayMessage.dataValidade"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="dataFechamentoFatura">Data Fechamento Fatura</label>
+
+                  <dx-select-box placeholder="Fechamento Fatura" [items]="selectDiaVencimento" displayExpr="value" valueExpr="id" [searchEnabled]="true"
+                    formControlName="dataFechamentoFatura">
+                  </dx-select-box>
+                  <span class="text-danger" *ngIf="displayMessage.dataFechamentoFatura">
+                    <p [innerHTML]="displayMessage.dataFechamentoFatura"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="diaVencimentoFatura">Dia Vencimento Fatura</label>
+                  <dx-select-box placeholder="Vencimento Fatura" [items]="selectDiaVencimento" displayExpr="value" valueExpr="id" [searchEnabled]="true"
+                    formControlName="diaVencimentoFatura">
+                  </dx-select-box>
+                  <span class="text-danger" *ngIf="displayMessage.diaVencimentoFatura">
+                    <p [innerHTML]="displayMessage.diaVencimentoFatura"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="limiteCartao">Valor Limite Cartão</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">R$</span>
+                    <input type="text" autocomplete="off" currencyMask id="limiteCartao" name="limiteCartao" class="form-control text-input"
+                      formControlName="limiteCartao" />
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.limiteCartao">
+                    <p [innerHTML]="displayMessage.limiteCartao"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row button-group">
+
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+
+                  <div class="col-lg-2 col-md-6">
+                    <button type="submit" [disabled]='!cartaoForm.valid' class="btn btn-block btn-success">
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

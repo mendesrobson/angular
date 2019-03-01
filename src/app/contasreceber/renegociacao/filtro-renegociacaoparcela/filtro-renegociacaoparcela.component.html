@@ -1,0 +1,183 @@
+<div class="modal" data-backdrop="static">
+
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Filtro Parcelas Renegociação</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="filtrarRenegociacao()" [formGroup]="filtroRenegociacaoForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-4" *ngIf="natureza == 'receber'">
+              <div class="form-group">
+                <label>Cliente</label>
+                <select class="custom-select col-12" id="clienteId" name="clienteId" formControlName="clienteId">
+                  <option *ngFor="let cliente of clientes" [ngValue]="cliente.id">{{ cliente.pessoa.nome }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.clienteId">
+                  <p [innerHTML]="displayMessage.clienteId"></p>
+                </span>
+              </div> 
+            </div>
+
+            <div class="col-md-4" *ngIf="natureza == 'pagar'">
+              <div class="form-group">
+                <label>Fornecedor</label>
+                <select class="custom-select col-12" id="fornecedorId" name="fornecedorId" formControlName="fornecedorId">
+                  <option *ngFor="let fornecedor of fornecedores" [ngValue]="fornecedor.id">{{ fornecedor.pessoa.nome }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.fornecedorId">
+                  <p [innerHTML]="displayMessage.fornecedorId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="dataVencimentoInicial">Data do Vencimento Inicial</label>
+                <input type="date" autocomplete="off" id="dataVencimentoInicial" name="dataVencimentoInicial" class="form-control text-input" formControlName="dataVencimentoInicial"
+                      />
+                <span class="text-danger" *ngIf="displayMessage.dataVencimentoInicial">
+                  <p [innerHTML]="displayMessage.dataVencimentoInicial"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label" for="dataVencimentoFinal">Data do Vencimento Final</label>
+                <input type="date" autocomplete="off" id="dataVencimentoFinal" name="dataVencimentoFinal" class="form-control text-input" formControlName="dataVencimentoFinal"
+                      />
+                <span class="text-danger" *ngIf="displayMessage.dataVencimentoFinal">
+                  <p [innerHTML]="displayMessage.dataVencimentoFinal"></p>
+                </span>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="form-check">
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" formControlName="vencer"
+                    (ngModelChange)="vencer = $event" [checkBoxSet]="filtroRenegociacao.vencer">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Inclui a Vencer</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-check">
+                <label class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input"
+                    formControlName="vencido" (ngModelChange)="vencido = $event" [checkBoxSet]="filtroRenegociacao.vencido">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">Inclui Vencidas</span>
+                </label>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-block" (click)="filtrarRenegociacao()">
+                <i class="fa fa-refresh"></i> Filtrar </button>                            
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+
+          </div>
+        </div>
+      </form>
+
+      <div *ngIf="carregarTable != false" class="col-md-12">
+
+        <div [ngBusy]="{busy: busy, message: 'Por favor, aguarde...', backdrop: false, delay: 600, minDuration: 600}">
+
+
+
+          <div class="row p-t-10"> </div>
+
+          <div class="table-responsive">
+            <table *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable"
+              [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+              <thead>
+                <tr>
+                  <th>
+                    <mfRowSelectorHead></mfRowSelectorHead>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="tituloId">Titulo</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="numero">Nro. Parcela</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="Nome">Nome</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="dataVencimento">Dt. Vencimento</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="valorBruto">Valor Bruto</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="valorDesconto">Valor Desconto</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="valorLiquido">Valor Liquido</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by="situacao">Situação</mfDefaultSorter>
+                  </th>
+                  <th>
+                    <mfDefaultSorter by=""></mfDefaultSorter>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let reg of mf.data">
+
+                  <td>
+                    <mfRowSelector [entity]="reg" [checkboxId]="ndx"></mfRowSelector>
+                  </td>
+                  <td>{{ reg.tituloId }}</td>
+                  <td>{{ reg.numero }}/{{ reg.quantidadeParcela }}</td>
+                  <td *ngIf="reg._Cliente != undefined">{{ reg._Cliente.pessoa.nome }}</td>
+                  <td *ngIf="reg.fornecedor != undefined">{{ reg.fornecedor.pessoa.nome }}</td>
+                  <td>{{ reg.dataVencimento | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ reg.valorBruto | currency:'BRL':'symbol'}}</td>
+                  <td>{{ reg.valorDesconto | currency:'BRL':'symbol'}}</td>
+                  <td>{{ reg.valorLiquido| currency:'BRL':'symbol' }}</td>
+                  <td>{{ reg.situacao }}</td>
+
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+
+          </div>
+
+          <div class="row button-group">
+            <div class="col-lg-4 col-md-4">
+              <button type="button" class="btn btn-block btn-success" (click)="selecionarParcelas()">
+                <i class="fa fa-align-justify"></i> Renegociar</button>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>

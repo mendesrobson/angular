@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" [formGroup]="usuarioForm">
+          <div class="form-body col-12 ">
+            <div class="row p-t-20">
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.primeiroNome }">
+                  <label class="control-label" for="primeiroNome">Primeiro Nome</label>
+                  <input type="text" id="primeiroNome" name="primeiroNome" class="form-control text-input" formControlName="primeiroNome" />
+                  <span class="text-danger" *ngIf="displayMessage.primeiroNome">
+                    <p [innerHTML]="displayMessage.primeiroNome"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.ultimoNome }">
+                  <label class="control-label" for="ultimoNome"> Último Nome</label>
+                  <input type="text" id="ultimoNome" name="ultimoNome" class="form-control text-input" formControlName="ultimoNome" />
+                  <span class="text-danger" *ngIf="displayMessage.ultimoNome">
+                    <p [innerHTML]="displayMessage.ultimoNome"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.email }">
+                  <label class="control-label" for="email">email</label>
+                  <input type="text" id="email" name="email" class="form-control text-input" formControlName="email" />
+                  <span class="text-danger" *ngIf="displayMessage.email">
+                    <p [innerHTML]="displayMessage.email"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.senha }">
+                  <label class="control-label" for="senha">Senha</label>
+                  <input type="text" id="senha" name="senha" class="form-control text-input" formControlName="senha" />
+                  <span class="text-danger" *ngIf="displayMessage.senha">
+                    <p [innerHTML]="displayMessage.senha"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.senhaConfirmacao }">
+                  <label class="control-label" for="senhaConfirmacao">Senha Confirmação</label>
+                  <input type="text" id="senhaConfirmacao" name="senhaConfirmacao" class="form-control text-input" formControlName="senhaConfirmacao"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.senhaConfirmacao">
+                    <p [innerHTML]="displayMessage.senhaConfirmacao"></p>
+                  </span>
+                </div>
+              </div>  
+
+              <!-- inicio -->
+              <div class="card" style="width: 100%;">
+                  <ul class="nav nav-tabs customtab2" role="tablist">
+  
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#tarefa" role="tab" aria-expanded="true">
+                        <span class="hidden-sm-up">
+                          <i class="ti-email"></i>
+                        </span>
+                        <span class="hidden-xs-down">Tarefa</span>
+                      </a>
+                    </li>
+  
+                  </ul>
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="tarefa" role="tabpanel" aria-expanded="true">
+                      <div class="form-body">
+                        <div class="col-md-12">
+                          <br>
+                          <div class="row p-t-10">
+  
+                            <div class="tab-pane col-md-12" id="tarefa" role="tabpanel" aria-expanded="true">
+                              <app-lista-usuariotarefa></app-lista-usuariotarefa>
+                            </div>
+  
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                </div>
+                <!-- fim -->
+
+
+            </div>
+          </div>
+        </form>
+      </div>
+    
+    </div>
+  </div>
+</div>
+

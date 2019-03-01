@@ -1,0 +1,197 @@
+<!--div class="row page-titles">
+  <div class="col-md-6 col-8 align-self-center">
+    <h3 class="text-themecolor m-b-0 m-t-0">Baixa Manual</h3>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:void(0)"></a>
+      </li>
+      <li class="breadcrumb-item active">Baixa Manual</li>
+    </ol>
+  </div>
+</div-->
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Baixa Manual</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" novalidate [formGroup]="gerarBaixaForm">
+          <div class="form-body col-12">
+            <div class="row p-t-5">
+
+              <div class="col-md-12">
+
+                <div class="row p-t-20">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Grupo</label>
+                      <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="tituloParcelaBaixaComponent.BaixaPagarReceber.grupoEmpresaId = $event">
+                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                        <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Empresa</label>
+                      <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId" (ngModelChange)="tituloParcelaBaixaComponent.BaixaPagarReceber.empresaId = $event">
+                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.empresaId">
+                        <p [innerHTML]="displayMessage.empresaId"></p>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                      <label class="control-label" for="codigo">Código</label>
+                      <input type="text" autocomplete="off" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                      <span class="text-danger" *ngIf="displayMessage.codigo">
+                        <p [innerHTML]="displayMessage.codigo"></p>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="control-label" for="data">Data Baixa</label>
+                      <input type="date" autocomplete="off" id="data" name="data" class="form-control text-input" formControlName="data" />
+                      <span class="text-danger" *ngIf="displayMessage.data">
+                        <p [innerHTML]="displayMessage.data"></p>
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="card color-bordered-table info-bordered-table">
+
+                  <div class="card-header">
+                    <h4 class="m-b-0 text-white">Parcelas a Baixar</h4>
+                  </div>
+                  <BR>
+
+                  <div class="col-12">
+                    <div class="row p-t-5">
+
+                      <div class="table-responsive col-md-12" *ngIf="tituloParcelaBaixaComponent.Parcelas != null">
+                        <table *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data" #mf="mfDataTable"
+                          [mfRowsOnPage]="5" (mfSelectedEntities)="setSelectedEntities($event)">
+                          <thead>
+                            <tr>
+
+                              <th>
+                                <mfDefaultSorter by="tituloId">Titulo</mfDefaultSorter>
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="numero">Nro. Parcela</mfDefaultSorter>
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="nome">Nome</mfDefaultSorter>
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="dataVencimento">Dt. Vencimento</mfDefaultSorter>
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="valorBruto">Valor Bruto</mfDefaultSorter>
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="valorDesconto">Valor Desconto</mfDefaultSorter>
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="valorLiquido">Valor Liquido</mfDefaultSorter>
+                              </th>
+                              <th>
+                                <mfDefaultSorter by="situacao">Situação</mfDefaultSorter>
+                              </th>
+                              <th>
+                                <mfDefaultSorter by=""></mfDefaultSorter>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let reg of tituloParcelaBaixaComponent.Parcelas">
+
+                              <td>{{ reg.tituloId }}</td>
+                              <td>{{ reg.numero }}/{{ reg.quantidadeParcela }}</td>
+                              <td *ngIf="reg._Cliente != undefined">{{ reg._Cliente.pessoa.nome }}</td>
+                              <td *ngIf="reg.fornecedor != undefined">{{ reg.fornecedor.pessoa.nome }}</td>
+                              <td>{{ reg.dataVencimento | date:'dd/MM/yyyy' }}</td>
+                              <td>{{ reg.valorBruto | currency:'BRL':'symbol'}}</td>
+                              <td>{{ reg.valorDesconto | currency:'BRL':'symbol'}}</td>
+                              <td>{{ reg.valorLiquido| currency:'BRL':'symbol' }}</td>
+                              <td>{{ reg.situacao }}</td>
+
+                            </tr>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td colspan="9">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-md-12">
+                <div class="card color-bordered-table info-bordered-table">
+
+                  <div class="card-header">
+                    <h4 class="m-b-0 text-white">Tipo de Pagamento</h4>
+                  </div>
+                  <BR>
+
+                  <div class="table-responsive col-md-12">
+
+                     <app-lista-baixapgto *ngIf="carregarListaBaixaPgto == true" style="width: 100%"></app-lista-baixapgto>
+
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="row p-t-5">
+
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-filtro-baixaparcela *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible" [(natureza)]="natureza"></app-filtro-baixaparcela>

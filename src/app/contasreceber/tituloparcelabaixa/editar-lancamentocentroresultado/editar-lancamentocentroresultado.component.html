@@ -1,0 +1,62 @@
+<div class="modal" data-backdrop="static">
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myLargeModalLabel">Centro Resultado</h4>
+            <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+        </div>
+
+        <div class="card-block">
+
+            <form class="form-horizontal" novalidate (ngSubmit)="editarCentroResultado()" [formGroup]="lancamentoCentroResultadoForm">
+                <div class="form-body col-12">
+                    <div class="row p-t-20">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="centroResultadoId">Centro Resultado</label>
+                                <select class="custom-select col-md-12" id="centroResultadoId" name="centroResultadoId" formControlName="centroResultadoId">
+                                    <option *ngFor="let centroResultado of centroResultados" [ngValue]="centroResultado.id">{{ centroResultado.descricao }}</option>
+                                </select>
+                                <span class="text-danger" *ngIf="displayMessage.centroResultadoId">
+                                    <p [innerHTML]="displayMessage.centroResultadoId"></p>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" for="percentual">Percentual</label>
+                                <div class="input-group">
+                                    <input type="number" autocomplete="off" min="0" id="percentual" name="percentual" class="form-control text-input" formControlName="percentual"
+                                    />
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                                <span class="text-danger" *ngIf="displayMessage.percentual">
+                                    <p [innerHTML]="displayMessage.percentual"></p>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row button-group">
+                                <div class="col-lg-3 col-md-6 align-content-lg-end">
+                                    <button type="button" class="btn btn-block btn-secondary" *ngIf="visible" (click)="close()">
+                                        <i class="fa fa-mail-reply"></i> Cancelar</button>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <button type="button" (click)="editarCentroResultado()" [disabled]='!lancamentoCentroresultadoForm.valid' class="btn btn-block btn-success"
+                                        data-dismiss="modal">
+                                        <i class="fa fa-check"></i> Gravar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>

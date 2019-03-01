@@ -1,0 +1,90 @@
+<div class="modal" data-backdrop="static">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myLargeModalLabel">Dados Bancários</h4>
+        <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+      </div>
+      <div class="card-block">
+        
+        <form class="form-horizontal" novalidate (ngSubmit)="adicionarContaCorrente()" [formGroup]="empregadoContaCorrenteForm">
+          <div class="form-body">
+            <div class="row p-t-20">
+  
+                <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Banco</label>
+                      <select class="custom-select col-md-12" id="bancoId" name="bancoId" formControlName="bancoId">
+                        <option *ngFor="let banco of bancos" [ngValue]="banco.id">{{ banco.descricao }}</option>
+                      </select>
+                      <span class="text-danger" *ngIf="displayMessage.bancoId">
+                        <p [innerHTML]="displayMessage.bancoId"></p>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group" [ngClass]="{'has-error': displayMessage.agenciaNumero }">
+                          <label class="control-label" for="agenciaNumero">Número Agencia</label>
+                          <input type="text" autocomplete="off" id="agenciaNumero" maxlength="20" name="agenciaNumero" class="form-control text-input" formControlName="agenciaNumero" />
+                          <span class="text-danger" *ngIf='displayMessage.agenciaNumero'>
+                              <p [innerHTML]="displayMessage.agenciaNumero"></p>
+                          </span>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group" [ngClass]="{'has-error': displayMessage.agenciaDigito }">
+                          <label class="control-label" for="agenciaDigito">Dígito Agencia</label>
+                          <input type="text" autocomplete="off" id="agenciaDigito" maxlength="20" name="agenciaDigito" class="form-control text-input" formControlName="agenciaDigito" />
+                          <span class="text-danger" *ngIf='displayMessage.agenciaDigito'>
+                              <p [innerHTML]="displayMessage.agenciaDigito"></p>
+                          </span>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group" [ngClass]="{'has-error': displayMessage.contaCorrenteNumero }">
+                          <label class="control-label" for="contaCorrenteNumero">Número Conta Corrente</label>
+                          <input type="text" autocomplete="off" id="contaCorrenteNumero" maxlength="20" name="contaCorrenteNumero" class="form-control text-input" formControlName="contaCorrenteNumero" />
+                          <span class="text-danger" *ngIf='displayMessage.contaCorrenteNumero'>
+                              <p [innerHTML]="displayMessage.contaCorrenteNumero"></p>
+                          </span>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                      <div class="form-group" [ngClass]="{'has-error': displayMessage.contaCorrenteDigito }">
+                          <label class="control-label" for="contaCorrenteDigito">Dígito Conta Corrente</label>
+                          <input type="text" autocomplete="off" id="contaCorrenteDigito" maxlength="20" name="contaCorrenteDigito" class="form-control text-input" formControlName="contaCorrenteDigito" />
+                          <span class="text-danger" *ngIf='displayMessage.contaCorrenteDigito'>
+                              <p [innerHTML]="displayMessage.contaCorrenteDigito"></p>
+                          </span>
+                      </div>
+                  </div>
+  
+  
+            </div>
+          </div>
+  
+          <div class="form-actions">
+            <div class="row p-t-5">
+  
+           <div class="col-md-4">
+                <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                  <i class="fa fa-mail-reply"></i> Cancelar</button>
+              </div> 
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <button type="button" (click)="adicionarContaCorrente()" [disabled]='!empregadoContaCorrenteForm.valid' class="btn btn-block btn-success">
+                  <i class="fa fa-check"></i> Gravar</button>
+              </div>
+              <div class="col-md-4"></div>
+              <br>
+  
+            </div>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+  </div>

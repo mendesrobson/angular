@@ -1,0 +1,10 @@
+[
+     {
+        "id": "ATV",
+        "valor": "Ativo"
+    },
+    {
+        "id": "INT",
+        "valor": "Inativo"
+    }
+]

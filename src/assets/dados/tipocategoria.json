@@ -1,0 +1,10 @@
+[
+    {
+        "id": "TOT",
+        "valor": "Totalizadora"
+    },
+    {
+        "id": "NTOT",
+        "valor": "Não Totalizadora"
+    }
+]

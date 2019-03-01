@@ -1,0 +1,93 @@
+<div class="modal" data-backdrop="static">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Conta Corrente</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarFornecedorContaCorrente()" [formGroup]="fornecedorContaCorrenteForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Bancos</label>
+                <select class="custom-select col-md-12" id="bancoId" name="bancoId" formControlName="bancoId">
+                  <option *ngFor="let banco of bancos" [ngValue]="banco.id">{{ banco.descricao }}</option>
+                </select>
+                <span class="text-danger" *ngIf="displayMessage.bancoId">
+                  <p [innerHTML]="displayMessage.bancoId"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.numeroAgencia }">
+                <label class="control-label" for="numeroAgencia">Agência</label>
+                <input type="text" autocomplete="off" id="numeroAgencia"  maxlength="20" name="numeroAgencia" class="form-control text-input" 
+                formControlName="numeroAgencia" />
+                <span class="text-danger" *ngIf="displayMessage.numeroAgencia">
+                  <p [innerHTML]="displayMessage.numeroAgencia"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.digitoAgencia }">
+                <label class="control-label" for="descricao">Digíto</label>
+                <input type="text" autocomplete="off" id="digitoAgencia"  maxlength="20" name="digitoAgencia" class="form-control text-input" 
+                formControlName="digitoAgencia" />
+                <span class="text-danger" *ngIf="displayMessage.digitoAgencia">
+                  <p [innerHTML]="displayMessage.digitoAgencia"></p>
+                </span>
+              </div>
+            </div>
+          
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.conta }">
+                <label class="control-label" for="descricao">Conta Corrente</label>
+                <input type="text" autocomplete="off" id="conta" maxlength="20" name="conta" class="form-control text-input" 
+                formControlName="conta" />
+                <span class="text-danger" *ngIf="displayMessage.conta">
+                  <p [innerHTML]="displayMessage.conta"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.digito }">
+                <label class="control-label" for="descricao">Digíto</label>
+                <input type="text" autocomplete="off" id="digito" maxlength="20" name="digito" class="form-control text-input" 
+                formControlName="digito" />
+                <span class="text-danger" *ngIf="displayMessage.digito">
+                  <p [innerHTML]="displayMessage.digito"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" [disabled]='!fornecedorContaCorrenteForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+      </form>
+      
+    </div>
+  </div>

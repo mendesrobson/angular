@@ -1,0 +1,35 @@
+[
+    {
+        "id": "ABR",
+        "valor": "Aberto"
+    },
+    {
+        "id": "LIQ",
+        "valor": "Liquidado"
+    },
+    {
+        "id": "LIQP",
+        "valor": "Liquidado Parcial"
+    },
+    {
+        "id": "REN",
+        "valor": "Renegociado"
+    },
+    {
+        "id": "CAN",
+        "valor": "Cancelado"
+    },
+    {
+        "id": "DES",
+        "valor": "Descontado"
+    },
+    {
+        "id": "EMI",
+        "valor": "Boleto Emitido"
+    },
+    {
+        "id":"REMP",
+        "valor": "Remessa de Pagamento Gerada"
+    }
+
+]

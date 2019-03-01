@@ -1,0 +1,344 @@
+<div class="row">
+    <div class="card col-md-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">Cadastro</h4>
+            </div>
+            <div class="card-block">
+                <form [formGroup]="sindicatoForm">
+                    <div class="form-body col-12">
+                        <div class="row p-t-20">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Grupo</label>
+                                    <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                                        <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                                        <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                                        <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.empresaId">
+                                        <p [innerHTML]="displayMessage.empresaId"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                                    <label class="control-label" for="codigo">Código</label>
+                                    <input type="text" id="codigo" maxlength="20" name="codigo" class="form-control text-input" formControlName="codigo" />
+                                    <span class="text-danger" *ngIf='displayMessage.codigo'>
+                                        <p [innerHTML]="displayMessage.codigo"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                                    <label class="control-label" for="sigla">Sigla</label>
+                                    <input type="text" id="sigla" name="sigla" maxlength="20" class="form-control text-input" formControlName="sigla" />
+                                    <span class="text-danger" *ngIf='displayMessage.sigla'>
+                                        <p [innerHTML]="displayMessage.sigla"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.cnpj }">
+                                    <label class="control-label" for="cnpj">Cnpj</label>
+                                    <input type="text" id="cnpj" name="cnpj" [textMask]="{ mask: cnpjMask }" (blur)="ConsultaCnpj($event.target.value)" class="form-control text-input"
+                                        formControlName="cnpj" />
+                                    <span class="text-danger" *ngIf="displayMessage.cnpj">
+                                        <p [innerHTML]="displayMessage.cnpj"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                                    <label class="control-label" for="descricao">Descrição</label>
+                                    <input type="text" id="descricao" name="descricao" minlength="3" maxlength="100" class="form-control text-input" formControlName="descricao"
+                                    />
+                                    <span class="text-danger" *ngIf="displayMessage.descricao">
+                                        <p [innerHTML]="displayMessage.descricao"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.telefone }">
+                                    <label class="control-label" for="telefone">Telefone</label>
+                                    <input type="text" [textMask]="{ mask: telMask }" id="telefone" name="telefone" class="form-control text-input" formControlName="telefone"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.telefone'>
+                                        <p [innerHTML]="displayMessage.telefone"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.ramal }">
+                                    <label class="control-label" for="ramal">Ramal</label>
+                                    <input type="text" maxlength="10" id="ramal" name="ramal" maxlength="10" class="form-control text-input" formControlName="ramal"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.ramal'>
+                                        <p [innerHTML]="displayMessage.ramal"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.email }">
+                                    <label class="control-label" for="email">E-mail</label>
+                                    <input type="text" maxlength="100" id="email" name="email" class="form-control text-input" formControlName="email" />
+                                    <span class="text-danger" *ngIf='displayMessage.email'>
+                                        <p [innerHTML]="displayMessage.email"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.site }">
+                                    <label class="control-label" for="site">Site</label>
+                                    <input type="text" maxlength="100" id="site" name="site" class="form-control text-input" formControlName="site" />
+                                    <span class="text-danger" *ngIf='displayMessage.site'>
+                                        <p [innerHTML]="displayMessage.site"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Tipo Entidade</label>
+                                    <select class="custom-select col-md-12" id="tipoEntidade" name="tipoEntidade" formControlName="tipoEntidade">
+                                        <option *ngFor="let tipoEntidade of tipoEntidades" [ngValue]="tipoEntidade.id">{{ tipoEntidade.descricao }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.tipoEntidade">
+                                        <p [innerHTML]="displayMessage.tipoEntidade"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoEntidade }">
+                                    <label class="control-label" for="codigoEntidade">Código Entidade</label>
+                                    <input type="text" maxlength="16" id="codigoEntidade" name="codigoEntidade" class="form-control text-input" formControlName="codigoEntidade"
+                                    />
+                                    <span class="text-danger" *ngIf='displayMessage.codigoEntidade'>
+                                        <p [innerHTML]="displayMessage.codigoEntidade"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group" [ngClass]="{'has-error': displayMessage.nomeDocumentoProfissional }">
+                                    <label class="control-label" for="nomeDocumentoProfissional">Nome Documento Profissional</label>
+                                    <input type="text" maxlength="30" id="nomeDocumentoProfissional" name="nomeDocumentoProfissional" class="form-control text-input"
+                                        formControlName="nomeDocumentoProfissional" />
+                                    <span class="text-danger" *ngIf='displayMessage.nomeDocumentoProfissional'>
+                                        <p [innerHTML]="displayMessage.nomeDocumentoProfissional"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Tipo Sindicato</label>
+                                    <select class="custom-select col-md-12" id="tipoSindicato" name="tipoSindicato" formControlName="tipoSindicato">
+                                        <option *ngFor="let tipoSindicato of tipoSindicatos" [ngValue]="tipoSindicato.id">{{ tipoSindicato.descricao }}</option>
+                                    </select>
+                                    <span class="text-danger" *ngIf="displayMessage.tipoSindicato">
+                                        <p [innerHTML]="displayMessage.tipoSindicato"></p>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="control-label" for="taxaHomologacao">Taxa Homologação</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">R$</span>
+                                    <input type="text" currencyMask id="taxaHomologacao" name="taxaHomologacao" class="form-control text-input" formControlName="taxaHomologacao"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="card padd-left15 padd-right15" style="width: 100%;">
+
+                                <ul class="nav nav-tabs customtab2" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#endereco" role="tab" aria-expanded="true">
+                                            <span class="hidden-sm-up">
+                                                <i class="ti-email"></i>
+                                            </span>
+                                            <span class="hidden-xs-down">Endereço</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component2" role="tab" aria-expanded="true">
+                                            <span class="hidden-sm-up">
+                                                <i class="ti-email"></i>
+                                            </span>
+                                            <span class="hidden-xs-down">Component 2</span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="endereco" role="tabpanel" aria-expanded="true">
+                                        <div class="form-body">
+                                            <div class="padd-left0 padd-right0 col-md-12">
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group" [ngClass]="{'has-error': displayMessage.cep }">
+                                                            <label class="control-label" for="cep">Cep</label>
+                                                            <input type="text" id="cep" [textMask]="{ mask: cepMask }" (blur)="ConsultaCEP($event.target.value)" name="cep" class="form-control text-input"
+                                                                formControlName="cep" />
+                                                            <span class="text-danger" *ngIf="displayMessage.cep">
+                                                                <p [innerHTML]="displayMessage.cep"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group" [ngClass]="{'has-error': displayMessage.logradouro }">
+                                                            <label class="control-label" for="logradouro">Logradouro</label>
+                                                            <input type="text" id="logradouro" name="logradouro" maxlength="120" [disableControl]="sindicato.cep != ' '" class="form-control text-input"
+                                                                formControlName="logradouro" />
+                                                            <span class="text-danger" *ngIf="displayMessage.logradouro">
+                                                                <p [innerHTML]="displayMessage.logradouro"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group" [ngClass]="{'has-error': displayMessage.numero }">
+                                                            <label class="control-label" for="numero">Número</label>
+                                                            <input type="text" id="numero" name="numero" maxlength="10" class="form-control text-input" formControlName="numero" />
+                                                            <span class="text-danger" *ngIf="displayMessage.numero">
+                                                                <p [innerHTML]="displayMessage.numero"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group" [ngClass]="{'has-error': displayMessage.complemento }">
+                                                            <label class="control-label" for="complemento">Complemento</label>
+                                                            <input type="text" id="complemento" name="complemento" maxlength="100" class="form-control text-input" formControlName="complemento"
+                                                            />
+                                                            <span class="text-danger" *ngIf="displayMessage.complemento">
+                                                                <p [innerHTML]="displayMessage.complemento"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group" [ngClass]="{'has-error': displayMessage.bairro }">
+                                                            <label class="control-label" for="bairro">Bairro</label>
+                                                            <input type="text" id="bairro" name="bairro" maxlength="100" [disableControl]="sindicato.cep != ' '" class="form-control text-input"
+                                                                formControlName="bairro" />
+                                                            <span class="text-danger" *ngIf="displayMessage.bairro">
+                                                                <p [innerHTML]="displayMessage.bairro"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Cidade</label>
+                                                            <select class="custom-select col-md-12" [disableControl]="sindicato.cep != ' '" id="localidadeId" name="localidadeId" formControlName="localidadeId">
+                                                                <option *ngFor="let localidade of localidades" [ngValue]="localidade.id">{{ localidade.descricao }}</option>
+                                                            </select>
+                                                            <span class="text-danger" *ngIf="displayMessage.localidadeId">
+                                                                <p [innerHTML]="displayMessage.localidadeId"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Estado</label>
+                                                            <select class="custom-select col-md-12" [disableControl]="sindicato.cep != ' '" id="ufId" name="ufId" formControlName="ufId">
+                                                                <option *ngFor="let uf of ufs" [ngValue]="uf.id">{{ uf.descricao }}</option>
+                                                            </select>
+                                                            <span class="text-danger" *ngIf="displayMessage.ufId">
+                                                                <p [innerHTML]="displayMessage.ufId"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>País</label>
+                                                            <select class="custom-select col-md-12" [disableControl]="sindicato.cep != ' '" id="paisId" name="paisId" formControlName="paisId">
+                                                                <option *ngFor="let pais of paises" [ngValue]="pais.id">{{ pais.descricao }}</option>
+                                                            </select>
+                                                            <span class="text-danger" *ngIf="displayMessage.paisId">
+                                                                <p [innerHTML]="displayMessage.paisId"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group" [ngClass]="{'has-error': displayMessage.codigoMunicipioIbge }">
+                                                            <label class="control-label" for="codigoMunicipioIbge">Código Município Ibge</label>
+                                                            <input type="text" [disableControl]="sindicato.cep != ' '" maxlength="7" id="codigoMunicipioIbge" name="codigoMunicipioIbge"
+                                                                class="form-control text-input" formControlName="codigoMunicipioIbge"
+                                                            />
+                                                            <span class="text-danger" *ngIf='displayMessage.codigoMunicipioIbge'>
+                                                                <p [innerHTML]="displayMessage.codigoMunicipioIbge"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Tipo de Endereço</label>
+                                                            <select class="custom-select col-md-12" id="tipoEnderecoId" name="tipoEnderecoId" formControlName="tipoEnderecoId">
+                                                                <option *ngFor="let tipoEndereco of tipoEnderecos" [ngValue]="tipoEndereco.id">{{ tipoEndereco.descricao }}</option>
+                                                            </select>
+                                                            <span class="text-danger" *ngIf="displayMessage.tipoEnderecoId">
+                                                                <p [innerHTML]="displayMessage.tipoEnderecoId"></p>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="component2" role="tabpanel" aria-expanded="true">
+                                        <div class="form-body">
+                                            <div class="padd-left0 padd-right0 col-md-12">
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Teste</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

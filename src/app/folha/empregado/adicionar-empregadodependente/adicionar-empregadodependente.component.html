@@ -1,0 +1,196 @@
+<div class="modal" data-backdrop="static">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Dependentes</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      
+      <form class="form-horizontal" novalidate (ngSubmit)="adicionarEmpregadoDependente()" [formGroup]="empregadoDependenteForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-3">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.cpf }">
+                    <label class="control-label" for="cpf">Cpf</label>
+                    <input type="text" autocomplete="off" id="cpf" [textMask]="{ mask: cpfMask }" name="cpf" class="form-control text-input" formControlName="cpf"
+                    />
+                    <span class="text-danger" *ngIf="displayMessage.cpf">
+                        <p [innerHTML]="displayMessage.cpf"></p>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.nomeDependente }">
+                    <label class="control-label" for="nomeDependente">Nome do dependente</label>
+                    <input type="text" autocomplete="off" id="nomeDependente" name="nomeDependente" maxlength="100" class="form-control text-input" formControlName="nomeDependente"
+                    />
+                    <span class="text-danger" *ngIf="displayMessage.nomeDependente">
+                        <p [innerHTML]="displayMessage.nomeDependente"></p>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Parentesco</label>
+                    <select class="custom-select col-md-12" id="parentescoId" name="parentescoId" formControlName="parentescoId">
+                        <option *ngFor="let parentesco of parentescos" [ngValue]="parentesco.id">{{ parentesco.descricao }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.parentescoId">
+                        <p [innerHTML]="displayMessage.parentescoId"></p>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.dataNascimento }">
+                  <label class="control-label" for="dataNascimento">Data de nascimento</label>
+                  <dx-date-box [max]="now" type="date" width="100%" displayFormat="dd/MM/yyyy" formControlName="dataNascimento"></dx-date-box>
+                  <span class="text-danger" *ngIf="displayMessage.dataNascimento">
+                    <p [innerHTML]="displayMessage.dataNascimento"></p>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" formControlName="invalido" (ngModelChange)="empregadoDependente.invalido = $event"
+                          [checkBoxSet]="empregadoDependente.invalido">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Inválido ?</span>
+                      </label>
+      
+                      <label class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" formControlName="dependenteIrrf" (ngModelChange)="empregadoDependente.dependenteIrrf = $event"
+                            [checkBoxSet]="empregadoDependente.dependenteIrrf">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Dependente Irrf ?</span>
+                      </label>
+      
+                      <label class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" formControlName="dependenteSalarioFamilia" (ngModelChange)="empregadoDependente.dependenteSalarioFamilia = $event"
+                            [checkBoxSet]="empregadoDependente.dependenteSalarioFamilia">
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-description">Dependente do salário Família ?</span>
+                      </label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Nacionalidade</label>
+                    <select class="custom-select col-md-12" id="nacionalidadeId" name="nacionalidadeId" formControlName="nacionalidadeId">
+                        <option *ngFor="let nacionalidade of nacionalidades" [ngValue]="nacionalidade.id">{{ nacionalidade.descricao }}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="displayMessage.nacionalidadeId">
+                        <p [innerHTML]="displayMessage.nacionalidadeId"></p>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                  <label>Uf</label>
+                  <select class="custom-select col-md-12" (ngModelChange)="ConsultaLocalidades($event)" id="ufNascimentoId" name="ufNascimentoId" formControlName="ufNascimentoId">
+                      <option *ngFor="let uf of ufs" [ngValue]="uf.id">{{ uf.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.ufNascimentoId">
+                      <p [innerHTML]="displayMessage.ufNascimentoId"></p>
+                  </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label>Localidade</label>
+                  <select class="custom-select col-md-12" id="localidadeId" name="localidadeId" formControlName="localidadeId">
+                      <option *ngFor="let localidade of localidades" [ngValue]="localidade.id">{{ localidade.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.localidadeId">
+                      <p [innerHTML]="displayMessage.localidadeId"></p>
+                  </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.certidaoNascimento }">
+                  <label class="control-label" for="certidaoNascimento">Certidão de Nascimento</label>
+                  <input type="text" autocomplete="off" id="certidaoNascimento" name="certidaoNascimento" maxlength="50" class="form-control text-input" formControlName="certidaoNascimento"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.certidaoNascimento">
+                      <p [innerHTML]="displayMessage.certidaoNascimento"></p>
+                  </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.livro }">
+                  <label class="control-label" for="livro">Livro</label>
+                  <input type="text" autocomplete="off" id="livro" name="livro" maxlength="20" class="form-control text-input" formControlName="livro"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.livro">
+                      <p [innerHTML]="displayMessage.livro"></p>
+                  </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.folha }">
+                  <label class="control-label" for="folha">Folha</label>
+                  <input type="text" autocomplete="off" id="folha" name="folha" maxlength="20" class="form-control text-input" formControlName="folha"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.folha">
+                      <p [innerHTML]="displayMessage.folha"></p>
+                  </span>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.dataEntrega }">
+                <label class="control-label" for="dataEntrega">Data de entrega</label>
+                <dx-date-box [max]="now" type="date" width="100%" displayFormat="dd/MM/yyyy" formControlName="dataEntrega"></dx-date-box>
+                <span class="text-danger" *ngIf="displayMessage.dataEntrega">
+                  <p [innerHTML]="displayMessage.dataEntrega"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.cartorio }">
+                  <label class="control-label" for="cartorio">Cartório</label>
+                  <input type="text" autocomplete="off" id="cartorio" name="cartorio" maxlength="100" class="form-control text-input" formControlName="cartorio"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.cartorio">
+                      <p [innerHTML]="displayMessage.cartorio"></p>
+                  </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+         <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div> 
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="adicionarEmpregadoDependente()" [disabled]='!empregadoDependenteForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Gravar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

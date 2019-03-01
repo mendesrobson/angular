@@ -1,0 +1,155 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" novalidate (ngSubmit)="adicionarChequeTalao()" [formGroup]="chequeTalaoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Conta Corrente</label>
+                  <select class="custom-select col-md-12" id="contaCorrenteId" name="contaCorrenteId" formControlName="contaCorrenteId">
+                    <option *ngFor="let contaCorrente of contaCorrentes" [ngValue]="contaCorrente.id">{{ contaCorrente.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.contaCorrenteId">
+                    <p [innerHTML]="displayMessage.contaCorrenteId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="numFolhaInicial">Numero da Folha Inicial</label>
+                  <input type="number" autocomplete="off" id="numFolhaInicial" min="0" onlyNumber="true" name="numFolhaInicial" class="form-control text-input"
+                    formControlName="numFolhaInicial" />
+                  <span class="text-danger" *ngIf="displayMessage.numFolhaInicial">
+                    <p [innerHTML]="displayMessage.numFolhaInicial"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label" for="numFolhaFinal">Numero da Folha Final</label>
+                  <input type="number" autocomplete="off" id="numFolhaFinal" min="0" onlyNumber="true" name="numFolhaFinal" class="form-control text-input" formControlName="numFolhaFinal"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.numFolhaFinal">
+                    <p [innerHTML]="displayMessage.numFolhaFinal"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4 align-content-lg-end" style="margin:26px 0;">
+                <button type="button" class="btn btn-block btn-success" (click)="gerarFolhas()">
+                  <i class="fa fa-clone"></i> Gerar Folhas</button>
+              </div>
+
+              <div class="card padd-left15 padd-right15" style="width: 100%;">
+
+                  <ul class="nav nav-tabs customtab2" role="tablist">
+                      <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab" href="#cheques" role="tab" aria-expanded="true">
+                              <span class="hidden-sm-up">
+                                  <i class="ti-email"></i>
+                              </span>
+                              <span class="hidden-xs-down">Cheques</span>
+                          </a>
+                      </li>
+
+                      <!-- <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#historico" role="tab" aria-expanded="true">
+                              <span class="hidden-sm-up">
+                                  <i class="ti-email"></i>
+                              </span>
+                              <span class="hidden-xs-down">Histórico</span>
+                          </a>
+                      </li> -->
+                  </ul>
+
+                  <div class="tab-content">
+
+                      <div class="tab-pane active" id="cheques" role="tabpanel" aria-expanded="true">
+                          <div class="form-body">
+                              <div class="padd-left0 padd-right0 col-md-12">
+                                  <div class="p-t-20"> 
+                                      <div class="form-group">
+                                          <app-lista-chequefolha style="width: 100%"></app-lista-chequefolha>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- <div class="tab-pane" id="historico" role="tabpanel" aria-expanded="true">
+                          <div class="form-body">
+                              <div class="padd-left0 padd-right0 col-md-12">
+                                  <div class="p-t-20"> 
+                                      <div class="form-group">
+                                          <app-lista-chequefolhahistorico [ind]="index" *ngIf="chequeProprioComponent.ChequeTalao.chequeFolha != null" style="width: 100%"></app-lista-chequefolhahistorico>
+                                          <app-lista-chequefolhahistorico></app-lista-chequefolhahistorico>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div> -->
+
+                  </div>
+
+              </div>
+
+              
+
+
+
+              <div class="col-md-12" style="padding: 0px">
+                <div class="row button-group">
+                  <div class="col-lg-2 col-md-6 align-content-lg-end">
+                    <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                      <i class="fa fa-mail-reply"></i> Cancelar</button>
+                  </div>
+                  <div class="col-lg-2 col-md-6">
+                    <button type="submit" [disabled]='!chequeTalaoForm.valid' class="btn btn-block btn-success">
+                      <i class="fa fa-check"></i> Gravar</button>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

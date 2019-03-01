@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+        <form [formGroup]="papelForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.papelId }">
+                  <label class="control-label" for="nome">Código</label>
+                  <input type="text" id="papelId" name="papelId" class="form-control text-input" formControlName="papelId" />
+                  <span class="text-danger" *ngIf="displayMessage.papelId">
+                    <p [innerHTML]="displayMessage.papelId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.nome }">
+                  <label class="control-label" for="nome">Nome</label>
+                  <input type="text" id="nome" name="nome" class="form-control text-input" formControlName="nome" />
+                  <span class="text-danger" *ngIf="displayMessage.nome">
+                    <p [innerHTML]="displayMessage.nome"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.nomeNormalizado }">
+                  <label class="control-label" for="nome">Nome Normalizado</label>
+                  <input type="text" id="nomeNormalizado" name="nomeNormalizado" class="form-control text-input" formControlName="nomeNormalizado"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.nomeNormalizado">
+                    <p [innerHTML]="displayMessage.nomeNormalizado"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.seloConcorrencia }">
+                  <label class="control-label" for="seloConcorrencia">Selo Concorrência</label>
+                  <input type="text" id="seloConcorrencia" name="seloConcorrencia" class="form-control text-input" formControlName="seloConcorrencia"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.seloConcorrencia">
+                    <p [innerHTML]="displayMessage.seloConcorrencia"></p>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

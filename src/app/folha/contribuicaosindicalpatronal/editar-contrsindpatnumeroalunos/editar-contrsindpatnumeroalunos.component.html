@@ -1,0 +1,98 @@
+<div class="modal" data-backdrop="static">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myLargeModalLabel">Número Alunos</h4>
+      <button type="button" class="close" *ngIf="visible" (click)="close()">×</button>
+    </div>
+    <div class="card-block">
+      <form class="form-horizontal" novalidate (ngSubmit)="editarContrSindPatNumeroAlunos()" [formGroup]="contrSindPatNumeroAlunosForm">
+        <div class="form-body">
+          <div class="row p-t-20">
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.ano }">
+                <label class="control-label" for="ano">Ano</label>
+                <input type="text" autocomplete="off" id="ano" name="ano" maxlength="4" class="form-control text-input" formControlName="ano" />
+                <span class="text-danger" *ngIf="displayMessage.ano">
+                  <p [innerHTML]="displayMessage.ano"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6"></div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.numeroAlunosDe }">
+                <label class="control-label" for="numeroAlunosDe">Número Alunos De</label>
+                <input type="text" autocomplete="off" id="numeroAlunosDe" name="numeroAlunosDe" minlength="1" maxlength="18" class="form-control text-input"
+                  formControlName="numeroAlunosDe" />
+                <span class="text-danger" *ngIf="displayMessage.numeroAlunosDe">
+                  <p [innerHTML]="displayMessage.numeroAlunosDe"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.numeroAlunosAte }">
+                <label class="control-label" for="numeroAlunosAte">Número Alunos Ate</label>
+                <input type="text" autocomplete="off" id="numeroAlunosAte" name="numeroAlunosAte" minlength="1" maxlength="18" class="form-control text-input"
+                  formControlName="numeroAlunosAte" />
+                <span class="text-danger" *ngIf="displayMessage.numeroAlunosAte">
+                  <p [innerHTML]="displayMessage.numeroAlunosAte"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error': displayMessage.percentual }">
+                <label class="control-label" for="percentual">Percentual</label>
+                <div class="input-group">
+                  <input type="text" autocomplete="off" currencyMask id="percentual" name="percentual" class="form-control text-input" formControlName="percentual"
+                  />
+                  <span class="input-group-addon">%</span>
+                </div>
+                <span class="text-danger" *ngIf="displayMessage.percentual">
+                  <p [innerHTML]="displayMessage.percentual"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" for="valor">Valor</label>
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input type="text" autocomplete="off" currencyMask id="valor" name="valor" class="form-control text-input" formControlName="valor" />
+                </div>
+                <span class="text-danger" *ngIf="displayMessage.valor">
+                  <p [innerHTML]="displayMessage.valor"></p>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="row p-t-5">
+
+            <div class="col-md-4">
+              <button type="button" class="btn btn-block btn-secondary" (click)="cancelar()">
+                <i class="fa fa-mail-reply"></i> Cancelar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="button" (click)="editarContrSindPatNumeroAlunos()" [disabled]='!contrSindPatNumeroAlunosForm.valid' class="btn btn-block btn-success">
+                <i class="fa fa-check"></i> Alterar</button>
+            </div>
+            <div class="col-md-4"></div>
+            <br>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,170 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Remessas</h4>
+      </div>
+      <div class="card-block">
+        <form class="form-horizontal" novalidate [formGroup]="filtroRemessaForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Empresa</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Conta Corrente Cobrança</label>
+                  <select class="custom-select col-md-12" id="contaCorrenteCobrancaId" name="contaCorrenteCobrancaId" formControlName="contaCorrenteCobrancaId">
+                    <option *ngFor="let contaCorrenteCobranca of contasCorrenteCobranca" [ngValue]="contaCorrenteCobranca.id">{{ contaCorrenteCobranca.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.contaCorrenteCobrancaId">
+                    <p [innerHTML]="displayMessage.contaCorrenteCobrancaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <!-- <div *ngIf="valorRadio == 'consultar'"> -->
+              <div class="col-md-4" *ngIf="valorRadio == 'consultar'">
+                <div class="form-group">
+                  <label class="control-label" for="dataProcessamentoInicial">Data Processamento Inicial</label>
+                  <dx-date-box [value]="now" type="date" width="100%" displayFormat="dd/MM/yyyy" formControlName="dataProcessamentoInicial"></dx-date-box>                  
+                  <span class="text-danger" *ngIf="displayMessage.dataProcessamentoInicial">
+                    <p [innerHTML]="displayMessage.dataProcessamentoInicial"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4" *ngIf="valorRadio == 'consultar'">
+                <div class="form-group">
+                  <label class="control-label" for="dataProcessamentoFinal">Data Processamento Final</label>                  
+                  <dx-date-box [value]="now" type="date" width="100%" displayFormat="dd/MM/yyyy" formControlName="dataProcessamentoFinal"></dx-date-box>                  
+                  <span class="text-danger" *ngIf="displayMessage.dataProcessamentoFinal">
+                    <p [innerHTML]="displayMessage.dataProcessamentoFinal"></p>
+                  </span>
+                </div>
+              </div>
+              <!-- </div> -->
+              <div class="col-lg-2">
+                <div class="form-check">
+                  <label class="custom-control custom-radio">
+                    <input name="radio" type="radio" class="custom-control-input" value="gerar" checked (change)="setarValorFiltro($event)">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Gerar Remessas</span>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="custom-control custom-radio">
+                    <input name="radio" type="radio" class="custom-control-input" value="consultar" (change)="setarValorFiltro($event)">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Consultar Remessas</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-block btn-success" (click)="filtrar()">
+                  <i class="fa fa-refresh"></i> Ok </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div>
+          <div class="col-md-12">
+            <div class="row p-t-20">
+              <div style="width:100%" class="col-12" [ngBusy]="{busy: busy, message: 'Por favor, aguarde...', backdrop: false, delay: 600, minDuration: 600}">
+
+                <div class="table-responsive" *ngIf="carregarTable == true">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <button class="btn btn-info" (click)="gerarExcel(table,'tableRemessa');">
+                        <i class="fa fa-file-excel-o"></i> Excel</button>
+                    </div>
+                    <div class="col-md-1">
+                      <button class="btn btn-info" (click)="gerarPDF('tableRemessa');">
+                        <i class="fa fa-file-pdf-o"></i> PDF</button>
+                    </div>
+                  </div>
+                  <br/>
+                  <table #table id="tableRemessa" *ngIf="data != undefined" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data"
+                    #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                    <thead>
+                      <tr>
+                        <th>
+                          <mfDefaultSorter by="remessaIntegracaoId">Nro. Remessa</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="status">Status</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="nomeArquivo">Data de Processamento</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="dataProcessamento">Data de Processamento</mfDefaultSorter>
+                        </th>
+                        <th>
+                          <mfDefaultSorter by="url">Download</mfDefaultSorter>
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr *ngFor="let remessa of mf.data">
+                        <td>{{ remessa.remessaIntegracaoId }}</td>
+                        <td>{{ remessa.status }}</td>
+                        <td>{{ remessa.nomeArquivo }}</td>
+                        <td>{{ remessa.dataProcessamento | date : 'dd/MM/yyyy' }}</td>
+
+                        <td style="cursor:pointer; width: 20%; text-align: center">
+                          <div *ngIf="remessa.url != null">
+                            <a href="{{ remessa.url }}" target="_blank">
+
+                              <i class="fa fa-download text-inverse m-r-10"></i>
+                            </a>
+
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4">
+                          <mfBootstrapPaginator [rowsOnPageSet]="[]"></mfBootstrapPaginator>
+                        </td>
+                      </tr>
+                    </tfoot>
+
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

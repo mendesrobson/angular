@@ -1,0 +1,246 @@
+<div class="row">
+  <div class="card col-md-12 padd-left0 padd-right0">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white">Cadastro</h4>
+      </div>
+      <div class="card-block">
+
+        <form class="form-horizontal" [formGroup]="descontoForm">
+          <div class="form-body col-12">
+            <div class="row p-t-20">
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="grupoEmpresaId" name="grupoEmpresaId" formControlName="grupoEmpresaId" (ngModelChange)="ConsultaEmpresa($event)">
+                    <option *ngFor="let grupoEmpresa of grupoEmpresas" [ngValue]="grupoEmpresa.id">{{ grupoEmpresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoEmpresaId">
+                    <p [innerHTML]="displayMessage.grupoEmpresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Grupo</label>
+                  <select class="custom-select col-md-12" id="empresaId" name="empresaId" formControlName="empresaId">
+                    <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">{{ empresa.pessoa.nome }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.empresaId">
+                    <p [innerHTML]="displayMessage.empresaId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.codigo }">
+                  <label class="control-label" for="codigo">Código</label>
+                  <input type="text" id="codigo" name="codigo" class="form-control text-input" formControlName="codigo" />
+                  <span class="text-danger" *ngIf="displayMessage.codigo">
+                    <p [innerHTML]="displayMessage.codigo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.sigla }">
+                  <label class="control-label" for="sigla">Sigla</label>
+                  <input type="text" id="sigla" name="sigla" class="form-control text-input" formControlName="sigla" />
+                  <span class="text-danger" *ngIf="displayMessage.sigla">
+                    <p [innerHTML]="displayMessage.sigla"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.descricao }">
+                  <label class="control-label" for="descricao">Descrição</label>
+                  <input type="text" id="descricao" name="descricao" class="form-control text-input" formControlName="descricao" />
+                  <span class="text-danger" *ngIf="displayMessage.descricao">
+                    <p [innerHTML]="displayMessage.descricao"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Grupo Desconto</label>
+                  <select class="custom-select col-md-12" id="grupoDescontoId" name="grupoDescontoId" formControlName="grupoDescontoId">
+                    <option *ngFor="let grupoDesconto of grupoDescontos" [ngValue]="grupoDesconto.id">{{ grupoDesconto.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.grupoDescontoId">
+                    <p [innerHTML]="displayMessage.grupoDescontoId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Tipo de Desconto</label>
+                  <select class="custom-select col-md-12" id="tipoDescontoId" name="tipoDescontoId" formControlName="tipoDescontoId" (ngModelChange)="tipoDescontoId = $event">
+                    <option *ngFor="let tipoDesconto of tipoDescontos" [ngValue]="tipoDesconto.id">{{ tipoDesconto.descricao }}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.tipoDescontoId">
+                    <p [innerHTML]="displayMessage.tipoDescontoId"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.ordemCalculo}">
+                  <label class="control-label" for="ordemCalculo">Ordem de Cálculo</label>
+                  <input type="number" min="0" id="ordemCalculo" name="ordemCalculo" class="form-control text-input" formControlName="ordemCalculo"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.ordemCalculo">
+                    <p [innerHTML]="displayMessage.ordemCalculo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.quantidadeDiasAposVencimento}">
+                  <label class="control-label" for="quantidadeDiasAposVencimento">Qtd. Dias Apos Vencimento</label>
+                  <input type="number" min="0" id="quantidadeDiasAposVencimento" name="quantidadeDiasAposVencimento" class="form-control text-input"
+                    formControlName="quantidadeDiasAposVencimento" />
+                  <span class="text-danger" *ngIf="displayMessage.quantidadeDiasAposVencimento">
+                    <p [innerHTML]="displayMessage.quantidadeDiasAposVencimento"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Percentual/Valor</label>
+                  <select class="custom-select col-md-12" id="percentualValor" name="percentualValor" formControlName="percentualValor" (ngModelChange)="percentualValor = $event">
+                    <option value="%">%</option>
+                    <option value="$">$</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.percentualValor">
+                    <p [innerHTML]="displayMessage.percentualValor"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="valorAplicar">Valor a Aplicar</label>
+                  <div class="input-group">
+                    <span *ngIf="percentualValor == '$'" class="input-group-addon">R$</span>
+                    <input type="text" currencyMask id="valorAplicar" name="valorAplicar" class="form-control text-input" formControlName="valorAplicar"
+                    />
+                    <span *ngIf="percentualValor == '%'" class="input-group-addon">%</span>
+                  </div>
+                  <span class="text-danger" *ngIf="displayMessage.valorAplicar">
+                    <p [innerHTML]="displayMessage.valorAplicar"></p>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Fator de Tempo</label>
+                  <select class="custom-select col-md-12" [disableControl]="tipoDescontoId != 1" id="progressivoFatorTempo" name="progressivoFatorTempo"
+                    formControlName="progressivoFatorTempo" (ngModelChange)="progressivoFatorTempo = $event">
+                    <option value="Antes (Vencimento)">Antes (Vencimento)</option>
+                    <option value="Após (Data Fixa)">Após (Data Fixa)</option>
+                    <option value="Até (Data Fixa)">Até (Data Fixa)</option>
+                    <option value="Após (Vencimento)">Após (Vencimento)</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.progressivoFatorTempo">
+                    <p [innerHTML]="displayMessage.progressivoFatorTempo"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-error': displayMessage.progressivoDias}">
+                  <label class="control-label" for="progressivoDias">Progressivo Dias</label>
+                  <input type="number" min="0" [disableControl]="tipoDescontoId != 1" id="progressivoDias" name="progressivoDias" class="form-control text-input"
+                    formControlName="progressivoDias" />
+                  <span class="text-danger" *ngIf="displayMessage.progressivoDias">
+                    <p [innerHTML]="displayMessage.progressivoDias"></p>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-2" style="margin-top: 30px;">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" [disableControlCheckBox]="tipoDescontoId != 1" class="custom-control-input" formControlName="progressivoDiaUtil"
+                      (ngModelChange)="progressivoDiaUtil = $event" [checkBoxSet]="desconto.progressivoDiaUtil">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Progressivo Dia Útil</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-3" style="margin-top: 30px;">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" [disableControlCheckBox]="progressivoFatorTempo !='Até (Data Fixa)'" class="custom-control-input"
+                      formControlName="progressivoMesAnterior" (ngModelChange)="progressivoMesAnterior = $event" [checkBoxSet]="desconto.progressivoMesAnterior">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Progressivo Mês Anterior</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-3"></div>
+
+
+              <div class="col-md-2">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" [disableControlCheckBox]="tipoDescontoId == 1" class="custom-control-input" formControlName="exigeLiberacao"
+                      (ngModelChange)="exigeLiberacao = $event" [checkBoxSet]="desconto.exigeLiberacao">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Exige Liberação?</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" [disableControlCheckBox]="tipoDescontoId == 1" class="custom-control-input" formControlName="perdeAposVencimento"
+                      (ngModelChange)="perdeAposVencimento = $event" [checkBoxSet]="desconto.perdeAposVencimento">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Perde Após Vencimento?</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" [disableControlCheckBox]="tipoDescontoId == 1" class="custom-control-input" formControlName="cumulativo"
+                      (ngModelChange)="cumulativo = $event" [checkBoxSet]="desconto.cumulativo">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">É Cumulativo?</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" [disableControlCheckBox]="tipoDescontoId == 1" class="custom-control-input" formControlName="consideraCalculoDescCumulativo"
+                      (ngModelChange)="consideraCalculoDescCumulativo = $event" [checkBoxSet]="desconto.consideraCalculoDescCumulativo">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Considera para Cálculo de Desconto Cumulativo?</span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

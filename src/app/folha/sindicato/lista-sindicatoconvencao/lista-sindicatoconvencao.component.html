@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-block" style="display: inline;">
+        
+        <div class="col-lg-4 col-md-10 align-content-lg-end">
+          <div class="row button-group">
+            <div class="">
+               <button type="button" class="btn btn-block btn-success" [disabled]="excluido" (click)="showModal('modalAdicionar')">
+                <i class="fa fa-plus"></i> Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="row p-t-5">
+            <div class="table-responsive">
+              <table class="table m-b-0 toggle-arrow-tiny color-table info-table" 
+               [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+                [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                  <tr>
+                    <th>
+                      <mfDefaultSorter by="descricaoConvencao">Convenção</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="dataHomologacao">Data Homologação</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="dataInicio">Data Inicio</mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="dataTermino">Data Término</mfDefaultSorter>
+                      </th>
+                      <th>
+                          <mfDefaultSorter by="observacao">Observação</mfDefaultSorter>
+                        </th>
+                    <th>
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of this.sindicatoComponent.sindicato.sindicatoConvencao" style="cursor:pointer">
+                   
+                     <td *ngIf="row.convencao != null"> {{ row.convencao.descricao}}</td>
+
+                    <td>{{ row.dataHomologacao | date : 'dd/MM/yyyy' }}</td>
+                    <td>{{ row.dataInicio | date : 'dd/MM/yyyy' }}</td>
+                    <td>{{ row.dataTermino |date : 'dd/MM/yyyy' }}</td>
+                    <td>{{ row.observacao }}</td>
+                    <td>
+                      <label (click)="editarSindicatoConvencao(row)" data-toggle="modal" data-target=".modal-cargocbo-edit">
+                        <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                      </label>
+                      <span style="padding-right:2px"></span>
+                      <label (click)="inativarSindicatoConvencao(row)" style="cursor:pointer" title="Inativar">
+                        <i class="fa fa-trash-o text-danger"></i>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <app-adicionar-sindicatoconvencao *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-sindicatoconvencao>
+  <app-editar-sindicatoconvencao *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-sindicatoconvencao>

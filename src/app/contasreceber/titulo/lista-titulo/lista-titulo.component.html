@@ -1,0 +1,195 @@
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+        <h3 class="text-themecolor m-b-0 m-t-0">Cadastro de Titulos</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" *ngIf="origem == 'receber'">
+                <a href="javascript:void(0)">Titulos a Receber</a>
+            </li>
+            <li class="breadcrumb-item" *ngIf="origem == 'pagar'">
+                <a href="javascript:void(0)">Titulos a Pagar</a>
+            </li>
+            <li class="breadcrumb-item active">Lista Titulos</li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="card col-12 padd-left0 padd-right0">
+        <div class="card">
+            <div class="card-block" style="display: inline;">
+
+                <div class="m-t-40">
+                    <div class="d-flex">
+                        <div class="col-lg-3 col-md-4 align-content-lg-end">
+                            <div class="row button-group">
+                                <div>
+                                    <button type="button" class="btn btn-success" (click)="cadastrarTitulo()">
+                                        <i class="fa fa-plus"></i> Cadastrar </button>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="col-md-3" [formGroup]="titulosForm">
+                            <div>
+                                <dx-select-box placeholder="Selecione o grupo" [items]="grupoEmpresas" displayExpr="pessoa.nome"
+                                    valueExpr="id" [searchEnabled]="true" (ngModelChange)="ConsultaEmpresa($event)"
+                                    formControlName="grupoEmpresaId">
+                                </dx-select-box>
+                            </div>
+                        </div>
+                
+                        <div class="col-md-3" [formGroup]="titulosForm">
+                            <div>
+                                <dx-select-box placeholder="Selecione a empresa" [items]="empresas" displayExpr="pessoa.nome"
+                                    valueExpr="id" [searchEnabled]="true" (ngModelChange)="ConsultaSelectEmpresa($event)"
+                                    formControlName="empresaId">
+                                </dx-select-box>
+                            </div>
+                        </div>
+                
+                        <div class="col-md-3">
+                            <div class="float-right padd-left15">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-list"></i>
+                                </button>
+                
+                
+                                <div class="dropdown-menu animated flipInY">
+                                    <a class="dropdown-item" ngbTooltip="Excel" (click)="gerarExcel(table,'CentroCusto')">
+                                        <i class="fa fa-file-excel-o"> &nbsp;Excel</i>
+                                    </a>
+                                    <a class="dropdown-item" (click)="gerarPDF('CentroCusto');" ngbTooltip="PDF">
+                                        <i class="fa fa-file-pdf-o">&nbsp;PDF</i>
+                                    </a>
+                                </div>
+                            </div>
+                
+                            <div class="form-group float-right padd-left15">
+                                <input id="demo-input-search2" type="text" [(ngModel)]="filterQuery" placeholder="Pesquisar..."
+                                    class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="table-responsive">
+                    <table #table id="tableTitulos" class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery"
+                        #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <mfDefaultSorter by="documento">Titulo</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="nome">Nome</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="quantidadeParcela">Qtd. Parcelas</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="valorBruto">Valor Bruto</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="valorDesconto">Valor Desconto</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="valorLiquido">Valor Liquido</mfDefaultSorter>
+                                </th>
+                                <th>
+                                    <mfDefaultSorter by="status">Status</mfDefaultSorter>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let titulo of this.tituloComponent.Titulos" (click)="editarTitulo(titulo.id)" style="cursor:pointer">
+                                <td>{{ titulo.documento }}</td>
+                                <td *ngIf="titulo.cliente != null">{{ titulo.cliente.pessoa.nome }}</td>
+                                <td *ngIf="titulo.fornecedor != null">{{ titulo.fornecedor.pessoa.nome }}</td>
+                                <td>{{ titulo.quantidadeParcela }}</td>
+                                <td>{{ titulo.valorBruto | currency:'BRL':'symbol' }}</td>
+                                <td>{{ titulo.valorDesconto | currency:'BRL':'symbol' }}</td>
+                                <td>{{ titulo.valorLiquido | currency:'BRL':'symbol' }}</td>
+                                <td>
+                                    <div *ngIf="titulo.excluido == 'N'" class="label label-table label-success">Ativo</div>
+                                    <div *ngIf="titulo.excluido == 'S'" class="label label-table label-danger">Inativo</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator [rowsOnPageSet]="[]"></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                    <br />
+
+
+
+                </div>
+
+                <br />
+
+                <!-- <div class="dx-fieldset">
+                        <div class="dx-fieldset-header">EditBox mode</div>
+                        <div class="dx-field">
+                            <div class="dx-field-label">Product</div>
+                            <div class="dx-field-value">
+                                <dx-select-box
+                                    #selectBox
+                                    [items]="simpleProducts"
+                                    [acceptCustomValue]="true"
+                                    [value]="simpleProducts[0]"
+                                    [searchEnabled]="true"
+                                    (onCustomItemCreating)="addCustomItem($event)"
+                                ></dx-select-box>
+                            </div>
+                        </div>
+                        <div class="dx-field current-product">
+                            Current product is <span class="current-value">{{selectBox.value}}</span>
+                        </div>
+                    </div> -->
+
+                <!-- <dx-data-grid #grid id="gridContainer12" class="table m-b-0 toggle-arrow-tiny color-table info-table" [dataSource]="data"
+                    [allowColumnReordering]="true" [allowColumnResizing]="true" [columnAutoWidth]="true" [hoverStateEnabled]="true"
+                    [columnHidingEnabled]="false" [rowAlternationEnabled]="true" [showColumnLines]="true" [showRowLines]="false"
+                    [showBorders]="false" (onRowClick)="editarTitulo($event.key)" keyExpr="id">
+                    <dxo-column-chooser [enabled]="true" mode="select" title="Escolher colunas"></dxo-column-chooser>
+                    <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+                    <dxo-filter-panel [visible]="true" caption="Filtrar"></dxo-filter-panel>
+                    <dxo-filter-row [visible]="showFilterRow" [applyFilter]="currentFilter"></dxo-filter-row>
+                    <dxo-filter-builder-popup [width]="400" [height]="400" title="Adicionar Filtro" [(visible)]="popupVisible"></dxo-filter-builder-popup>
+                    
+                    <dxo-header-filter [visible]="showHeaderFilter"></dxo-header-filter>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Pesquisar..."></dxo-search-panel>
+                    <dxo-export [enabled]="true" fileName="Titulos" title="Exportar para Excel"></dxo-export>
+                    <dxi-column dataField="cliente.pessoa.nome" caption="Nome"></dxi-column>
+                    <dxi-column dataField="dataEmissao" dataType="date"></dxi-column>
+                    <dxi-column dataField="valorBruto" format="currency"></dxi-column>
+                    <dxi-column dataField="valorDesconto" [visible]="false"></dxi-column>
+                    <dxi-column dataField="valorLiquido"></dxi-column> -->
+
+                <!-- <dxo-filter-row [visible]="true" [applyFilter]="currentFilter"></dxo-filter-row> -->
+                <!-- <dxo-summary>
+                        <dxi-total-item column="cliente.pessoa.nome" summaryType="count" caption="Nome"></dxi-total-item>
+                        <dxi-total-item column="valorBruto" summaryType="sum"></dxi-total-item>
+                        <dxi-total-item column="valorDesconto" summaryType="sum"></dxi-total-item>
+                        <dxi-total-item column="valorLiquido" summaryType="sum"></dxi-total-item>
+                    </dxo-summary> -->
+
+                <!-- <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Utilize esse espaço para arrastar as colunas e agrupar os dados"></dxo-group-panel>
+                    <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 15]"></dxo-pager>
+                </dx-data-grid> -->
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+[
+    {
+        "id": "ABE",
+        "valor": "Abertura"
+    },
+    {
+        "id": "REC",
+        "valor": "Recebimento"
+    },
+    {
+        "id": "SAN",
+        "valor": "Sangria"
+    },
+    {
+        "id": "REF",
+        "valor": "Reforço"
+    },
+    {
+        "id": "AV",
+        "valor": "Avulso"
+    },    
+    {
+        "id": "FEC",
+        "valor": "Fechamento"
+    },
+    {
+        "id": "SAL",
+        "valor": "Saldo"
+    },
+    {
+        "id": "MOV",
+        "valor": "Movimento"
+    },
+    {
+        "id": "PAG",
+        "valor": "Pagamento"
+    },
+    {
+        "id": "CNAB",
+        "valor": "Recebimento CNAB"
+    },
+    {
+        "id": "CHQ",
+        "valor": "Cheque"
+    },
+    {
+        "id": "ACE",
+        "valor": "Acerto de Contas"
+    },
+    {
+        "id": "CART",
+        "valor": "Cartão de Crédito/Débito"
+    },
+    {
+        "id": "DEPCC",
+        "valor": "Depósito em Conta Corrente"
+    },
+    {
+        "id": "TRANSF",
+        "valor": "Transferência"
+    },
+    {
+        "id": "DEPO",
+        "valor": "Depósito de Cheque"
+    },
+    {
+        "id": "BXCART",
+        "valor": "Baixa de Cartão de Crédito/Débito"
+    },
+    {
+        "id": "SANCHQ",
+        "valor": "Sangria de Cheque"
+    },
+    {
+        "id": "SANCART",
+        "valor": "Sangria de Cartão de Crédito/Débito"
+    },
+    {
+        "id": "REAP",
+        "valor": "Reapresentação de Cheque"
+    },
+    {
+        "id": "PDEV",
+        "valor": "Primeira Devolução de Cheque"
+    },
+    {
+        "id": "SDEV",
+        "valor": "Segunda Devolução de Cheque"
+    },
+    {
+        "id": "ENTR",
+        "valor": "Entrada de Cheque"
+    },
+    {
+        "id": "CANC",
+        "valor": "Cancelamento de Cheque"
+    },
+    {
+        "id": "LANC",
+        "valor": "Lançamento Manual"
+    }    
+]

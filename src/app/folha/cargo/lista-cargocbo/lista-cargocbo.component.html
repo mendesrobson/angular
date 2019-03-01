@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card color-bordered-table info-bordered-table">
+      <div class="card-header">
+        <h4 class="m-b-0 text-white"> Cargo Cbo</h4>
+      </div>
+
+      <div class="card-block">
+        <br>
+        <div class="col-lg-4 col-md-10 align-content-lg-end">
+          <div class="row button-group">
+            <div class="">
+              <button type="button" class="btn btn-block btn-success" [disabled]="excluido" (click)="showModal('modalAdicionar')">
+                <i class="fa fa-plus"></i> Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="row p-t-5">
+            <div class="table-responsive">
+              <table class="table m-b-0 toggle-arrow-tiny color-table info-table" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+                [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                  <tr>
+                    <th>
+                      <mfDefaultSorter by="cbo">Cbo</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="dataInicial">Data Inicial</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="dataFinal">Data Final</mfDefaultSorter>
+                    </th>
+                    <th>
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngFor="let row of this.cargoComponent.cargo.cargoCbo" style="cursor:pointer">
+                    <td *ngIf="row.cbo != null">
+                      {{ row.cbo.descricao}}
+                    </td>
+                    <td>{{ row.dataInicial | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ row.dataFinal | date:'dd/MM/yyyy' }}</td>
+                    <td >
+                      <label ng-disabled="!excluido" (click)="editarCargoCbo(row)" data-toggle="modal" data-target=".modal-cargocbo-edit">
+                        <i class="fa fa-pencil text-info" style="cursor:pointer"></i>
+                      </label>
+                      <span style="padding-right:2px"></span>
+                      <label ng-disabled="!excluido"  (click)="inativarCargoCbo(row)" style="cursor:pointer" title="Inativar">
+                        <i class="fa fa-trash-o text-danger"></i>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-adicionar-cargocbo *ngIf="modalAddVisible != false" [(visible)]="modalAddVisible"></app-adicionar-cargocbo>
+
+<app-editar-cargocbo *ngIf="modalEditVisible != false" [(visible)]="modalEditVisible"></app-editar-cargocbo>
